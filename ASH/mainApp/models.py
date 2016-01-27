@@ -1,6 +1,9 @@
 from __future__ import unicode_literals
 
+import datetime
+
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
 
@@ -12,6 +15,11 @@ class User(models.Model):
     birthDate = models.DateTimeField('Birth Date')
     fullName = models.CharField(max_length = 500, blank = False, null = False)
 
+    def __str__(self):
+        return self.userid
+
+    def was_created_recently(self):
+        return self.createdDate >= timezone.now() - datetime.timedelta(days=1)
 # class Choice(models.Model):
 #     question = models.ForeignKey(Question, on_delete=models.CASCADE)
 #     choice_text = models.CharField(max_length=200)
@@ -27,3 +35,6 @@ class MasterUser(models.Model):
     # overview = models.TextField(blank=True)
     # def __str__(self):
     #     return  self.userid.userid + " " + self.champion + " " + str(self.rating) + " " + self.server + " " + str(self.pricerate) + " " + self.overview
+
+    def __str__(self):
+        return self.userid
