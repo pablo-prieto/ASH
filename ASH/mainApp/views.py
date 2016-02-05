@@ -1,8 +1,16 @@
 from django.http import HttpResponse
+from django.shortcuts import render
 
+
+from .models import User
 
 def index(request):
-    return HttpResponse("Main page.")
+
+    birthDate_user_list = User.objects.order_by('-birthDate')[:5]
+    context = {
+        'birthDate_user_list': birthDate_user_list,
+    }
+    return render(request, 'mainApp/index.html', context)
 
 def detail(request, user_id):
     return HttpResponse("You're looking at user %s." % user_id)

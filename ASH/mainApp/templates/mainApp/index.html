@@ -1,0 +1,9 @@
+{% if birthDate_user_list %}
+    <ul>
+    {% for user in birthDate_user_list %}
+        <li><a href="/mainApp/{{ user.id }}/">{{ user.fullName }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No users are available.</p>
+{% endif %}
