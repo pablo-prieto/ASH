@@ -11,15 +11,17 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" >
     <link rel="stylesheet" href="{% static 'css/bootstrap-theme.min.css' %}">
   </head>
-
-  {% if birthDate_user_list %}
-      <ul>
-      {% for user in birthDate_user_list %}
-          <li><a href="/mainApp/{{ user.id }}/">{{ user.fullName }}</a></li>
-      {% endfor %}
-      </ul>
-  {% else %}
-      <p>No users are available.</p>
-  {% endif %}
-
+  <body>
+    <h3>We will include a side/menu bar</h3>
+    <h3>Home page will include most important family/events</h3>
+    {% if birthDate_user_list %}
+        <ul>
+        {% for user in birthDate_user_list %}
+            <li><a href="/mainApp/{{ user.id }}/">{{ user.fullName }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No users are available.</p>
+    {% endif %}
+  </body>
 </html>
