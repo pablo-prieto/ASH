@@ -12,6 +12,9 @@ def index(request):
     }
     return render(request, 'mainApp/index.html', context)
 
+def profile(request):
+    return render(request, 'mainApp/profile.html')
+
 def detail(request, user_id):
     return HttpResponse("You're looking at user %s." % user_id)
 
