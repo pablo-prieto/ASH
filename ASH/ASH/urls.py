@@ -1,4 +1,4 @@
-"""ASH URL Configuration
+"""ASH URL Configuration.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.9/topics/http/urls/
@@ -16,8 +16,13 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.views.generic import RedirectView
+
 
 urlpatterns = [
     url(r'^mainApp/', include('mainApp.urls')),
     url(r'^admin/', admin.site.urls),
+
+    # Redirect page when /mainApp/ is not included in the address
+    url(r'^$', RedirectView.as_view(url='/mainApp/'), name='index'),
 ]

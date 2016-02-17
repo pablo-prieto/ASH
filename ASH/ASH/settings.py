@@ -75,17 +75,29 @@ WSGI_APPLICATION = 'ASH.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
+# Pablo's Local DB
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'ASH_Db',
+#         'USER': 'postgres',
+#         'PASSWORD': 'Pablocpe2',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+
+# Damian's Local DB
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'ASH_Db',
-        'USER': 'postgres',
-        'PASSWORD': 'Pablocpe2',
+        'NAME': 'ash_db',
+        'USER': 'Damian',
+        'PASSWORD': 'damian123',
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
