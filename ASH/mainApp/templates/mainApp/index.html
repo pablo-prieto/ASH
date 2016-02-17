@@ -15,9 +15,10 @@
     <!-- Wrap the rest of the page in another container to center all the content. -->
     <div class="container marketing">
         
+
         <!-- Main User Profile Picture and Basic Info Section -->
         <br>
-        <p style="font-family:serif; font-size:4em;" align="center">Welcome Back <span class="text-muted">Smantha</span></p><br>
+        <p style="font-family:serif; font-size:4em;" align="center">Welcome Back <span class="text-muted">Samantha</span></p><br>
 
         <div class="row">
             <div class="col-md-4 text-center" style="width:42%; padding:0">
@@ -69,6 +70,24 @@
 
 
 
+        <!-- Search Bar -->
+        <hr class="featurette-divider" style="width:60%; border-color:#D1D0CE;">
+        <p style="font-family:serif; font-size:3em;" align="center">Looking For Someone?...</p><br>
+
+        <form id="form_review" method="get" action="/mainApp/profile/">
+            <div align="center">
+                <div class="input-group" style="width:70%;">
+                    <input type="text" class="form-control" style="height:4em;" placeholder="Who are you looking for...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" style="height:4em; width:5em" type="submit">Go!</button>
+                    </span>
+                </div>
+            </div>
+        </form><br><br><br><br><br><br>
+        <!-- /End of Search Bar -->
+
+
+
         <!-- Three Special People Section -->
         <hr class="featurette-divider" style="width:60%; border-color:#D1D0CE;">
         <p style="font-family:serif; font-size:3em;" align="center">Your Special People...</p><br>
@@ -101,32 +120,17 @@
 
         <!-- Search Bar -->
         <hr class="featurette-divider" style="width:60%; border-color:#D1D0CE;">
-        <p style="font-family:serif; font-size:3em;" align="center">Looking For Someone?...</p><br>
-
-        <div align="center">
-            <div class="input-group" style="width:70%;">
-                <input type="text" class="form-control" style="height:4em;" placeholder="Who are you looking for...">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" style="height:4em; width:5em" type="button">Go!</button>
-                </span>
-            </div>
-        </div><br><br><br><br><br><br>
-        <!-- /End of Search Bar -->
-
-
-
-        <!-- Search Bar -->
-        <hr class="featurette-divider" style="width:60%; border-color:#D1D0CE;">
         <p style="font-family:serif; font-size:3em;" align="center">Appoinments, Dates, Plans...</p><br>
         <div align="center">
             <img src="{% static 'images/calendar.png' %}" style="width:70%;">
         </div>
-        <br><br><br><br><br><br>
+        <br><br><br><br>
         <!-- /End of Search Bar -->
 
 
 
-
+        <hr class="featurette-divider" style="width:100%; border-color:#D1D0CE;">
+        <br><br><br><br>
         <!-- Start The Featurettes Theme -->
         <!-- <hr class="featurette-divider">
 

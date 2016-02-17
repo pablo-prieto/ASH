@@ -4,8 +4,9 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    url(r'^$', views.index, name='login'),
     url(r'^profile/', views.profile, name='profile'),
+    url(r'^login/', views.login, name='login'),
     # ex: /polls/5/
     url(r'^(?P<user_id>[0-9]+)/$', views.detail, name='detail'),
     # ex: /polls/5/results/
