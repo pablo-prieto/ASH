@@ -1,32 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
+<head>
     <meta charset="utf-8">
     <title>ASH</title>
     <meta name="description">
     {% load static from staticfiles %}
-
-    <link rel="stylesheet" href="{% static 'css/custom.css' %}" >
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" >
     <link rel="stylesheet" href="{% static 'css/bootstrap-theme.min.css' %}">
-  </head>
-  <body>
-    <h1 style="text-align: center">ASH (Alzheimer's Social Helper)</h1>
-    <h3>We will include a side/menu bar</h3>
-    <h3>Home page will include most important family/events</h3>
-    <a href="/mainApp/profile"><b>About</b></a>
-    <p>Hello, <br>My name is ... as you may know I have Alzheimer's and this application will help
-       me remember everyone that's imporant to me. Please take your time to describe yourself in your profile
-       and add events/moments memorable to the both of us.</p>
-    {% if birthDate_user_list %}
-        <ul>
-        {% for user in birthDate_user_list %}
-            <li><a href="/mainApp/{{ user.id }}/">{{ user.fullName }}</a></li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>No users are available.</p>
-    {% endif %}
-  </body>
+</head>
+
+<body>
+    <!-- Wrap the rest of the page in another container to center all the content. -->
+    <div class="container marketing">
+        
+        <!-- Main User Profile Section -->
+        <h1 class="featurette-heading" align="center">Welcome Back <span class="text-muted">Smantha</span></h1><br>
+        <div class="row">
+            <div class="col-md-4 text-center" style="width:42%; padding:0">
+                <br>
+                <span class="text-muted">
+                    Name: Samantha<br>
+                    Birthday: May 21, 1957
+                </span>
+                <hr class="featurette-divider">
+            </div>
+            <div class="col-md-4 text-center" style="width:16%; padding:1">
+                <img class="img-circle" src="{% static 'images/mai_user.jpeg' %}" style="width:100%; border:1px solid #e0e0e0;">
+            </div>
+            <div class="col-md-4 text-center" style="width:42%; padding:0">
+               <br>
+               <span class="text-muted">
+                    Phone#: (917)341-2523<br>
+                    Address: 4304 Broadway, New York, NY 10031
+                </span>
+               <hr class="featurette-divider">
+            </div>
+        </div>
+            
+        
+        <!-- End Main User Profile Section -->
+
+        <!-- Three Favorite People Section -->
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <img class="img-circle" src="http://placehold.it/140x140">
+                <h2>Mobile-first</h2>
+                <p>Tablets, phones, laptops. The new 3 promises to be mobile friendly from the start.</p>
+                <p><a class="btn btn-default" href="#">View details »</a></p>
+            </div>
+            <div class="col-md-4 text-center">
+                <img class="img-circle" src="http://placehold.it/140x140">
+                <h2>One Fluid Grid</h2>
+                <p>There is now just one percentage-based grid for Bootstrap 3. Customize for fixed widths.</p>
+                <p><a class="btn btn-default" href="#">View details »</a></p>
+            </div>
+            <div class="col-md-4 text-center">
+                <img class="img-circle" src="http://placehold.it/140x140">
+                <h2>LESS is More</h2>
+                <p>Improved support for mixins make the new Bootstrap 3 easier to customize.</p>
+                <p><a class="btn btn-default" href="#">View details »</a></p>
+            </div>
+        </div>
+        <!-- /EndThree Favorite People Section -->
+
+
+        <!-- Start The Featurettes Theme -->
+        <hr class="featurette-divider">
+
+        <div class="featurette">
+            <img class="featurette-image img-circle pull-right" src="http://placehold.it/512">
+            <h2 class="featurette-heading">Responsive Design. <span class="text-muted">It'll blow your mind.</span></h2>
+            <p class="lead">In simple terms, a responsive web design figures out what resolution of device it's being served on. Flexible grids then size correctly to fit the screen.</p>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <div class="featurette">
+            <img class="featurette-image img-circle pull-left" src="http://placehold.it/512">
+            <h2 class="featurette-heading">Smaller Footprint. <span class="text-muted">Lightweight.</span></h2>
+            <p class="lead">The new Bootstrap 3 promises to be a smaller build. The separate Bootstrap base and responsive.css files have now been merged into one. There is no more fixed grid, only fluid.</p>
+        </div>
+
+        <hr class="featurette-divider">
+
+        <div class="featurette">
+            <img class="featurette-image img-circle pull-right" src="http://placehold.it/512">
+            <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Flatness.</span></h2>
+            <p class="lead">A big design trend for 2013 is "flat" design. Gone are the days of excessive gradients and shadows. Designers are producing cleaner flat designs, and Bootstrap 3 takes advantage of this minimalist trend.</p>
+        </div>
+
+        <hr class="featurette-divider">
+        <!-- /End the Featurette Theme -->
+
+
+        <!-- Footer -->
+        <footer>
+            <p class="pull-right"><a href="#">Back to top</a></p>
+            <p>This Bootstrap layout is compliments of Bootply. · <a href="http://www.bootply.com/62603">Edit on Bootply.com</a></p>
+        </footer>
+        <!-- End Footer -->
+
+    </div>
+    <!-- /.container -->
+</body>
 </html>
