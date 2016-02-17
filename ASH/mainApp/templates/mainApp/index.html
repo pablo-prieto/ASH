@@ -8,6 +8,7 @@
     {% load static from staticfiles %}
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" >
     <link rel="stylesheet" href="{% static 'css/bootstrap-theme.min.css' %}">
+
 </head>
 
 <body>
@@ -32,7 +33,7 @@
             </div>
 
             <div class="col-md-4 text-center" style="width:16%; padding:1">
-                <img class="img-circle" src="{% static 'images/mai_user.jpeg' %}" style="width:100%; border:1px solid #D1D0CE;">
+                <img class="img-circle" src="{% static 'images/main_user.jpeg' %}" style="width:100%; border:1px solid #D1D0CE;">
             </div>
 
             <div class="col-md-4 text-center" style="width:42%; padding:0">
@@ -68,9 +69,9 @@
 
 
 
-        <!-- Three Favorite People Section -->
+        <!-- Three Special People Section -->
         <hr class="featurette-divider" style="width:60%; border-color:#D1D0CE;">
-        <p style="font-family:serif; font-size:3em;" align="center">Your Favorite People...</p><br>
+        <p style="font-family:serif; font-size:3em;" align="center">Your Special People...</p><br>
 
         <div class="row">
             <div class="col-md-4 text-center">
@@ -114,9 +115,13 @@
 
 
 
-
-        
-        </div><br><br><br><br><br><br>
+        <!-- Search Bar -->
+        <hr class="featurette-divider" style="width:60%; border-color:#D1D0CE;">
+        <p style="font-family:serif; font-size:3em;" align="center">Appoinments, Dates, Plans...</p><br>
+        <div align="center">
+            <img src="{% static 'images/calendar.png' %}" style="width:70%;">
+        </div>
+        <br><br><br><br><br><br>
         <!-- /End of Search Bar -->
 
 
@@ -160,5 +165,10 @@
 
     </div>
     <!-- /.container -->
+
+
+
+    <!-- SCRIPTS -->
+
 </body>
 </html>
