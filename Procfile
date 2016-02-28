@@ -1,0 +1,1 @@
+web: gunicorn ASH.wsgi --log-file -
