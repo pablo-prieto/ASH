@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
 
     # Redirect page when /mainApp/ is not included in the address
-    url(r'^$', RedirectView.as_view(url='/mainApp/'), name='index'),
+    url(r'^$', RedirectView.as_view(url='/mainApp/login'), name='login'),
 ]
 
 # This makes sure this applies only development environment
