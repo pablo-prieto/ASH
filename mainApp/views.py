@@ -1,14 +1,14 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from .models import User
+from .models import SubUser
 
 
 def index(request):
-    return render(request, 'mainApp/loginpage.html')
+    return render(request, 'mainApp/index.html')
 
 
 def login(request):
-    return render(request, 'mainApp/index.html')
+    return render(request, 'mainApp/login_register.html')
 
 
 def profile(request):

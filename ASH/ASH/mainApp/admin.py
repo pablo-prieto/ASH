@@ -1,9 +1,9 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import SubUser
+from .models import User
 
-admin.site.register(SubUser)
+admin.site.register(User)
 
 from .models import MasterUser
 

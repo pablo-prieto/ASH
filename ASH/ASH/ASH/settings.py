@@ -25,8 +25,7 @@ SECRET_KEY = 't(teogmcj4w%m-tku)8xeo$^_f9wljmy8*qi0(&yj8ijz$dru1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
-# ALLOWED_HOSTS = [<nameoftheherokuapp>.herokuapp.com]
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -76,41 +75,12 @@ WSGI_APPLICATION = 'ASH.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
-# Pablo's Local DB
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'ASH_Db',
-        'USER': 'postgres',
-        'PASSWORD': 'Pablocpe2',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
-# Damian's Local DB
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'ash_db',
-#         'USER': 'Damian',
-#         'PASSWORD': 'damian123',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
-
-# Remote DB (Heroku)
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'dcm94d1bv4rgh1',
-#         'USER': 'mvilxxvuecrkgn',
-#         'PASSWORD': 'PZzX0Pho1LvC_2x-j5ggN_BtW8',
-#         'HOST': 'ec2-107-21-229-87.compute-1.amazonaws.com',
-#         'PORT': '5432',
-#     }
-# }
 
 
 # Password validation
@@ -146,21 +116,7 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Honor the X-Forwarded-Proto header for request.is_secure()
-
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
-
-STATIC_ROOT = os.path.join(BASE_DIR, "static_in_env", "static_root")
-
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR + "/mainApp", "static_in_prod"),
-)
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_in_env", "media_root")

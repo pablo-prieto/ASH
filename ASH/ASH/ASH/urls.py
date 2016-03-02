@@ -1,4 +1,4 @@
-"""ASH URL Configuration.
+"""ASH URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.9/topics/http/urls/
@@ -16,22 +16,8 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from django.views.generic import RedirectView
-from django.conf import settings
-from django.conf.urls.static import static
-
 
 urlpatterns = [
     url(r'^mainApp/', include('mainApp.urls')),
     url(r'^admin/', admin.site.urls),
-
-    # Redirect page when /mainApp/ is not included in the address
-    url(r'^$', RedirectView.as_view(url='/mainApp/login'), name='login'),
 ]
-
-# This makes sure this applies only development environment
-# If you run django server with DEBUG=True, server will serve static files straight form STATICFILES_DIRS,
-# and if DEBUG=False it won't handle static files at all
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
