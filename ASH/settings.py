@@ -77,16 +77,16 @@ WSGI_APPLICATION = 'ASH.wsgi.application'
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
 # Pablo's Local DB
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'ASH_Db',
-        'USER': 'postgres',
-        'PASSWORD': 'Pablocpe2',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'ASH_Db',
+#         'USER': 'postgres',
+#         'PASSWORD': 'Pablocpe2',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
 
 # Damian's Local DB
 # DATABASES = {
@@ -101,16 +101,16 @@ DATABASES = {
 # }
 
 # Remote DB (Heroku)
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'dcm94d1bv4rgh1',
-#         'USER': 'mvilxxvuecrkgn',
-#         'PASSWORD': 'PZzX0Pho1LvC_2x-j5ggN_BtW8',
-#         'HOST': 'ec2-107-21-229-87.compute-1.amazonaws.com',
-#         'PORT': '5432',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'dcm94d1bv4rgh1',
+        'USER': 'mvilxxvuecrkgn',
+        'PASSWORD': 'PZzX0Pho1LvC_2x-j5ggN_BtW8',
+        'HOST': 'ec2-107-21-229-87.compute-1.amazonaws.com',
+        'PORT': '5432',
+    }
+}
 
 
 # Password validation
