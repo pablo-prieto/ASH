@@ -7,7 +7,7 @@ from django.utils import timezone
 
 # Create your models here.
 
-class User(models.Model):
+class SubUser(models.Model):
     userid = models.CharField(primary_key=True, max_length=100, blank=False, null=False)
     password = models.CharField(max_length=18, blank=False, null=False)
     email = models.EmailField(blank=False, null=False)
@@ -26,7 +26,7 @@ class User(models.Model):
 #     votes = models.IntegerField(default=0)
 
 class MasterUser(models.Model):
-    userid = models.ForeignKey(User, on_delete=models.CASCADE)
+    userid = models.ForeignKey(SubUser, on_delete=models.CASCADE)
     # fullName = models.CharField(max_length = 500, blank = False, null = False)
     # birthDate = models.CharField(max_length = 500, blank = False, null = False)
     # pricerate = models.PositiveIntegerField(default = 0,  blank = False, null = False)

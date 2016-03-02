@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from .models import User
+from .models import SubUser
 
 
 def index(request):
