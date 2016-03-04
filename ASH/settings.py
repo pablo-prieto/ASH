@@ -89,28 +89,28 @@ WSGI_APPLICATION = 'ASH.wsgi.application'
 # }
 
 # Damian's Local DB
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'ash_db',
-#         'USER': 'Damian',
-#         'PASSWORD': 'damian123',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
-
-# Remote DB (Heroku)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dcm94d1bv4rgh1',
-        'USER': 'mvilxxvuecrkgn',
-        'PASSWORD': 'PZzX0Pho1LvC_2x-j5ggN_BtW8',
-        'HOST': 'ec2-107-21-229-87.compute-1.amazonaws.com',
+        'NAME': 'ash_db',
+        'USER': 'Damian',
+        'PASSWORD': 'damian123',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
+
+# Remote DB (Heroku)
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'dcm94d1bv4rgh1',
+#         'USER': 'mvilxxvuecrkgn',
+#         'PASSWORD': 'PZzX0Pho1LvC_2x-j5ggN_BtW8',
+#         'HOST': 'ec2-107-21-229-87.compute-1.amazonaws.com',
+#         'PORT': '5432',
+#     }
+# }
 
 
 # Password validation
