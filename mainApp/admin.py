@@ -1,9 +1,10 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import MasterUser, SubUser, Calendar, Memory, SpecialPeople, Picture, Video
+from .models import User, Client, SubUser, Calendar, Memory, SpecialPeople, Picture, Video
 
-admin.site.register(MasterUser)
+admin.site.register(User)
+admin.site.register(Client)
 admin.site.register(SubUser)
 admin.site.register(Calendar)
 admin.site.register(Memory)
