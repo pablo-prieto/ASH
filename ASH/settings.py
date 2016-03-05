@@ -57,7 +57,7 @@ ROOT_URLCONF = 'ASH.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, "mainApp", "templates", "mainApp")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
