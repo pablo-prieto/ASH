@@ -15,20 +15,11 @@ class Video(models.Model):
     Video = models.CharField(max_length=500, blank=False, null=False)
     Description = models.CharField(max_length=500, blank=False, null=False)
 
-class SubUser(models.Model):
-    User = models.ForeignKey('User', on_delete=models.CASCADE)
-    CreatedDate = models.DateTimeField(auto_now_add = False, auto_now = "True")
-    Videos = models.ManyToManyField(Video)
-    Pictures = models.ManyToManyField(Picture)
-
-    # def __str__(self):
-    #     return self.User
-
 class Client(models.Model):
     User = models.ForeignKey('User', on_delete=models.CASCADE)
     Token = models.CharField(max_length=18, blank=False, null=False)
     CreatedDate = models.DateTimeField(auto_now_add = False, auto_now = "True")
-    SubUser = models.ManyToManyField(SubUser)#this relationship will relate all clients to subusers and vice-versa
+    # SubUser = models.ManyToManyField(SubUser)#this relationship will relate all clients to subusers and vice-versa
     # def __str__(self):
     #     return  self.userid.userid + " " + self.champion + " " + str(self.rating) + " " + self.server + " " + str(self.pricerate) + " " + self.overview
     # def __str__(self):
@@ -44,6 +35,26 @@ class SpecialPeople(models.Model):
     RelationshipDescription = models.CharField(max_length = 500, blank=  False, null = False)
     Client = models.ForeignKey(Client)
 
+class SubUser(models.Model):
+    User = models.ForeignKey('User', on_delete=models.CASCADE)
+    CreatedDate = models.DateTimeField(auto_now_add = False, auto_now = "True")
+    Videos = models.ManyToManyField(Video)
+    Pictures = models.ManyToManyField(Picture)
+    Client = models.ForeignKey(Client)
+
+class Memory(models.Model):
+    #ID = models.CharField(primary_key=True, max_length=100, blank=False, null=False)
+    CreatedOn = models.DateTimeField(auto_now_add = False, auto_now = "True")
+    Title = models.CharField(max_length=500, blank=False, null=False)
+    Description = models.CharField(max_length=500, blank=False, null=False)
+    Location = models.TextField(blank=True)
+    Date = models.DateTimeField(auto_now_add = False, auto_now = "True")
+    OtherRelated = models.CharField(max_length=500, blank=False, null=False)
+    SubUser = models.ForeignKey(SubUser)
+
+    # def __str__(self):
+    #     return self.User
+
 class User(models.Model):
     UserName = models.CharField(max_length=18, blank=False, null=False)
     Email = models.EmailField(blank=False, null=False)
@@ -55,13 +66,3 @@ class User(models.Model):
     PhoneNumber = models.CharField(max_length = 11, blank = False, null = False)
     HomeAddress = models.TextField(blank=True)
     AboutMe = models.TextField(blank=True)
-
-class Memory(models.Model):
-    #ID = models.CharField(primary_key=True, max_length=100, blank=False, null=False)
-    CreatedOn = models.DateTimeField(auto_now_add = False, auto_now = "True")
-    Title = models.CharField(max_length=500, blank=False, null=False)
-    Description = models.CharField(max_length=500, blank=False, null=False)
-    Location = models.TextField(blank=True)
-    Date = models.DateTimeField(auto_now_add = False, auto_now = "True")
-    OtherRelated = models.ManyToManyField(User)
-    SubUser = models.ForeignKey(SubUser)
