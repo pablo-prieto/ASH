@@ -30,6 +30,15 @@
         <li>Dinner with high school friends</li>
         <li>Son's birthday</li>
         <li>Fishing trip</li>
+        {% if memories %}
+          {% for memory in memories %}
+          <li>{{memory.Title}}</li>
+          <li>{{memory.SubUser.Pictures.Description}}</li>
+          <!-- <li>{{picture.Description}}</li> -->
+          {% endfor %}
+        {% else %}
+          <p>No coaches available.</p>
+        {% endif %}
       </ul>
     </div>
     <h2 style="position: relative; left:158px; top: 40px">Albums</h2>

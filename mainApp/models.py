@@ -21,8 +21,8 @@ class SubUser(models.Model):
     Videos = models.ManyToManyField(Video)
     Pictures = models.ManyToManyField(Picture)
 
-    def __str__(self):
-        return self.User
+    # def __str__(self):
+    #     return self.User
 
 class Client(models.Model):
     User = models.ForeignKey('User', on_delete=models.CASCADE)
@@ -31,8 +31,8 @@ class Client(models.Model):
     SubUser = models.ManyToManyField(SubUser)#this relationship will relate all clients to subusers and vice-versa
     # def __str__(self):
     #     return  self.userid.userid + " " + self.champion + " " + str(self.rating) + " " + self.server + " " + str(self.pricerate) + " " + self.overview
-    def __str__(self):
-        return self.User
+    # def __str__(self):
+    #     return self.User
 
 class Calendar(models.Model):
     Description = models.CharField(max_length=500, blank=False, null=False)
