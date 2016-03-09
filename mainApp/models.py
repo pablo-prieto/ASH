@@ -10,15 +10,24 @@ class Picture(models.Model):
     Picture = models.CharField(max_length=500, blank=False, null=False)
     Description = models.CharField(max_length=500, blank=False, null=False)
 
+    def __unicode__(self):
+        return self.Picture
+
 class Video(models.Model):
     MemoryLink = models.CharField(max_length=500, blank=False, null=False)
     Video = models.CharField(max_length=500, blank=False, null=False)
     Description = models.CharField(max_length=500, blank=False, null=False)
 
+    def __unicode__(self):
+        return self.Video
+
 class Client(models.Model):
     User = models.ForeignKey('User', on_delete=models.CASCADE)
     Token = models.CharField(max_length=18, blank=False, null=False)
     CreatedDate = models.DateTimeField(auto_now_add = False, auto_now = "True")
+
+    def __unicode__(self):
+        return self.User.FirstName
     # SubUser = models.ManyToManyField(SubUser)#this relationship will relate all clients to subusers and vice-versa
     # def __str__(self):
     #     return  self.userid.userid + " " + self.champion + " " + str(self.rating) + " " + self.server + " " + str(self.pricerate) + " " + self.overview
@@ -29,11 +38,17 @@ class Calendar(models.Model):
     Description = models.CharField(max_length=500, blank=False, null=False)
     Client = models.ForeignKey(Client)
 
+    def __unicode__(self):
+        return 'Calendar for %s' % (self.Client.User.FirstName)
+
 class SpecialPeople(models.Model):
     FirstName = models.CharField(max_length = 500, blank = False, null = False)
     LastName = models.CharField(max_length = 500, blank = False, null = False)
     RelationshipDescription = models.CharField(max_length = 500, blank=  False, null = False)
     Client = models.ForeignKey(Client)
+
+    def __unicode__(self):
+        return self.FirstName
 
 class SubUser(models.Model):
     User = models.ForeignKey('User', on_delete=models.CASCADE)
@@ -41,6 +56,9 @@ class SubUser(models.Model):
     Videos = models.ManyToManyField(Video)
     Pictures = models.ManyToManyField(Picture)
     Client = models.ForeignKey(Client)
+
+    def __unicode__(self):
+        return self.User.FirstName
 
 class Memory(models.Model):
     #ID = models.CharField(primary_key=True, max_length=100, blank=False, null=False)
@@ -51,6 +69,9 @@ class Memory(models.Model):
     Date = models.DateTimeField(auto_now_add = False, auto_now = "True")
     OtherRelated = models.CharField(max_length=500, blank=False, null=False)
     SubUser = models.ForeignKey(SubUser)
+
+    def __unicode__(self):
+        return self.Title
 
     # def __str__(self):
     #     return self.User
@@ -66,3 +87,6 @@ class User(models.Model):
     PhoneNumber = models.CharField(max_length = 11, blank = False, null = False)
     HomeAddress = models.TextField(blank=True)
     AboutMe = models.TextField(blank=True)
+
+    def __unicode__(self):
+        return u'User %s' % (self.FirstName)
