@@ -5,60 +5,70 @@ import datetime
 from django.db import models
 from django.utils import timezone
 
-class Picture(models.Model):
-    MemoryLink = models.CharField(max_length=500, blank=False, null=False)
-    Picture = models.CharField(max_length=500, blank=False, null=False)
-    Description = models.CharField(max_length=500, blank=False, null=False)
+class User(models.Model):
+    UserName = models.CharField(max_length=18, blank=False, null=False)
+    Email = models.EmailField(blank=False, null=False)
+    Password = models.CharField(max_length=18, blank=False, null=False)
+    FirstName = models.CharField(max_length = 500, blank = False, null = False)
+    LastName = models.CharField(max_length = 500, blank = False, null = False)
+    BirthDate = models.DateTimeField(auto_now_add = False, auto_now = "True")
+    ProfilePicture = models.ImageField(upload_to='Profile Picures')
+    PhoneNumber = models.CharField(max_length = 11, blank = False, null = False)
+    HomeAddress = models.TextField(blank=True)
+    AboutMe = models.TextField(blank=True)
 
     def __unicode__(self):
-        return self.Picture
-
-class Video(models.Model):
-    MemoryLink = models.CharField(max_length=500, blank=False, null=False)
-    Video = models.CharField(max_length=500, blank=False, null=False)
-    Description = models.CharField(max_length=500, blank=False, null=False)
-
-    def __unicode__(self):
-        return self.Video
+        return u'%s %s' % (self.FirstName, self.LastName)
 
 class Client(models.Model):
-    User = models.ForeignKey('User', on_delete=models.CASCADE)
+    User = models.ForeignKey(User)
     Token = models.CharField(max_length=18, blank=False, null=False)
     CreatedDate = models.DateTimeField(auto_now_add = False, auto_now = "True")
 
     def __unicode__(self):
-        return self.User.FirstName
-    # SubUser = models.ManyToManyField(SubUser)#this relationship will relate all clients to subusers and vice-versa
-    # def __str__(self):
-    #     return  self.userid.userid + " " + self.champion + " " + str(self.rating) + " " + self.server + " " + str(self.pricerate) + " " + self.overview
-    # def __str__(self):
-    #     return self.User
+        return 'Client %s %s' % (self.User.FirstName, self.User.LastName)
 
-class Calendar(models.Model):
-    Description = models.CharField(max_length=500, blank=False, null=False)
-    Client = models.ForeignKey(Client)
-
-    def __unicode__(self):
-        return 'Calendar for %s' % (self.Client.User.FirstName)
-
-class SpecialPeople(models.Model):
+class SpecialPerson(models.Model):
     FirstName = models.CharField(max_length = 500, blank = False, null = False)
     LastName = models.CharField(max_length = 500, blank = False, null = False)
     RelationshipDescription = models.CharField(max_length = 500, blank=  False, null = False)
     Client = models.ForeignKey(Client)
 
     def __unicode__(self):
-        return self.FirstName
+        return '%s %s' % (self.FirstName, self.LastName)
 
-class SubUser(models.Model):
-    User = models.ForeignKey('User', on_delete=models.CASCADE)
-    CreatedDate = models.DateTimeField(auto_now_add = False, auto_now = "True")
-    Videos = models.ManyToManyField(Video)
-    Pictures = models.ManyToManyField(Picture)
+class Calendar(models.Model):
+    Description = models.CharField(max_length=500, blank=False, null=False)
     Client = models.ForeignKey(Client)
 
     def __unicode__(self):
-        return self.User.FirstName
+        return 'Calendar for %s %s' % (self.Client.User.FirstName, self.Client.User.LastName)
+
+class SubUser(models.Model):
+    CreatedDate = models.DateTimeField(auto_now_add = False, auto_now = "True")
+    User = models.ForeignKey(User)
+    Client = models.ForeignKey(Client)
+
+    def __unicode__(self):
+        return u'%s %s' % (self.User.FirstName, self.User.LastName)
+
+class Picture(models.Model):
+    Picture = models.ImageField(upload_to='Pictures')
+    PictureTitle = models.CharField(max_length=500, blank=False, null=False)
+    Description = models.CharField(max_length=500, blank=False, null=False)
+    SubUser = models.ForeignKey(SubUser)
+
+    def __unicode__(self):
+        return '%s: %s %s' % (self.PictureTitle, self.SubUser.User.FirstName, self.SubUser.User.LastName)
+
+class Video(models.Model):
+    Video = models.FileField(upload_to='Videos/')
+    VideoTitle = models.CharField(max_length=500, blank=False, null=False)
+    Description = models.CharField(max_length=500, blank=False, null=False)
+    SubUser = models.ForeignKey(SubUser)
+
+    def __unicode__(self):
+        return '%s: %s %s' % (self.VideoTitle, self.SubUser.User.FirstName, self.SubUser.User.LastName)
 
 class Memory(models.Model):
     #ID = models.CharField(primary_key=True, max_length=100, blank=False, null=False)
@@ -71,22 +81,4 @@ class Memory(models.Model):
     SubUser = models.ForeignKey(SubUser)
 
     def __unicode__(self):
-        return self.Title
-
-    # def __str__(self):
-    #     return self.User
-
-class User(models.Model):
-    UserName = models.CharField(max_length=18, blank=False, null=False)
-    Email = models.EmailField(blank=False, null=False)
-    Password = models.CharField(max_length=18, blank=False, null=False)
-    FirstName = models.CharField(max_length = 500, blank = False, null = False)
-    LastName = models.CharField(max_length = 500, blank = False, null = False)
-    BirthDate = models.DateTimeField(auto_now_add = False, auto_now = "True")
-    ProfilePicture = models.CharField(max_length = 500, blank = False, null = False)
-    PhoneNumber = models.CharField(max_length = 11, blank = False, null = False)
-    HomeAddress = models.TextField(blank=True)
-    AboutMe = models.TextField(blank=True)
-
-    def __unicode__(self):
-        return u'User %s' % (self.FirstName)
+        return '%s, Memory of: %s %s' % (self.Title, self.SubUser.User.FirstName, self.SubUser.User.LastName)
