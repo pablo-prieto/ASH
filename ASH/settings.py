@@ -89,16 +89,16 @@ DATABASES = {
 }
 
 # Damian's Local DB
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'ash_db',
-        'USER': 'Damian',
-        'PASSWORD': 'damian123',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'ash_db',
+#         'USER': 'Damian',
+#         'PASSWORD': 'damian123',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
 
 # Remote DB (Heroku)
 # DATABASES = {
