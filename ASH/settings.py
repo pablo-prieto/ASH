@@ -57,7 +57,7 @@ ROOT_URLCONF = 'ASH.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, "mainApp", "templates", "mainApp")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'ASH.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
-#Pablo's Local DB
+# Pablo's Local DB
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -89,16 +89,16 @@ DATABASES = {
 }
 
 # Damian's Local DB
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'ash_db',
-#         'USER': 'Damian',
-#         'PASSWORD': 'damian123',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'ash_db',
+        'USER': 'Damian',
+        'PASSWORD': 'damian123',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
 
 # Remote DB (Heroku)
 # DATABASES = {
