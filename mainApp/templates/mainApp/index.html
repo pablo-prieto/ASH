@@ -14,7 +14,7 @@
     <script type="text/javascript" src="{% static 'js/jquery-2.2.1.js' %}"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
-    
+
 
 </head>
 
@@ -24,7 +24,8 @@
 
         <!-- Main User Profile Picture and Basic Info Section -->
         <br>
-        <p style="font-family:serif; font-size:4em;" align="center">Welcome Back <span class="text-muted">Samantha</span></p><br>
+
+        <p style="font-family:serif; font-size:4em;" align="center">Welcome Back <span class="text-muted">{{user.FirstName}} {{user.LastName}}</span></p><br>
 
         <div class="row">
             <div class="col-md-4 text-center" style="width:42%; padding:0">
@@ -261,7 +262,7 @@
 
 
         <hr class="featurette-divider" style="width:100%; border-color:#D1D0CE;">
-        
+
 
 
         <!-- Footer -->

@@ -1,11 +1,42 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.views import generic
+from django.core.urlresolvers import reverse
 from .models import User, Client, SubUser, Memory, Calendar, Picture, Video, SpecialPerson
 
+# class IndexView(generic.DetailView):
+#     model = User
+#     template_name = 'mainApp/index.html'
 
-def index(request):
-    AllUsers = User.objects.all()
-    context = {'users':AllUsers}
+def authenticate(request):
+    context = {"error":"must provide a valid username and password"}
+    if request.method == 'POST':
+        try:
+            UserName = str(request.POST.get('username'))
+            Password = str(request.POST.get('password'))
+            CurrentUser = User.objects.get(UserName=UserName, Password=Password)
+            context = {'user':CurrentUser}
+            return HttpResponseRedirect(reverse('index', args=(CurrentUser.id,)))
+        except:
+            return render(request, "mainApp/login_register.html", context)
+
+    else:
+        return render(request, "mainApp/login_register.html", context)
+    #coaches = User.objects.filter(MMR__range=(minRange,maxRange)).filter(coach__server=server, coach__champion=hero)
+
+
+def index(request, user_id):
+    CurrentUser = User.objects.get(pk=user_id)
+    context = {'user':CurrentUser}
+    # context = {"error":"must provide a valid username and password"}
+    # if request.method == 'POST':
+    #     try:
+    #         UserName = str(request.POST.get('username'))
+    #         Password = str(request.POST.get('password'))
+    #         CurrentUser = User.objects.get(UserName=UserName, Password=Password)
+    #         context = {'user':CurrentUser}
+    #     except:
+    #         return render(request, "mainApp/login_register.html", context)
     #coaches = User.objects.filter(MMR__range=(minRange,maxRange)).filter(coach__server=server, coach__champion=hero)
     return render(request, "mainApp/index.html", context)
 
