@@ -1,0 +1,64 @@
+body {
+    margin-left:auto;
+    margin-right:auto;
+    min-width:960px;
+}
+
+#myModal {
+    margin-left:auto;
+    margin-right:auto;
+    min-width:600px;
+    max-width:600px;
+}
+
+#calendar {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+#datepicker, #timepicker{
+    width: 25em;
+    height: 2.3em;
+    margin: 0px 20px 20px 20px;
+}
+
+#input-eventbegintime, #input-eventendtime, #input-datestart, #input-dateend {
+    height: 2.3em;
+    cursor: pointer;
+    font-size: 1em;
+    background-color: white;
+}
+
+.input-timerange input {
+  text-align: center;
+}
+.input-timerange input:first-child {
+  -webkit-border-radius: 3px 0 0 3px;
+  -moz-border-radius: 3px 0 0 3px;
+  border-radius: 3px 0 0 3px;
+}
+.input-timerange input:last-child {
+  -webkit-border-radius: 0 3px 3px 0;
+  -moz-border-radius: 0 3px 3px 0;
+  border-radius: 0 3px 3px 0;
+}
+.input-timerange .add-on {
+  display: inline-block;
+  width: auto;
+  min-width: 16px;
+  height: 18px;
+  padding: 4px 5px;
+  font-weight: normal;
+  line-height: 18px;
+  text-align: center;
+  text-shadow: 0 1px 0 #ffffff;
+  vertical-align: middle;
+  background-color: #eeeeee;
+  border: 1px solid #ccc;
+  margin-left: -5px;
+  margin-right: -5px;
+}
+
+.checkbox {
+    cursor: pointer;
+}

@@ -6,16 +6,32 @@
     <title>ASH</title>
     <meta name="description">
     {% load static from staticfiles %}
+
+    <!-- Calendar -->
+    <link rel="stylesheet" type="text/css" href="{% static 'full-calendar/css/fullcalendar.css' %}"/>
+    <link rel="stylesheet" type="text/css" media='print' href="{% static 'full-calendar/css/fullcalendar.print.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'full-calendar/css/custom.css' %}"/>
+    <script type="text/javascript" src="{% static 'full-calendar/lib/moment.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'full-calendar/lib/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'full-calendar/js/fullcalendar.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'full-calendar/js/custom.js' %}"></script>
+
+    <!-- ClockPicker -->
+    <link rel="stylesheet" type="text/css" href="{% static 'clock-picker/dist/bootstrap-clockpicker.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'clock-picker/assets/css/github.min.css' %}">
+    <script type="text/javascript" src="{% static 'clock-picker/dist/bootstrap-clockpicker.min.js' %}"></script>
+
+    <!-- DatePicker -->
+    <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/css/bootstrap-datepicker.css"/>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/js/bootstrap-datepicker.js"></script>
+
+
+    <!-- Structure -->
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" >
     <link rel="stylesheet" href="{% static 'css/bootstrap-theme.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/footer.css' %}">
-    <!-- <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script> -->
-    <script type="text/javascript" src="{% static 'js/jquery-2.2.1.js' %}"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
-
-
 </head>
 
 <body>
@@ -249,18 +265,86 @@
 
 
 
-        <!-- Search Bar -->
+        <!-- Calendar -->
         <hr class="featurette-divider" style="width:60%; border-color:#D1D0CE;">
         <p style="font-family:serif; font-size:3em;" align="center">Appoinments, Dates, Plans...</p><br>
-        <div align="center">
-            <img src="{% static 'images/calendar.png' %}" style="width:70%;">
+        <!-- Calendar div -->
+        <div id='calendar'></div>
+        <!-- Modal: Calendar -->
+        <div class="container">
+            <!-- Modal: Craete New Event -->
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal Content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" align="center"><strong>Create New Event</strong></h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body" style="padding-left:7%; padding-right:7%" align="center">
+                            <!-- Input: Event title input field -->
+                            <div class="input-group">
+                                <span class="input-group-addon" style="color:black; padding-left:1em; padding-right:1.2em;">Event Title</span>
+                                <input class="form-control" id="event-title-input" type="text" aria-label="..." maxlength="15" placeholder="Max 10 chars..." value="">
+                            </div>
+                            <br>
+                            <!-- Input: Description input field -->
+                            <div class="input-group">
+                                <span class="input-group-addon" style="color:black;">Description</span>
+                                <input class="form-control" id="description-input" type="text"  aria-label="..." placeholder="Field not work but it will..so enter the descrip." value="">
+                            </div>
+                            <br>
+                            <!-- Input: Subusers input field -->
+                            <div class="input-group">
+                                <span class="input-group-addon" style="color:black; padding-left:1em; padding-right:1.2em;">Sub-Users</span>
+                                <input id="subusers-input" type="text" class="form-control" aria-label="..." placeholder="Separate users with commas..." value="">
+                            </div>
+                            <br>
+                            <!-- DatePicker -->
+                             <div id="datepicker" class="input-daterange input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                <input class="input-sm form-control" id="input-datestart" name="start" type="text" readonly/>
+                                <span class="input-group-addon">to</span>
+                                <input class="input-sm form-control" id="input-dateend" name="end" type="text" readonly/>
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                            </div>
+                            <!-- TimePickers -->
+                            <div id="timepicker" class="input-timerange input-group">
+                                <span class="input-group-addon clockpicker"><i class="glyphicon glyphicon-time"></i></span>
+                                <span class="input-group clockpicker" data-placement="bottom" data-align="right" data-donetext="Done">
+                                    <input class="form-control" id="input-eventbegintime" type="text" placeholder="Begin Time" value="" readonly>
+                                </span>
+                                <span class="input-group-addon">to</span>
+                                <span class="input-group clockpicker" data-placement="bottom" data-align="left" data-donetext="Done">
+                                    <input class="form-control" id="input-eventendtime" type="text" placeholder="End Time" value="" readonly>
+                                </span>
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                            </div>
+                            <!-- Checkbox: All day option  -->
+                            <div class="checkbox">
+                                <label>
+                                    <input id="checkbox-alldayevent"class="checkbox" type="checkbox" checked="true"><span style="font-size:1em">All Day Event</span>
+                                </label>
+                            </div>
+                        </div>
+                        <!-- Modal Footer -->
+                        <div class="modal-footer">
+                            <!-- Buttons: Create event & Cancel -->
+                            <button id="create-event-button" type="button" class="btn btn-default">Create</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+    
         <br><br><br><br>
+        <!-- /End of Calendar -->
+        
+
+
         <p class="pull-right"><a href="#">Back to top</a></p>
-        <!-- /End of Search Bar -->
-
-
-
         <hr class="featurette-divider" style="width:100%; border-color:#D1D0CE;">
 
 
@@ -268,11 +352,5 @@
         <!-- Footer -->
         <footer>{% include "footer.html" %}</footer>
         <!-- End Footer -->
-
-    </div>
-
-
-    <!-- SCRIPTS -->
-
 </body>
 </html>
