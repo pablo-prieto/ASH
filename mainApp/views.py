@@ -23,7 +23,6 @@ def authenticate(request):
                 SubUserUser = SubUser.objects.get(User=CurrentUser)
                 print "counted as subuser"
                 return HttpResponseRedirect(reverse('profile', args=(SubUserUser.id,)))
-
         except:
             return render(request, "mainApp/login_register.html", context)
     else:

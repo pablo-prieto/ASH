@@ -46,6 +46,7 @@ class Calendar(models.Model):
 
 class SubUser(models.Model):
     CreatedDate = models.DateTimeField(auto_now_add = False, auto_now = "True")
+    #RelationshipToClient = models.CharField(max_length = 500, blank = False, null = False)
     User = models.ForeignKey(User)
     Client = models.ForeignKey(Client)
 
