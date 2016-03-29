@@ -36,28 +36,22 @@
   </head>
   <body>
     <h1 style="text-align: center"> {{subuser.User.FirstName}} {{subuser.User.LastName}}'s Profile </h1>
-    <img src="" style="position: relative; width:250px; height:250px; left:158px"></img>
+    <img src="/media/{{ProfilePicture}}" style="position: relative; width:250px; height:250px; left:158px"></img>
     <div>
-      <p style="position: absolute; left: 500px; top: 120px;">Age: 72</p>
-      <p style="position: absolute; left: 900px; top: 120px;">Relationship: Sister</p>
+      <p style="position: absolute; left: 500px; top: 120px;">Age: {{Age}}</p>
+      <p style="position: absolute; left: 900px; top: 120px;">Relationship: Grandson</p>
       <p style="position: absolute; left: 500px; top: 240px;">Time known: All life</p>
     </div>
     <h2 style="position: relative; left:158px; top: 40px">About</h2>
     <div style="position: relative; left: 158px; top: 40px; right: 158px; width: 900px; padding: 25px; border: 2px solid black;">
-      <p>Hello Samantha. I'm your sister. I am a retired nurse who worked in Hackensack Hospital. We used to...</p>
+      <p>Hello {{subuserclient.User.FirstName}}. I'm your grandson. I am a computer engineer who worked in ... We used to...</p>
     </div>
     <h2 style="position: relative; left:158px; top: 40px">Events</h2>
     <div style="position: relative; left: 158px; top: 40px; right: 158px; width: 900px; padding: 25px; border: 2px solid black;">
       <ul style="position: relative; left: -20px;">
-        <li>Trip to Italy</li>
-        <li>Dinner with high school friends</li>
-        <li>Son's birthday</li>
-        <li>Fishing trip</li>
         {% if memories %}
           {% for memory in memories %}
           <li>{{memory.Title}}</li>
-          <li>{{memory.SubUser.Pictures.Description}}</li>
-          <!-- <li>{{picture.Description}}</li> -->
           {% endfor %}
         {% else %}
           <p>No memories available.</p>

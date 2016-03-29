@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.views import generic
 from django.core.urlresolvers import reverse
 from .models import User, Client, SubUser, Memory, Calendar, Picture, Video, SpecialPerson
+from datetime import date
 
 # class IndexView(generic.DetailView):
 #     model = User
@@ -43,9 +44,14 @@ def login(request):
 
 def profile(request, user_id):
     SubUserUser = SubUser.objects.get(pk=user_id)
+    SubUserClient = SubUserUser.Client
+    Today = date.today()
+    BirthDate = SubUserUser.User.BirthDate
+    Age = Today.year - BirthDate.year - ((Today.month, Today.day) < (BirthDate.month, BirthDate.day))
+    ProfilePic = SubUserUser.User.ProfilePicture
     Memories = Memory.objects.all()
     Pictures = Picture.objects.all()
-    context = {'subuser':SubUserUser, 'memories':Memories, 'picture':Pictures}
+    context = {'subuser':SubUserUser, 'subuserclient':SubUserClient, 'Age':Age, 'ProfilePicture':ProfilePic, 'memories':Memories, 'picture':Pictures}
     return render(request, 'mainApp/profile.html', context)
 
 

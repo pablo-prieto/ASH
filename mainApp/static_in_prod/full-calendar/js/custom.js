@@ -26,7 +26,7 @@ $(document).ready(function() {
 
             // Base values when the modal is activated
             var temp = $("#input-datestart").val().split('-');
-            var begin_date = temp[2] + '-' + temp[0] + '-' + temp[1];
+            var begin_date = [temp[2], temp[0], temp[1]].join('-');
             var end_date = begin_date;
             var begin_event = begin_date;
             var end_event = begin_date;
@@ -38,7 +38,7 @@ $(document).ready(function() {
             // Date-Picker function
             $('input[name$="start"]').change(function(){
                 temp = $("#input-datestart").val().split('-');
-                begin_date = temp[2] + '-' + temp[0] + '-' + temp[1];
+                begin_date = [temp[2], temp[0], temp[1]].join('-');
                 if (document.getElementById('checkbox-alldayevent').checked === true)
                     begin_event = begin_date;
                 else if (document.getElementById('checkbox-alldayevent').checked === false)
@@ -46,18 +46,14 @@ $(document).ready(function() {
             });
             $('input[name$="end"]').change(function(){
                 temp = $("#input-dateend").val().split('-');
+                end_date = new Date([temp[2], temp[0], temp[1]].join('/'));
+                end_date.setDate(end_date.getDate() + 1); 
+                end_date = [end_date.getUTCFullYear(), ('0'+(end_date.getUTCMonth()+1)).slice(-2), ('0'+(end_date.getUTCDate())).slice(-2)].join('-');
 
-                if (document.getElementById('checkbox-alldayevent').checked === true){
-                    end_date = new Date([temp[2], temp[0], temp[1]].join('/'));
-                    end_date.setDate(end_date.getDate() + 1); 
-
-                    end_event = [end_date.getUTCFullYear(), ('0'+(end_date.getUTCMonth()+1)).slice(-2), ('0'+(end_date.getUTCDate())).slice(-2)].join('-');
-                    console.log(end_event);
-                }
-                else if (document.getElementById('checkbox-alldayevent').checked === false){
-                    end_date = [temp[2], temp[0], temp[1]].join('-');
+                if (document.getElementById('checkbox-alldayevent').checked === true)
+                    end_event = end_date;
+                else if (document.getElementById('checkbox-alldayevent').checked === false)
                     end_event = end_date + end_time;
-                }
             });
 
             // Clock-Picker function
@@ -65,36 +61,30 @@ $(document).ready(function() {
             .find('input').change(function(){
                 document.getElementById('checkbox-alldayevent').checked = false;
                 if ($("#input-eventbegintime").val() !== ""){
-                    temp = $("#input-datestart").val().split('-');
                     begin_time = 'T' + $("#input-eventbegintime").val() + ':00';
                     begin_event = begin_date + begin_time;
-                    begin_time_toggle = $("#input-eventbegintime").val();
                 }
                 if ($("#input-eventendtime").val() !== ""){
-                    temp = $("#input-dateend").val().split('-');
                     end_time = 'T' + $("#input-eventendtime").val() + ':00';
                     end_event = end_date + end_time;
-                    end_time_toggle = $("#input-eventendtime").val();
                 }
             });
 
             // Checkbox function. It disables the time.
             $('#checkbox-alldayevent').change(function(){
                 if (document.getElementById('checkbox-alldayevent').checked === true) {
+                    begin_time_toggle = $("#input-eventbegintime").val();
+                    end_time_toggle = $("#input-eventendtime").val();
                     $("#input-eventbegintime").val("");
                     $("#input-eventendtime").val("");
-
-                    temp = $("#input-datestart").val().split('-');
-                    begin_date = temp[2] + '-' + temp[0] + '-' + temp[1];
                     begin_event = begin_date;
-
-                    temp = $("#input-dateend").val().split('-');
-                    end_date = temp[2] + '-' + (temp[0]+1) + '-' + temp[1];
                     end_event = end_date;
                 }
                 else if (document.getElementById('checkbox-alldayevent').checked === false) {
                     $("#input-eventbegintime").val(begin_time_toggle);
                     $("#input-eventendtime").val(end_time_toggle);
+                    begin_event = begin_date + begin_time;
+                    end_event = end_date + end_time;
                 }
                 
                   
@@ -106,16 +96,23 @@ $(document).ready(function() {
                 var title = $("#event-title-input").val();
                 var description = $("#description-input").val();
                 var sub_users = $("#subusers-input").val();
+                var begin = new Date(begin_event);
+                var end = new Date(end_event);
+                if(begin < end)
+                    end.setDate(end.getDate() - 1);
+                var check_box = document.getElementById('checkbox-alldayevent').checked;
 
-                // if(title === "")
-                //     alert("You need to input a title");
-                // else if(description === "")
-                //     alert("You need to input a description");
-                // else if(sub_users === "")
-                //     alert("You need to input a title");                
-                // else{
-                    console.log(begin_event);
-                    console.log(end_event);
+                if(title === "")
+                    alert("You need to input a title");
+                else if(description === "")
+                    alert("You need to input a description");
+                else if(sub_users === "")
+                    alert("You need to input a title");                
+                else if(begin > end)
+                    alert("The end of the event has to be greater than the begining...");
+                else if(check_box == false && $("#input-eventbegintime").val() == "" || check_box == false && $("#input-eventendtime").val() == "")
+                    alert("If it's not an 'All Day Event', you must provide a time range...");
+                else{
                     var eventData = {
                         title: title,
                         start: begin_event,
@@ -123,8 +120,8 @@ $(document).ready(function() {
                     };
                     $('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
                     $('#calendar').fullCalendar('unselect');
-                $('#myModal').modal('hide');
-                // }
+                    $('#myModal').modal('hide');
+                }
             });
         },
         events: [

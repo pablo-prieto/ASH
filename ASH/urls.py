@@ -29,7 +29,7 @@ urlpatterns = [
     url(r'^$', RedirectView.as_view(url='/mainApp/login'), name='login'),
 ]
 
-# This makes sure this applies only development environment
+# This makes sure this applies to only development environment
 # If you run django server with DEBUG=True, server will serve static files straight form STATICFILES_DIRS,
 # and if DEBUG=False it won't handle static files at all
 if settings.DEBUG:

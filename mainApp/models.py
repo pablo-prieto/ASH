@@ -11,7 +11,7 @@ class User(models.Model):
     Password = models.CharField(max_length=18, blank=False, null=False)
     FirstName = models.CharField(max_length = 500, blank = False, null = False)
     LastName = models.CharField(max_length = 500, blank = False, null = False)
-    BirthDate = models.DateTimeField(auto_now_add = False, auto_now = "True")
+    BirthDate = models.DateField()
     ProfilePicture = models.ImageField(upload_to='Profile Picures')
     PhoneNumber = models.CharField(max_length = 11, blank = False, null = False)
     HomeAddress = models.TextField(blank=True)
@@ -46,7 +46,7 @@ class Calendar(models.Model):
 
 class SubUser(models.Model):
     CreatedDate = models.DateTimeField(auto_now_add = False, auto_now = "True")
-    #RelationshipToClient = models.CharField(max_length = 500, blank = False, null = False)
+    RelationshipToClient = models.CharField(max_length = 500, blank = False, null = False)
     User = models.ForeignKey(User)
     Client = models.ForeignKey(Client)
 
@@ -54,7 +54,7 @@ class SubUser(models.Model):
         return u'%s %s' % (self.User.FirstName, self.User.LastName)
 
 class Picture(models.Model):
-    Picture = models.ImageField(upload_to='Pictures')
+    Picture = models.ImageField(upload_to='Pictures/')
     PictureTitle = models.CharField(max_length=500, blank=False, null=False)
     Description = models.CharField(max_length=500, blank=False, null=False)
     SubUser = models.ForeignKey(SubUser)
@@ -72,7 +72,6 @@ class Video(models.Model):
         return '%s: %s %s' % (self.VideoTitle, self.SubUser.User.FirstName, self.SubUser.User.LastName)
 
 class Memory(models.Model):
-    #ID = models.CharField(primary_key=True, max_length=100, blank=False, null=False)
     CreatedOn = models.DateTimeField(auto_now_add = False, auto_now = "True")
     Title = models.CharField(max_length=500, blank=False, null=False)
     Description = models.CharField(max_length=500, blank=False, null=False)
