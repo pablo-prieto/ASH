@@ -35,112 +35,125 @@
 
   </head>
   <body>
-    <h1 style="text-align: center"> {{subuser.User.FirstName}} {{subuser.User.LastName}}'s Profile </h1>
-    <img src="/media/{{ProfilePicture}}" style="position: relative; width:250px; height:250px; left:158px"></img>
-    <div>
-      <p style="position: absolute; left: 500px; top: 120px;">Age: {{Age}}</p>
-      <p style="position: absolute; left: 900px; top: 120px;">Relationship: Grandson</p>
-      <p style="position: absolute; left: 500px; top: 240px;">Time known: All life</p>
-    </div>
-    <h2 style="position: relative; left:158px; top: 40px">About</h2>
-    <div style="position: relative; left: 158px; top: 40px; right: 158px; width: 900px; padding: 25px; border: 2px solid black;">
-      <p>Hello {{subuserclient.User.FirstName}}. I'm your grandson. I am a computer engineer who worked in ... We used to...</p>
-    </div>
-    <h2 style="position: relative; left:158px; top: 40px">Events</h2>
-    <div style="position: relative; left: 158px; top: 40px; right: 158px; width: 900px; padding: 25px; border: 2px solid black;">
-      <ul style="position: relative; left: -20px;">
-        {% if memories %}
-          {% for memory in memories %}
-          <li>{{memory.Title}}</li>
-          {% endfor %}
-        {% else %}
-          <p>No memories available.</p>
-        {% endif %}
-      </ul>
-    </div>
-    <h2 style="position: relative; left:158px; top: 40px">Albums</h2>
-    <div style="position: relative; left: 158px; top: 40px; right: 158px; width: 900px; padding: 25px; border: 2px solid black;">
-      <img src="" style="position: relative; width:160px; height:160px;"></img>
-    </div>
 
-    <!-- Calendar -->
-    <hr class="featurette-divider" style="width:60%; border-color:#D1D0CE;">
-    <p style="font-family:serif; font-size:3em;" align="center">Appoinments, Dates, Plans...</p><br>
-    <!-- Calendar div -->
-    <div id='calendar'></div>
-    <!-- Modal: Calendar -->
-    <div class="container">
-        <!-- Modal: Craete New Event -->
-        <div class="modal fade" id="myModal" role="dialog">
-            <div class="modal-dialog">
+    <!-- Wrap the rest of the page in another container to center all the content. -->
+    <div class="container marketing">
 
-                <!-- Modal Content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" align="center"><strong>Create New Event</strong></h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    <div class="modal-body" style="padding-left:7%; padding-right:7%" align="center">
-                        <!-- Input: Event title input field -->
-                        <div class="input-group">
-                            <span class="input-group-addon" style="color:black; padding-left:1em; padding-right:1.2em;">Event Title</span>
-                            <input class="form-control" id="event-title-input" type="text" aria-label="..." maxlength="15" placeholder="Max 10 chars..." value="">
-                        </div>
-                        <br>
-                        <!-- Input: Description input field -->
-                        <div class="input-group">
-                            <span class="input-group-addon" style="color:black;">Description</span>
-                            <input class="form-control" id="description-input" type="text"  aria-label="..." placeholder="Field not work but it will..so enter the descrip." value="">
-                        </div>
-                        <br>
-                        <!-- Input: Subusers input field -->
-                        <div class="input-group">
-                            <span class="input-group-addon" style="color:black; padding-left:1em; padding-right:1.2em;">Sub-Users</span>
-                            <input id="subusers-input" type="text" class="form-control" aria-label="..." placeholder="Separate users with commas..." value="">
-                        </div>
-                        <br>
-                        <!-- DatePicker -->
-                         <div id="datepicker" class="input-daterange input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                            <input class="input-sm form-control" id="input-datestart" name="start" type="text" readonly/>
-                            <span class="input-group-addon">to</span>
-                            <input class="input-sm form-control" id="input-dateend" name="end" type="text" readonly/>
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                        </div>
-                        <!-- TimePickers -->
-                        <div id="timepicker" class="input-timerange input-group">
-                            <span class="input-group-addon clockpicker"><i class="glyphicon glyphicon-time"></i></span>
-                            <span class="input-group clockpicker" data-placement="bottom" data-align="right" data-donetext="Done">
-                                <input class="form-control" id="input-eventbegintime" type="text" placeholder="Begin Time" value="" readonly>
-                            </span>
-                            <span class="input-group-addon">to</span>
-                            <span class="input-group clockpicker" data-placement="bottom" data-align="left" data-donetext="Done">
-                                <input class="form-control" id="input-eventendtime" type="text" placeholder="End Time" value="" readonly>
-                            </span>
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
-                        </div>
-                        <!-- Checkbox: All day option  -->
-                        <div class="checkbox">
-                            <label>
-                                <input id="checkbox-alldayevent"class="checkbox" type="checkbox" checked="true"><span style="font-size:1em">All Day Event</span>
-                            </label>
-                        </div>
-                    </div>
-                    <!-- Modal Footer -->
-                    <div class="modal-footer">
-                        <!-- Buttons: Create event & Cancel -->
-                        <button id="create-event-button" type="button" class="btn btn-default">Create</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    </div>
-                </div>
-            </div>
+      <!-- Main User Profile Picture and Basic Info Section -->
+      <br>
+
+      <p style="font-family:serif; font-size:4em;" align="center">Welcome Back <span class="text-muted">{{subuser.User.FirstName}} {{subuser.User.LastName}}</span></p><br>
+
+      <div class="row">
+        <div class="col-md-4 text-center" style="width:42%; padding:0">
+          <br><br>
+          <div class="row">
+            <span class="text-muted" style="font-family:serif; font-size:1.2em;">
+              <div class="col-md-4 text-center" style="width:100%;">Age: 22</div>
+            </span>
+          </div>
+          <hr class="featurette-divider" style="margin:5px; border-color:#D1D0CE;">
         </div>
+
+        <div class="col-md-4 text-center" style="width:16%; padding:1">
+          <img class="img-circle" src="/media/{{ProfilePicture}}" style="width:100%; border:1px solid #D1D0CE;">
+        </div>
+
+        <div class="col-md-4 text-center" style="width:42%; padding:0">
+          <br><br>
+          <div class="row">
+            <span class="text-muted" style="font-family:serif; font-size:1.2em;">
+              <!-- <div class="col-md-4 text-center" style="width:30%;">Phone#: (917)341-2523</div> -->
+              <div class="col-md-4 text-center" style="width:100%;">Relationship to {{subuserclient.User.FirstName}}: {{subuser.RelationshipToClient}}</div>
+            </span>
+          </div>
+          <hr class="featurette-divider" style="margin:5px; border-color:#D1D0CE;">
+        </div>
+      </div><br><br>
+      <!-- End of Main User Profile Picture and Basic Info Section -->
+
+
+
+      <!-- Main User Profile Buttons Section -->
+      <div class="row">
+        <!-- Button: Events -->
+        <div class="col-md-4 text-right">
+          <p><a class="btn btn-default" style="width:12em" data-toggle="modal" data-target="#EventsModal">Events »</a></p>
+        </div>
+
+        <!-- Modal: Events -->
+        <div class="modal fade" id="EventsModal" role="dialog">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">About Events</h4>
+              </div>
+              <div class="modal-body">
+                <p>Event 1 with preview picture if available. </p>
+                <p>Short event description on the bottom.</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Button: Pictures -->
+        <div class="col-md-4 text-center">
+          <p><a class="btn btn-default" style="width:12em" data-toggle="modal" data-target="#PicturesModal">Pictures »</a></p>
+        </div>
+
+        <!-- Modal: Pictures -->
+        <div class="modal fade" id="PicturesModal" role="dialog">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Pictures (list)</h4>
+              </div>
+              <div class="modal-body">
+                <p>Album type of set of pictures? </p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Button: About Me -->
+        <div class="col-md-4 text-left">
+          <p><a class="btn btn-default" style="width:12em" data-toggle="modal" data-target="#AboutMeModal">About Me »</a></p>
+        </div>
+
+        <!-- Modal: About Me -->
+        <div class="modal fade" id="AboutMeModal" role="dialog">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">About Me</h4>
+              </div>
+              <div class="modal-body">
+                <p>Education, place of birth, anniversary, and other things the user wants to add.</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><br><br><br><br><br><br>
+      <!-- End of Main User Profile Buttons Section -->
+
+      {% include "calendar.html" %}
     </div>
 
-    <br><br><br><br>
-    <!-- /End of Calendar -->
-
-
-
-  </body>
+</body>
 </html>

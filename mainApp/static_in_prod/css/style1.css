@@ -9,7 +9,7 @@
     font-style: normal;
 }
 /* CSS reset */
-body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td { 
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td {
 	margin:0;
 	padding:0;
 }
@@ -22,7 +22,7 @@ table {
 	border-collapse:collapse;
 	border-spacing:0;
 }
-fieldset,img { 
+fieldset,img {
 	border:0;
 }
 address,caption,cite,code,dfn,th,var {
@@ -51,7 +51,7 @@ footer, header, hgroup, menu, nav, section {
 /* General Demo Style */
 body{
 	font-family: Cambria, Palatino, "Palatino Linotype", "Palatino LT STD", Georgia, serif;
-	background: url('http://www.slate.com/content/dam/slate/blogs/quora/2013/02/130214_QUORA_CUTE_N_OLD.jpg.CROP.article568-large.jpg') no-repeat;
+	/*background: url('images/care3.jpeg') no-repeat;*/*/
 	font-size: 15pt;
 	background-size: 100%;
 	font-weight: 400;
@@ -161,4 +161,3 @@ a{
 	background: rgba(255,255,255,0.9);
 	box-shadow: 0px 1px 1px rgba(0,0,0,0.1);
 }
-
