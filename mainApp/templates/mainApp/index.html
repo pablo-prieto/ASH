@@ -91,7 +91,15 @@
                         </div>
                         <div class="modal-body">
                             <p>Icons with their faces. (clickable/link) </p>
-                            <p>Name next to the icon.</p>
+                            <ul>
+                              {% if ListOfSubUsers %}
+                              {% for element in ListOfSubUsers %}
+                              <li><a href="/mainApp/{{element.User.id}}/profile/">{{element.User.FirstName}} {{element.User.LastName}} ({{element.RelationshipToClient}})</a></li>
+                              {% endfor %}
+                              {% else %}
+                              <p>No memories available.</p>
+                              {% endif %}
+                            </ul>
                             <p>Short description.</p>
                         </div>
                         <div class="modal-footer">

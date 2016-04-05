@@ -19,11 +19,11 @@ def authenticate(request):
             try:
                 ClientUser = Client.objects.get(User=CurrentUser)
                 print "counted as client"
-                return HttpResponseRedirect(reverse('index', args=(ClientUser.id,)))
+                return HttpResponseRedirect(reverse('index', args=(CurrentUser.id,)))
             except:
                 SubUserUser = SubUser.objects.get(User=CurrentUser)
                 print "counted as subuser"
-                return HttpResponseRedirect(reverse('profile', args=(SubUserUser.id,)))
+                return HttpResponseRedirect(reverse('profile', args=(CurrentUser.id,)))
         except:
             return render(request, "mainApp/login_register.html", context)
     else:
@@ -32,8 +32,10 @@ def authenticate(request):
 
 
 def index(request, user_id):
-    ClientUser = Client.objects.get(pk=user_id)
-    context = {'client':ClientUser}
+    CurrentUser = User.objects.get(pk=user_id)
+    ClientUser = Client.objects.get(User=CurrentUser)
+    ListOfSubUsers = SubUser.objects.filter(Client = ClientUser)
+    context = {'client':ClientUser, 'ListOfSubUsers':ListOfSubUsers}
     #coaches = User.objects.filter(MMR__range=(minRange,maxRange)).filter(coach__server=server, coach__champion=hero)
     return render(request, "mainApp/index.html", context)
 
@@ -43,7 +45,8 @@ def login(request):
 
 
 def profile(request, user_id):
-    SubUserUser = SubUser.objects.get(pk=user_id)
+    CurrentUser = User.objects.get(pk=user_id)
+    SubUserUser = SubUser.objects.get(User=CurrentUser)
     SubUserClient = SubUserUser.Client
     Today = date.today()
     BirthDate = SubUserUser.User.BirthDate
