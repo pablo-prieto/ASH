@@ -38,7 +38,11 @@ class SpecialPerson(models.Model):
         return '%s %s' % (self.FirstName, self.LastName)
 
 class Calendar(models.Model):
-    Description = models.CharField(max_length=500, blank=False, null=False)
+    Title = models.CharField(max_length=500, blank=False, null=False)
+    StartDate = models.CharField(max_length=500, blank=False, null=False)
+    EndDate = models.CharField(max_length=500, blank=False, null=False)
+    Description = models.CharField(max_length=500, blank=False, null=True)
+    Url = models.CharField(max_length=500, blank=False, null=True)
     Client = models.ForeignKey(Client)
 
     def __unicode__(self):
