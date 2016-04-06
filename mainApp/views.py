@@ -9,6 +9,7 @@ from datetime import date
 #     model = User
 #     template_name = 'mainApp/index.html'
 
+
 def authenticate(request):
     context = {"error":"must provide a valid username and password"}
     if request.method == 'POST':
@@ -34,13 +35,13 @@ def authenticate(request):
 def index(request, user_id):
     CurrentUser = User.objects.get(pk=user_id)
     ClientUser = Client.objects.get(User=CurrentUser)
-    ListOfSubUsers = SubUser.objects.filter(Client = ClientUser)
+    ListOfSubUsers = SubUser.objects.filter(Client=ClientUser)
     ListOfFriends = ListOfSubUsers.filter(RelationshipToClient="Friend")
     ListOfFamilyMembers = ListOfSubUsers.exclude(RelationshipToClient="Friend")
     # FavoritePeople = ListOfSubUsers.exclude(RelationshipToClient="Friend")
     # Favorite1 = FavoritePeople.filter(User=)
-    context = {'client':ClientUser, 'ListOfFriends':ListOfFriends, 'ListOfFamilyMembers':ListOfFamilyMembers}
-    #coaches = User.objects.filter(MMR__range=(minRange,maxRange)).filter(coach__server=server, coach__champion=hero)
+    context = {'client': ClientUser, 'ListOfFriends': ListOfFriends, 'ListOfFamilyMembers': ListOfFamilyMembers}
+    # coaches = User.objects.filter(MMR__range=(minRange,maxRange)).filter(coach__server=server, coach__champion=hero)
     return render(request, "mainApp/index.html", context)
 
 
