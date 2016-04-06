@@ -57,24 +57,6 @@ class SubUser(models.Model):
     def __unicode__(self):
         return u'%s %s' % (self.User.FirstName, self.User.LastName)
 
-class Picture(models.Model):
-    Picture = models.ImageField(upload_to='Pictures/')
-    PictureTitle = models.CharField(max_length=500, blank=False, null=False)
-    Description = models.CharField(max_length=500, blank=False, null=False)
-    SubUser = models.ForeignKey(SubUser)
-
-    def __unicode__(self):
-        return '%s: %s %s' % (self.PictureTitle, self.SubUser.User.FirstName, self.SubUser.User.LastName)
-
-class Video(models.Model):
-    Video = models.FileField(upload_to='Videos/')
-    VideoTitle = models.CharField(max_length=500, blank=False, null=False)
-    Description = models.CharField(max_length=500, blank=False, null=False)
-    SubUser = models.ForeignKey(SubUser)
-
-    def __unicode__(self):
-        return '%s: %s %s' % (self.VideoTitle, self.SubUser.User.FirstName, self.SubUser.User.LastName)
-
 class Memory(models.Model):
     CreatedOn = models.DateTimeField(auto_now_add = False, auto_now = "True")
     Title = models.CharField(max_length=500, blank=False, null=False)
@@ -86,3 +68,21 @@ class Memory(models.Model):
 
     def __unicode__(self):
         return '%s, Memory of: %s %s' % (self.Title, self.SubUser.User.FirstName, self.SubUser.User.LastName)
+
+class Picture(models.Model):
+    Picture = models.ImageField(upload_to='Pictures/')
+    PictureTitle = models.CharField(max_length=500, blank=False, null=False)
+    Description = models.CharField(max_length=500, blank=False, null=False)
+    Memory = models.ForeignKey(Memory)
+
+    def __unicode__(self):
+        return '%s: %s' % (self.Memory.Title, self.PictureTitle)
+
+class Video(models.Model):
+    Video = models.FileField(upload_to='Videos/')
+    VideoTitle = models.CharField(max_length=500, blank=False, null=False)
+    Description = models.CharField(max_length=500, blank=False, null=False)
+    Memory = models.ForeignKey(Memory)
+
+    def __unicode__(self):
+        return '%s: %s %s' % (self.VideoTitle, self.SubUser.User.FirstName, self.SubUser.User.LastName)
