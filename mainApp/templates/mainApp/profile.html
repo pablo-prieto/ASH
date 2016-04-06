@@ -34,126 +34,121 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
   </head>
+
   <body>
-
     <!-- Wrap the rest of the page in another container to center all the content. -->
-    <div class="container marketing">
+    <div class="container marketing"><br>
+        <!-- Sub User Profile Picture and Basic Info Section -->
+        <p style="font-family:serif; font-size:4em;" align="center">{{subuser.User.FirstName}} {{subuser.User.LastName}}</p><br>
 
-      <!-- Main User Profile Picture and Basic Info Section -->
-      <br>
-
-      <p style="font-family:serif; font-size:4em;" align="center">Welcome Back <span class="text-muted">{{subuser.User.FirstName}} {{subuser.User.LastName}}</span></p><br>
-
-      <div class="row">
-        <div class="col-md-4 text-center" style="width:42%; padding:0">
-          <br><br>
-          <div class="row">
-            <span class="text-muted" style="font-family:serif; font-size:1.2em;">
-              <div class="col-md-4 text-center" style="width:100%;">Age: 22</div>
-            </span>
-          </div>
-          <hr class="featurette-divider" style="margin:5px; border-color:#D1D0CE;">
-        </div>
-
-        <div class="col-md-4 text-center" style="width:16%; padding:1">
-          <img class="img-circle" src="/media/{{ProfilePicture}}" style="width:100%; border:1px solid #D1D0CE;">
-        </div>
-
-        <div class="col-md-4 text-center" style="width:42%; padding:0">
-          <br><br>
-          <div class="row">
-            <span class="text-muted" style="font-family:serif; font-size:1.2em;">
-              <!-- <div class="col-md-4 text-center" style="width:30%;">Phone#: (917)341-2523</div> -->
-              <div class="col-md-4 text-center" style="width:100%;">Relationship to {{subuserclient.User.FirstName}}: {{subuser.RelationshipToClient}}</div>
-            </span>
-          </div>
-          <hr class="featurette-divider" style="margin:5px; border-color:#D1D0CE;">
-        </div>
-      </div><br><br>
-      <!-- End of Main User Profile Picture and Basic Info Section -->
-
-
-
-      <!-- Main User Profile Buttons Section -->
-      <div class="row">
-        <!-- Button: Events -->
-        <div class="col-md-4 text-right">
-          <p><a class="btn btn-default" style="width:12em" data-toggle="modal" data-target="#EventsModal">Events »</a></p>
-        </div>
-
-        <!-- Modal: Events -->
-        <div class="modal fade" id="EventsModal" role="dialog">
-          <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">About Events</h4>
-              </div>
-              <div class="modal-body">
-                <p>Event 1 with preview picture if available. </p>
-                <p>Short event description on the bottom.</p>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              </div>
+        <div class="row">
+            <div class="col-md-4 text-center" style="width:42%; padding:0">
+                <br><br>
+                <div class="row">
+                    <span class="text-muted" style="font-family:serif; font-size:1.2em;">
+                        <div class="col-md-4 text-center" style="width:100%;">Age: {{Age}}</div>
+                    </span>
+                </div>
+                <hr class="featurette-divider" style="margin:5px; border-color:#D1D0CE;">
             </div>
-          </div>
-        </div>
 
-        <!-- Button: Pictures -->
-        <div class="col-md-4 text-center">
-          <p><a class="btn btn-default" style="width:12em" data-toggle="modal" data-target="#PicturesModal">Pictures »</a></p>
-        </div>
-
-        <!-- Modal: Pictures -->
-        <div class="modal fade" id="PicturesModal" role="dialog">
-          <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Pictures (list)</h4>
-              </div>
-              <div class="modal-body">
-                <p>Album type of set of pictures? </p>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              </div>
+            <div class="col-md-4 text-center" style="width:16%; padding:1">
+                <img class="img-circle" src="/media/{{ProfilePicture}}" style="width:100%; border:1px solid #D1D0CE;">
             </div>
-          </div>
-        </div>
 
-        <!-- Button: About Me -->
-        <div class="col-md-4 text-left">
-          <p><a class="btn btn-default" style="width:12em" data-toggle="modal" data-target="#AboutMeModal">About Me »</a></p>
-        </div>
-
-        <!-- Modal: About Me -->
-        <div class="modal fade" id="AboutMeModal" role="dialog">
-          <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">About Me</h4>
-              </div>
-              <div class="modal-body">
-                <p>Education, place of birth, anniversary, and other things the user wants to add.</p>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              </div>
+            <div class="col-md-4 text-center" style="width:42%; padding:0">
+                <br><br>
+                <div class="row">
+                    <span class="text-muted" style="font-family:serif; font-size:1.2em;">
+                        <!-- <div class="col-md-4 text-center" style="width:30%;">Phone#: (917)341-2523</div> -->
+                        <div class="col-md-4 text-center" style="width:100%;">Relationship to {{subuserclient.User.FirstName}}: {{subuser.RelationshipToClient}}</div>
+                    </span>
+                </div>
+                <hr class="featurette-divider" style="margin:5px; border-color:#D1D0CE;">
             </div>
-          </div>
+        </div><br><br>
+        <!-- End of Sub User Profile Picture and Basic Info Section -->
+
+
+        <!-- Tabs Section for the Events, Pictures, and Description of the  Sub-user (about me)-->
+        <div class="panel panel-default" style="margin-right:15%; margin-left:15%;" align="center">
+            <div id="content" class="panel-body" style="margin-right:2%; margin-left:2%; text-align:left">
+                <!-- Tab Headers -->
+                <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+                    <li class="active"><a href="#aboutme" data-toggle="tab">About Me</a></li>
+                    <li><a href="#events" data-toggle="tab">Events</a></li>
+                    <li><a href="#pictures" data-toggle="tab">Pictures</a></li>
+                </ul>
+
+                <!-- Tab contents -->
+                <div id="my-tab-content" class="tab-content">
+                    <!-- About Me content -->
+                    <div class="tab-pane active" id="aboutme">
+                        <br><h4>Who Am I?</h4>
+                        {{ subuser.User.AboutMe }}
+                    </div>
+
+                    <!-- Events -->
+                    <div class="tab-pane" id="events">
+                        <br><h4>Events We've Done Together:</h4><br>
+                        {% for memory in memories %}
+                            <img class="img-square" src="/media/{{ memory.pictures.0 }}" onclick="memoryDetail()" style="cursor: pointer; width:30%; border:1px solid #D1D0CE;">
+                            <h5>{{ memory.title }}</h5>
+
+                            <!-- Modal: Memory Details -->
+                            <div class="modal fade" id="memoryDetail" role="dialog">
+                                <div class="modal-dialog">
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Event: {{memory.title}}</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h4>Description</h4>
+                                            <p>{{ memory.description }}</p>
+                                            <h4>Date</h4>
+                                            <p>{{ memory.date }}</p>
+                                            <h4>Pictures</h4>
+                                            {% for picture in memory.pictures %}
+                                                <img class="img-square" src="/media/{{ memory.pictures.0 }}" style="width:30%; border:1px solid #D1D0CE;">
+                                            {% endfor %}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        
+
+                    </div>
+
+                    <!-- Pictures -->
+                    <div class="tab-pane" id="pictures">
+                        <br><h4>Pictures Together:</h4>
+                        <!-- Button for pagination -->
+                        <!-- <a id="button_list" class="btn btn-info navbar-btn navbar-left">List</a> -->
+                    </div>
+                </div>
+            </div>
         </div>
+        <br><br><br><br><br><br>
+        <!-- End of Tabs Section for the Events -->
 
-      </div><br><br><br><br><br><br>
-      <!-- End of Main User Profile Buttons Section -->
 
-      {% include "calendar.html" %}
+        <!-- Calendar -->
+        {% include "calendar.html" %}
     </div>
 
+
+    <!-- SCRIPTS -->
+    <script type="text/javascript">
+        function memoryDetail() {
+            $('#memoryDetail').modal('show');
+        }
+    </script>
 </body>
 </html>

@@ -52,9 +52,22 @@ def profile(request, user_id):
     BirthDate = SubUserUser.User.BirthDate
     Age = Today.year - BirthDate.year - ((Today.month, Today.day) < (BirthDate.month, BirthDate.day))
     ProfilePic = SubUserUser.User.ProfilePicture
-    Memories = Memory.objects.all()
+
+    spec_filter_mem = {'SubUser':user_id}
+    Memories = Memory.objects.filter(**spec_filter_mem)
+
+    memory_list = []
+    for memory in Memories:
+        spec_filter_pic = {'Memory':memory}
+        Pictures = Picture.objects.filter(**spec_filter_pic)
+        pictures_list = []
+        for picture in Pictures:
+            pictures_list.append(picture.Picture)
+        memory_list.append({'title':memory.Title, 'description':memory.Description, 'date':memory.Date, 'pictures':pictures_list})
+
+
     Pictures = Picture.objects.all()
-    context = {'subuser':SubUserUser, 'subuserclient':SubUserClient, 'Age':Age, 'ProfilePicture':ProfilePic, 'memories':Memories, 'picture':Pictures}
+    context = {'subuser':SubUserUser, 'subuserclient':SubUserClient, 'Age':Age, 'ProfilePicture':ProfilePic, 'memories':memory_list,}
     return render(request, 'mainApp/profile.html', context)
 
 
