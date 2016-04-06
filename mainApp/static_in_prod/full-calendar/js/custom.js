@@ -176,9 +176,9 @@ $(document).ready(function() {
                 start: '2016-03-13T07:00:00'
             },
             {
-                title: 'Event (website link)',
+                title: 'Some event',
                 url: 'http://google.com/',
-                start: '2016-03-28'
+                start: '2016-04-15'
             }
         ]
     });
