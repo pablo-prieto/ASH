@@ -35,7 +35,11 @@ def index(request, user_id):
     CurrentUser = User.objects.get(pk=user_id)
     ClientUser = Client.objects.get(User=CurrentUser)
     ListOfSubUsers = SubUser.objects.filter(Client = ClientUser)
-    context = {'client':ClientUser, 'ListOfSubUsers':ListOfSubUsers}
+    ListOfFriends = ListOfSubUsers.filter(RelationshipToClient="Friend")
+    ListOfFamilyMembers = ListOfSubUsers.exclude(RelationshipToClient="Friend")
+    # FavoritePeople = ListOfSubUsers.exclude(RelationshipToClient="Friend")
+    # Favorite1 = FavoritePeople.filter(User=)
+    context = {'client':ClientUser, 'ListOfFriends':ListOfFriends, 'ListOfFamilyMembers':ListOfFamilyMembers}
     #coaches = User.objects.filter(MMR__range=(minRange,maxRange)).filter(coach__server=server, coach__champion=hero)
     return render(request, "mainApp/index.html", context)
 
