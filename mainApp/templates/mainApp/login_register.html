@@ -15,7 +15,6 @@
     <br>
     <section>
       <div id="container_demo" style="margin-left: 68px; margin-right: auto;">
-        <!-- hidden anchor to stop jump http://www.css3create.com/Astuce-Empecher-le-scroll-avec-l-utilisation-de-target#wrap4  -->
         <a class="hiddenanchor" id="toregister"></a>
         <a class="hiddenanchor" id="tologin"></a>
         <div id="wrapper">
@@ -42,16 +41,12 @@
                 <input type="submit" value="Login" style="padding: 4px 2% 4px 2%; font-size: 18px; width: 20%; margin-top:-10%"/>
               </p>
               <h3 style="text-align: right; margin-top:-2%"><a href="#toregister" class="to_register">Register</a></h3>
-
-              <!-- <p class="change_link">
-                Not a member yet ?<a href="#toregister" class="to_register">Join us</a>
-              </p> -->
             </form>
           </div>
 
-          <div id="register" class="animate form">
+          <div id="register" class="animate form" style="padding:12px 6% 12px 6%">
             <form autocomplete="on">
-              <h1> Sign up </h1>
+              <h1 style="font-size: 2em">Sign Up</h1>
               <p>
                 <label for="usernamesignup" class="uname" data-icon="u">Your username</label>
                 <input id="usernamesignup" name="usernamesignup" required="required" type="text" placeholder="mysuperusername690" />
@@ -68,12 +63,13 @@
                 <label for="passwordsignup_confirm" class="youpasswd" data-icon="p">Please confirm your password </label>
                 <input id="passwordsignup_confirm" name="passwordsignup_confirm" required="required" type="password" placeholder="eg. X8df!90EO"/>
               </p>
+              <br>
               <p class="signin button">
-                <input type="submit" value="Sign up"/>
+                <input type="submit" value="Sign up" style="padding: 4px 2% 4px 2%; font-size: 18px; width: 20%; margin-top:-10%"/>
               </p>
-              <p class="change_link">
-                Already a member ?
-                <a href="#tologin" class="to_register"> Go and log in </a>
+              <p style="text-align: right">
+                Already a member?
+                <a href="#tologin" class="to_register"> Log In</a>
               </p>
             </form>
           </div>
