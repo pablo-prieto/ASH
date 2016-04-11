@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="{% static 'css/style1.css' %}">
   <link rel="stylesheet" href="{% static 'css/animate-custom.css' %}">
 </head>
-<body style="background-image:url({% static 'images/old-couple-on-park-bench.jpg' %});">
+<body style="background-image:url({% static 'images/old-couple-on-park-bench.jpg' %}); background-repeat:no-repeat; background-size:cover;">
   <div>
     <br>
     <section>
@@ -19,12 +19,12 @@
         <a class="hiddenanchor" id="tologin"></a>
         <div id="wrapper">
           <div id="login" class="animate form" style="padding:12px 6% 12px 6%">
-            <form type="POST" method="post" action="/mainApp/authenticate/" autocomplete="on">
+            <form type="POST" method="post" action="/mainApp/authenticateLogin/" autocomplete="on">
               {% csrf_token %}
               <h1 style="font-size: 2em">Alzheimer's Social Helper</h1>
               <p>
-                <label for="username" class="uname" data-icon="u" > Your email or username </label>
-                <input id="username" name="username" required="required" type="text" placeholder="myusername or mymail@mail.com"/>
+                <label for="username" class="uname" data-icon="u" > Your Username </label>
+                <input id="user_name" name="user_name" required="required" type="text" placeholder="myusername"/>
               </p>
               <p>
                 <label for="password" class="youpasswd" data-icon="p"> Your password </label>
@@ -40,11 +40,11 @@
               <p class="login button">
                 <input type="submit" value="Login" style="padding: 4px 2% 4px 2%; font-size: 18px; width: 20%; margin-top:-10%"/>
               </p>
-              <h3 style="text-align: right; margin-top:-2%"><a href="#toregister" class="to_register">Register</a></h3>
+              <h3 style="text-align: right; margin-top:-2%"><a href="/mainApp/register/" class="to_register">Register</a></h3>
             </form>
           </div>
 
-          <div id="register" class="animate form" style="padding:12px 6% 12px 6%">
+          <!-- <div id="register" class="animate form" style="padding:12px 6% 12px 6%">
             <form autocomplete="on">
               <h1 style="font-size: 2em">Sign Up</h1>
               <p>
@@ -72,7 +72,7 @@
                 <a href="#tologin" class="to_register"> Log In</a>
               </p>
             </form>
-          </div>
+          </div> -->
 
         </div>
       </div>
