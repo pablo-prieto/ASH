@@ -8,11 +8,6 @@ from .models import (User, Client, SubUser, Memory, Calendar,
                      Picture, Video, SpecialPerson)
 
 
-# class IndexView(generic.DetailView):
-#     model = User
-#     template_name = 'mainApp/index.html'
-
-
 def authenticateLogin(request):
     context = {"error": "must provide a valid username and password"}
     form = AuthenticateForm(request.POST)
@@ -42,18 +37,6 @@ def authenticateLogin(request):
     else:
         return render(request, "mainApp/login.html", context)
 
-
-def authenticateRegister(request):
-    form = RegistrationForm(request.POST)
-    if form.is_valid():
-        userid = form.cleaned_data.get('userid')
-        password = form.cleaned_data.get('password')
-        email = form.cleaned_data.get('email')
-        firstname = form.cleaned_data.get('firstname')
-        lastname = form.cleaned_data.get('lastname')
-    context = {"form": form}
-    return render(request, "register.html", context)
-
     # if request.method == 'POST':
     #     try:
     #         UserName = str(request.POST.get('username'))
@@ -72,6 +55,92 @@ def authenticateRegister(request):
     # else:
     #     return render(request, "mainApp/login_register.html", context)
     # coaches = User.objects.filter(MMR__range=(minRange,maxRange)).filter(coach__server=server, coach__champion=hero)
+
+
+
+def authenticateRegister(request):
+    return
+    # if request.is_ajax:
+    #     response_error = "Error getting your info from the form."
+    #
+    #     try:
+    #         userid = request.GET.get('userid')
+    #         password = request.GET.get('password')
+    #         email = request.GET.get('email')
+    #         pname = request.GET.get('pname')
+    #         skypeid = request.GET.get('skypeid')
+    #         twitchid = request.GET.get('twitchid')
+    #     except:
+    #         return HttpResponse(response_error)
+    #
+    #     try:
+    #         login_userid = User.objects.get(userid=userid)
+    #         return HttpResponse('input_error1')
+    #     except:
+    #         pass
+    #     try:
+    #         login_userid = User.objects.get(email=email)
+    #         return HttpResponse('input_error2')
+    #     except:
+    #         pass
+    #     try:
+    #         login_userid = User.objects.get(pname=pname)
+    #         return HttpResponse('input_error3')
+    #     except:
+    #         pass
+    #     try:
+    #         login_userid = User.objects.get(skypeid=skypeid)
+    #         return HttpResponse('input_error4')
+    #     except:
+    #         pass
+    #     try:
+    #         login_userid = User.objects.get(twitchid=twitchid)
+    #         return HttpResponse('input_error5')
+    #     except:
+    #         pass
+    #
+    #     summonerName = str(pname)
+    #     r = requests.get('https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/'+summonerName+'?api_key=8340953c-a577-4057-bcfb-962e98780cb1')
+    #     if r.status_code == 404:
+    #         return HttpResponse("404")
+    #     elif r.status_code == 400:
+    #         return HttpResponse("400")
+    #     elif r.status_code == 401:
+    #         return HttpResponse("401")
+    #     elif r.status_code == 429:
+    #         return HttpResponse("429")
+    #     elif r.status_code == 500:
+    #         return HttpResponse("500")
+    #     elif r.status_code == 503:
+    #         return HttpResponse("503")
+    #     else:
+    #         key = r.json()
+    #         summonerNameValue = key[summonerName]["name"]
+    #         summonerId = str(key[summonerName]["id"])
+    #         r = requests.get('https://na.api.pvp.net/api/lol/na/v2.5/league/by-summoner/'+summonerId+'/entry?api_key=8340953c-a577-4057-bcfb-962e98780cb1')
+    #         summonerInfo = r.json()
+    #         summonerRank = (summonerInfo[summonerId][0]["tier"]).lower()
+    #         summonerDivision = summonerInfo[summonerId][0]['entries'][0]['division']
+    #
+    #         rank = ""
+    #         for i in range(len(summonerRank)):
+    #             if i==0:
+    #                 rank+=(summonerRank[0]).upper()
+    #             else:
+    #                 rank+=summonerRank[i]
+    #
+    #         rank += " " + summonerDivision
+    #         user = User(userid=userid, password=password, email=email, pname=pname, rank=rank, skypeid=skypeid, twitchid=twitchid)
+    #         user.save()
+    #         # context = {"value":summonerRank,
+    #         #            "division":summonerDivision,
+    #         #            "name":summonerNameValue}
+    #         # return render(request, "authenticated.html", context)
+    #     return HttpResponse(userid)
+    # else:
+    #     raise Http404
+    # pass
+
 
 
 def index(request, user_id):
@@ -93,7 +162,17 @@ def login(request):
 
 
 def register(request):
-    return render(request, "mainApp/register.html")
+    form = RegistrationForm(request.POST)
+    # if form.is_valid():
+    #     user_name = form.cleaned_data.get('user_name')
+    #     # password = form.cleaned_data.get('password')
+    #     # email = form.cleaned_data.get('email')
+    #     # firstname = form.cleaned_data.get('firstname')
+    #     # lastname = form.cleaned_data.get('lastname')
+    # else:
+    #     print "Invalid form"
+    context = {"form": form}
+    return render(request, "register.html", context)
 
 
 def profile(request, user_id):
