@@ -16,7 +16,7 @@ class AuthenticateForm(forms.Form):
 class RegistrationForm(forms.Form):
     user_name = forms.CharField(max_length=50, widget=forms.TextInput(
         attrs={'id': 'input_user_name', 'name': 'input_user_name',
-               'class': "form-control", 'style': 'width:500px'}))
+               'class': "form-control"}))
 
     password = forms.CharField(max_length=100, widget=forms.PasswordInput(
         attrs={'id': 'input_password', 'name': 'input_password',
@@ -34,7 +34,9 @@ class RegistrationForm(forms.Form):
         attrs={'id': 'input_email', 'name': 'input_email',
                'class': "form-control", 'style': 'border:1px solid #D3D3D3'}))
 
-    birthdate = forms.DateField()
+    birthdate = forms.DateTimeField(widget=forms.DateInput(
+        attrs={'id': 'input_lastname', 'name': 'input_lastname',
+               'class': "form-control", 'style': 'border:1px solid #D3D3D3'}))
 
     phone_number = forms.CharField(widget=forms.TextInput(
         attrs={'id': 'input_phone_number', 'name': 'input_phone_number',
