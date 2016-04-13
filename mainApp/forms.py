@@ -34,9 +34,7 @@ class RegistrationForm(forms.Form):
         attrs={'id': 'input_email', 'name': 'input_email',
                'class': "form-control", 'style': 'border:1px solid #D3D3D3'}))
 
-    birthdate = forms.DateTimeField(widget=forms.DateInput(
-        attrs={'id': 'input_lastname', 'name': 'input_lastname',
-               'class': "form-control", 'style': 'border:1px solid #D3D3D3'}))
+    birthdate = forms.DateTimeField(widget=forms.SelectDateWidget())
 
     phone_number = forms.CharField(widget=forms.TextInput(
         attrs={'id': 'input_phone_number', 'name': 'input_phone_number',
