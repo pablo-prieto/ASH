@@ -1,0 +1,34 @@
+.row div {
+    padding-bottom:0.5em;
+}
+
+#wrap {
+    display: block;
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+#events-icons-section {
+    /*border: 1px solid #D2D5D6;*/
+    padding-left: 5em;
+}
+
+#even-icon {
+    border: none;
+    margin: 1em;
+    min-width: 12em;
+    max-width: 12em;
+    min-height: 13em;
+    max-height: 13em;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+}
+
+#even-icon img {
+    height: 10em;
+    width: 10em;
+    /*border: 1px solid #8C8C8C;*/
+    border-radius: 5px;
+    cursor: pointer;
+}

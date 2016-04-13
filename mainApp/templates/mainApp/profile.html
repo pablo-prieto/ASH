@@ -31,6 +31,7 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap-theme.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'profile-page/css/profile.css' %}">
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
   </head>
@@ -39,21 +40,21 @@
     <!-- Wrap the rest of the page in another container to center all the content. -->
     <div class="container marketing"><br>
         <!-- Sub User Profile Picture and Basic Info Section -->
-        <p style="font-family:serif; font-size:4em;" align="center">{{subuser.User.FirstName}} {{subuser.User.LastName}}</p><br>
+        <p style="font-family:serif; font-size:4em;" align="center">{{subuser_firstname}} {{subuser_lastname}}</p><br>
 
         <div class="row">
             <div class="col-md-4 text-center" style="width:42%; padding:0">
                 <br><br>
                 <div class="row">
                     <span class="text-muted" style="font-family:serif; font-size:1.2em;">
-                        <div class="col-md-4 text-center" style="width:100%;">Age: {{Age}}</div>
+                        <div class="col-md-4 text-center" style="width:100%;">Age: {{subuser_age}}</div>
                     </span>
                 </div>
                 <hr class="featurette-divider" style="margin:5px; border-color:#D1D0CE;">
             </div>
 
             <div class="col-md-4 text-center" style="width:16%; padding:1">
-                <img class="img-circle" src="/media/{{ProfilePicture}}" style="width:100%; border:1px solid #D1D0CE;">
+                <img class="img-circle" src="/media/{{subuser_profile_picture}}" style="width:100%; border:1px solid #D1D0CE;">
             </div>
 
             <div class="col-md-4 text-center" style="width:42%; padding:0">
@@ -61,7 +62,7 @@
                 <div class="row">
                     <span class="text-muted" style="font-family:serif; font-size:1.2em;">
                         <!-- <div class="col-md-4 text-center" style="width:30%;">Phone#: (917)341-2523</div> -->
-                        <div class="col-md-4 text-center" style="width:100%;">Relationship to {{subuserclient.User.FirstName}}: {{subuser.RelationshipToClient}}</div>
+                        <div class="col-md-4 text-center" style="width:100%;">Relationship to {{ client_firstname }}: {{ subuser_relationship }}</div>
                     </span>
                 </div>
                 <hr class="featurette-divider" style="margin:5px; border-color:#D1D0CE;">
@@ -85,45 +86,64 @@
                     <!-- About Me content -->
                     <div class="tab-pane active" id="aboutme">
                         <br><h4>Who Am I?</h4>
-                        {{ subuser.User.AboutMe }}
+                        {{ subuser_aboutme }}
                     </div>
 
                     <!-- Events -->
                     <div class="tab-pane" id="events">
                         <br><h4>Events We've Done Together:</h4><br>
-                        {% for memory in memories %}
-                            <img class="img-square" src="/media/{{ memory.pictures.0 }}" onclick="memoryDetail()" style="cursor: pointer; width:30%; border:1px solid #D1D0CE;">
-                            <h5>{{ memory.title }}</h5>
-
-                            <!-- Modal: Memory Details -->
-                            <div class="modal fade" id="memoryDetail" role="dialog">
-                                <div class="modal-dialog">
-                                    <!-- Modal content-->
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            <h4 class="modal-title">Event: {{memory.title}}</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <h4>Description</h4>
-                                            <p>{{ memory.description }}</p>
-                                            <h4>Date</h4>
-                                            <p>{{ memory.date }}</p>
-                                            <h4>Pictures</h4>
-                                            {% for picture in memory.pictures %}
-                                                <img class="img-square" src="/media/{{ memory.pictures.0 }}" style="width:30%; border:1px solid #D1D0CE;">
-                                            {% endfor %}
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <div id="events-icons-section">
+                        {% if memories %}
+                            {% for memory in memories %}
+                                {% if memory.pictures %}
+                                    <div id="even-icon">
+                                        <img class="img-square" src="/media/{{ memories.0.pictures.0 }}" onclick="memoryDetail()">
+                                        <div style="margin:5%;">{{ memory.title }}</div>
+                                    </div>
+                                {% else %}
+                                    <div id="even-icon">
+                                        <img class="img-square" src="{% static 'images/no_image.png' %}" onclick="memoryDetail()" style="border:1px solid #D2D5D6; border-radius:5px;">
+                                        <div style="margin:5%;">{{ memory.title }}</div>
+                                    </div>
+                                {% endif %}
+                                <!-- Modal: Memory Details -->
+                                <div class="modal fade" id="memoryDetail" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title" align="center">{{ memory.title }}</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h4>Description</h4>
+                                                <p>{{ memory.description }}</p>
+                                                <h4>Date</h4>
+                                                <p>{{ memory.date }}</p>
+                                                <h4>Pictures</h4>
+                                                {% if memory.pictures %}
+                                                    {% for picture in memory.pictures %}
+                                                        <img class="img-square" src="/media/{{ picture }}" style="width:30%; border:1px solid #D1D0CE;">
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <img class="img-square" src="{% static 'images/no_image.png' %}" onclick="memoryDetail()" style="cursor: pointer; width:30%; border:1px solid #D1D0CE;">
+                                                {% endif %}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                            {% endfor %}
+                            <div id="even-icon">
+                                <img class="img-square" src="{% static 'images/no_image.png' %}" style="border:1px solid #D2D5D6; border-radius:5px;">
                             </div>
-                        {% endfor %}
-
-
-
+                        {% else %}
+                            <div id="even-icon">
+                                <img class="img-square" src="{% static 'images/no_image.png' %}" style="border: 1px solid #D2D5D6; border-radius: 5px;">
+                            </div>
+                        {% endif %}
+                        </div>
                     </div>
 
                     <!-- Pictures -->
@@ -137,11 +157,11 @@
         </div>
         <br><br><br><br><br><br>
         <!-- End of Tabs Section for the Events -->
-
-
-        <!-- Calendar -->
-        {% include "calendar.html" %}
     </div>
+
+
+    <!-- Calendar -->
+    {% include "calendar.html" %}
 
 
     <!-- SCRIPTS -->

@@ -176,29 +176,37 @@ def register(request):
 
 
 def profile(request, user_id):
-    CurrentUser = User.objects.get(pk=user_id)
-    SubUserUser = SubUser.objects.get(User=CurrentUser)
-    SubUserClient = SubUserUser.Client
-    Today = date.today()
-    BirthDate = SubUserUser.User.BirthDate
-    Age = Today.year - BirthDate.year - ((Today.month, Today.day) < (BirthDate.month, BirthDate.day))
-    ProfilePic = SubUserUser.User.ProfilePicture
+    current_user = User.objects.get(pk=user_id)
+    subuser_user = SubUser.objects.get(User=current_user)
+    client_user = subuser_user.Client
+    today = date.today()
+    birthdate = subuser_user.User.BirthDate
+    age = today.year - birthdate.year - ((today.month, today.day) < (birthdate.month, birthdate.day))
 
-    spec_filter_mem = {'SubUser':user_id}
-    Memories = Memory.objects.filter(**spec_filter_mem)
-
+    spec_filter_mem = {'SubUser': subuser_user}
+    memories = Memory.objects.filter(**spec_filter_mem)
     memory_list = []
-    for memory in Memories:
-        spec_filter_pic = {'Memory':memory}
-        Pictures = Picture.objects.filter(**spec_filter_pic)
+
+    for memory in memories:
+        spec_filter_pic = {'Memory': memory}
+        pictures = Picture.objects.filter(**spec_filter_pic)
         pictures_list = []
-        for picture in Pictures:
+        for picture in pictures:
             pictures_list.append(picture.Picture)
-        memory_list.append({'title':memory.Title, 'description':memory.Description, 'date':memory.Date, 'pictures':pictures_list})
+        memory_list.append({'title': memory.Title, 'description': memory.Description, 'date': memory.Date, 'pictures': pictures_list})
 
+    context = {
+        'subuser_firstname': current_user.FirstName,
+        'subuser_lastname': current_user.LastName,
+        'subuser_profile_picture': current_user.ProfilePicture,
+        'subuser_age': age,
+        'subuser_aboutme': current_user.AboutMe,
+        'subuser_relationship': subuser_user.RelationshipToClient,
+        'client_firstname': client_user.User.FirstName,
+        'client_lastname': client_user.User.LastName,
+        'memories': memory_list
+    }
 
-    Pictures = Picture.objects.all()
-    context = {'subuser':SubUserUser, 'subuserclient':SubUserClient, 'Age':Age, 'ProfilePicture':ProfilePic, 'memories':memory_list,}
     return render(request, 'mainApp/profile.html', context)
 
 
