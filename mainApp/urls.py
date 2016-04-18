@@ -14,10 +14,6 @@ urlpatterns = [
         name='authenticateLogin'),
     url(r'^authenticateRegister/', views.authenticateRegister,
         name='authenticateRegister'),
-    # ex: /polls/5/
-    # url(r'^(?P<user_id>[0-9]+)/$', views.detail, name='detail'),
-    # ex: /polls/5/results/
-    url(r'^(?P<user_id>[0-9]+)/results/$', views.results, name='results'),
-    # ex: /polls/5/vote/
-    url(r'^(?P<user_id>[0-9]+)/vote/$', views.vote, name='vote'),
+    # url(r'^(?P<user_id>[0-9]+)/results/$', views.results, name='results'),
+    # url(r'^(?P<user_id>[0-9]+)/vote/$', views.vote, name='vote'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
