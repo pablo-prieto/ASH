@@ -6,7 +6,7 @@
   <meta name="description">
 
   {% load static from staticfiles %}
-  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" >
+  <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" >
   <link rel="stylesheet" href="{% static 'css/bootstrap-theme.min.css' %}">
 
   <style>
@@ -33,54 +33,66 @@
       <br>
       <p>Please provide the following information so that you can start using our
         services.</p>
+        <br>
         <form id="form_register" type="GET" action="/sideapp/authenticateRegister/" method="get">
           <div class="input-group" style="width:50%; padding:0%;">
-            <span class="input-group-addon" id="basic-addon1" style="width:50px">User Name</span>
+            <span class="input-group-addon" style="width:100px; margin-top:2px; border:none; background-color:white; vertical-align:top;">Are you a(n): </span>
+            {% for radio in form.client_or_subuser %}
+            <div align="left" style="margin-left:20px">
+                {{ radio }}
+            </div>
+            {% endfor %}
+          </div>
+          <div id='family_friend' class="input-group" style="width:50%; padding:0%;">
+          </div>
+          <br>
+          <div class="input-group" style="width:50%; padding:0%;">
+            <span class="input-group-addon" style="width:100px;">User Name</span>
             {{ form.user_name }}
           </div>
           <br>
           <div class="input-group" style="width:50%; padding:0%;">
-            <span class="input-group-addon" id="basic-addon1" style="width:100px">Password</span>
+            <span class="input-group-addon" style="width:100px">Password</span>
             {{ form.password }}
           </div>
           <br>
           <div class="input-group" style="width:50%; padding:0%;">
-            <span class="input-group-addon" id="basic-addon1" style="width:100px">First Name</span>
+            <span class="input-group-addon" style="width:100px">First Name</span>
             {{ form.firstname }}
           </div>
           <br>
           <div class="input-group" style="width:50%; padding:0%;">
-            <span class="input-group-addon" id="basic-addon1" style="width:100px">Last Name</span>
+            <span class="input-group-addon" style="width:100px">Last Name</span>
             {{ form.lastname }}
           </div>
           <br>
           <div class="input-group" style="width:50%; padding:0%;">
-            <span class="input-group-addon" id="basic-addon1" style="width:100px">Email</span>
+            <span class="input-group-addon" style="width:100px">Email</span>
             {{ form.email }}
           </div>
           <br>
-          <div class="input-group" style="width:50%; padding:0%;">
-            <span class="input-group-addon" id="basic-addon1" style="width:100px">Birthdate</span>
+          <div class="input-group" style="width:36%; padding:0%; margin-left:-130px">
+            <span class="input-group-addon" style="width:100px;">Birthdate</span>
             {{ form.birthdate }}
           </div>
           <br>
           <div class="input-group" style="width:50%; padding:0%;">
-            <span class="input-group-addon" id="basic-addon1" style="width:100px">Phone Number</span>
+            <span class="input-group-addon" style="width:100px">Phone #</span>
             {{ form.phone_number }}
           </div>
           <br>
           <div class="input-group" style="width:50%; padding:0%;">
-            <span class="input-group-addon" id="basic-addon1" style="width:100px">Address</span>
+            <span class="input-group-addon" style="width:100px">Address</span>
             {{ form.address }}
           </div>
           <br>
           <div class="input-group" style="width:50%; padding:0%;">
-            <span class="input-group-addon" id="basic-addon1" style="width:100px">Profile Picture</span>
+            <span class="input-group-addon" style="width:100px">Profile Pic</span>
             {{ form.profile_picture }}
           </div>
           <br>
           <div class="input-group" style="width:50%; padding:0%;">
-            <span class="input-group-addon" id="basic-addon1" style="width:100px">About Me</span>
+            <span class="input-group-addon" style="width:100px">About Me</span>
             {{ form.about_me }}
           </div>
           <br>
@@ -89,6 +101,7 @@
           <div class="input-group" style="width:65%; padding:0%;">
             <input type='submit' value='Register!' id='login_button' class='btn btn-default' style='width:30%; background-color:#D3D3D3; color:black'>
           </div>
+          <br>
         </form>
         <div id="form_register_error_message"></div>
       </div>
@@ -176,3 +189,19 @@
     });
   });
   </script>
+  <script>
+  $(document).ready(function() {
+    $('input[type=radio][name=client_or_subuser]').change(function() {
+        if (this.value == 'Family_Friend') {
+            $('#family_friend').show();
+            document.getElementById("family_friend").innerHTML =
+              "<span class='input-group-addon' style='background-color:white; border:none; width:100px;'>Reference ID</span>"+
+              "<input class='form-control' id='input_user_name' maxlength='50' name='user_name' style='border:1px solid #D3D3D3; border-top-left-radius: 0; border-bottom-left-radius: 0; margin-left:20px' type='text'><br>";
+        }
+
+        else if (this.value == 'Client') {
+            $('#family_friend').hide();
+        }
+    });
+});
+</script>
