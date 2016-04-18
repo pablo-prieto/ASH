@@ -71,7 +71,7 @@
         <!-- End of Sub User Profile Picture and Basic Info Section -->
 
 
-        <!-- Tabs Section for the Events, Pictures, and Description of the  Sub-user (about me)-->
+        <!-- Tabs Section for the even-icons, Pictures, and Description of the  Sub-user (about me)-->
         <div class="panel panel-default" style="margin-right:15%; margin-left:15%;" align="center">
             <div id="content" class="panel-body" style="margin-right:2%; margin-left:2%; text-align:left">
                 <!-- Tab Headers -->
@@ -96,12 +96,12 @@
                         {% if memories %}
                             {% for memory in memories %}
                                 {% if memory.pictures %}
-                                    <div id="even-icon">
+                                    <div id="event-icon">
                                         <img class="img-square" src="/media/{{ memories.0.pictures.0 }}" onclick="memoryDetail()">
                                         <div style="margin:5%;">{{ memory.title }}</div>
                                     </div>
                                 {% else %}
-                                    <div id="even-icon">
+                                    <div id="event-icon">
                                         <img class="img-square" src="{% static 'images/no_image.png' %}" onclick="memoryDetail()" style="border:1px solid #D2D5D6; border-radius:5px;">
                                         <div style="margin:5%;">{{ memory.title }}</div>
                                     </div>
@@ -122,10 +122,10 @@
                                                 <h4>Pictures</h4>
                                                 {% if memory.pictures %}
                                                     {% for picture in memory.pictures %}
-                                                        <img class="img-square" src="/media/{{ picture }}" style="width:30%; border:1px solid #D1D0CE;">
+                                                        <img class="img-square" src="/media/{{ picture }}" onclick="addPictureToMemory()" style="cursor: pointer; width:30%; border:1px solid #D1D0CE; border-radius:5px;">
                                                     {% endfor %}
                                                 {% else %}
-                                                    <img class="img-square" src="{% static 'images/no_image.png' %}" onclick="memoryDetail()" style="cursor: pointer; width:30%; border:1px solid #D1D0CE;">
+                                                    <img class="img-square" src="{% static 'images/no_image.png' %}" onclick="addPictureToMemory()" style="cursor: pointer; width:30%; border:1px solid #D1D0CE; border-radius:5px;">
                                                 {% endif %}
                                             </div>
                                             <div class="modal-footer">
@@ -135,14 +135,80 @@
                                     </div>
                                 </div>
                             {% endfor %}
-                            <div id="even-icon">
-                                <img class="img-square" src="{% static 'images/no_image.png' %}" style="border:1px solid #D2D5D6; border-radius:5px;">
+                            <div id="plus-icon">
+                                <img class="img-square" src="{% static 'images/plus-icon.png' %}" onclick="addMemory()">
                             </div>
                         {% else %}
-                            <div id="even-icon">
-                                <img class="img-square" src="{% static 'images/no_image.png' %}" style="border: 1px solid #D2D5D6; border-radius: 5px;">
+                            <div id="plus-icon">
+                                <img class="img-square" src="{% static 'images/plus-icon.png' %}" onclick="addMemory()">
                             </div>
                         {% endif %}
+                        </div>
+
+                        <!-- Modal: Add New Memory -->
+                        <div class="modal fade" id="addMemory" role="dialog">
+                            <div class="modal-dialog">
+                                <!-- Modal Content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title" align="center"><strong>Add New Memory</strong></h4>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <!-- Modal Body -->
+                                    <div class="modal-body" style="padding-left:7%; padding-right:7%" align="center">
+                                        <!-- Input: Memory title input field-->
+                                        <div class="input-group">
+                                            <span class="input-group-addon" style="width:8em; color:black; padding-left:1em; padding-right:1.2em;">Title</span>
+                                            <input class="form-control" id="event-title-input" type="text" aria-label="..." maxlength="30" placeholder="Enter a meaningful title..(max 30 chars)" value="" style="width:28em;">
+                                        </div>
+                                        <br>
+                                        <!-- Input: Description input field -->
+                                        <div class="input-group">
+                                            <span class="input-group-addon" style="color:black;">Description</span>
+                                            <input class="form-control" id="description-input" type="text"  aria-label="..." maxlength="500" placeholder="Please, be as specific as possible. Details help a lot..(max 500 chars)" value="">
+                                        </div>
+                                        <br>
+                                        <!-- Input: Subusers input field -->
+                                        <div class="input-group">
+                                            <span class="input-group-addon" style="color:black; padding-left:1em; padding-right:1.2em;">Sub-Users</span>
+                                            <input id="subusers-input" type="text" class="form-control" aria-label="..." placeholder="Separate users with commas..." value="">
+                                        </div>
+                                        <br>
+                                        <!-- DatePicker -->
+                                         <div id="datepicker" class="input-daterange input-group">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                            <input class="input-sm form-control" id="input-datestart" name="start" type="text" readonly/>
+                                            <span class="input-group-addon">to</span>
+                                            <input class="input-sm form-control" id="input-dateend" name="end" type="text" readonly/>
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                        <!-- TimePickers -->
+                                        <div id="timepicker" class="input-timerange input-group">
+                                            <span class="input-group-addon clockpicker"><i class="glyphicon glyphicon-time"></i></span>
+                                            <span class="input-group clockpicker" data-placement="bottom" data-align="right" data-donetext="Done">
+                                                <input class="form-control" id="input-eventbegintime" type="text" placeholder="Begin Time" value="" readonly>
+                                            </span>
+                                            <span class="input-group-addon">to</span>
+                                            <span class="input-group clockpicker" data-placement="bottom" data-align="left" data-donetext="Done">
+                                                <input class="form-control" id="input-eventendtime" type="text" placeholder="End Time" value="" readonly>
+                                            </span>
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                        </div>
+                                        <!-- Checkbox: All day option  -->
+                                        <div class="checkbox">
+                                            <label>
+                                                <input id="checkbox-alldayevent"class="checkbox" type="checkbox" checked="true"><span style="font-size:1em">All Day Event</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <!-- Modal Footer -->
+                                    <div class="modal-footer">
+                                        <!-- Buttons: Create event & Cancel -->
+                                        <button id="create-event-button" type="button" class="btn btn-default">Create</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -168,6 +234,10 @@
     <script type="text/javascript">
         function memoryDetail() {
             $('#memoryDetail').modal('show');
+        }
+
+        function addMemory() {
+            $('#addMemory').modal('show');
         }
     </script>
 </body>
