@@ -1,11 +1,10 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from django.views import generic
 from django.core.urlresolvers import reverse
 from datetime import date
 from .forms import *
-from .models import (User, Client, SubUser, Memory, Calendar,
-                     Picture, Video, SpecialPerson)
+from .models import (User, Client, SubUser, Memory,
+                     Picture)
 
 
 def authenticateLogin(request):
@@ -15,23 +14,22 @@ def authenticateLogin(request):
 
     if form.is_valid():
         try:
-            UserName = form.cleaned_data.get('user_name')
-            Password = form.cleaned_data.get('password')
-            print UserName
+            user_name = form.cleaned_data.get('user_name')
+            password = form.cleaned_data.get('password')
+            print user_name
             print Password
-            CurrentUser = User.objects.get(
-                UserName=UserName, Password=Password)
-
+            current_user = User.objects.get(UserName=user_name,
+                                            Password=password)
             try:
-                ClientUser = Client.objects.get(User=CurrentUser)
-                print "counted as client"
+                # client_user = Client.objects.get(User=current_user)
+                # print "counted as client"
                 return HttpResponseRedirect(
-                    reverse('index', args=(CurrentUser.id,)))
+                    reverse('index', args=(current_user.id,)))
             except:
-                SubUserUser = SubUser.objects.get(User=CurrentUser)
-                print "counted as subuser"
+                # subuser_user = SubUser.objects.get(User=current_user)
+                # print "counted as subuser"
                 return HttpResponseRedirect(
-                    reverse('profile', args=(CurrentUser.id,)))
+                    reverse('profile', args=(current_user.id,)))
         except:
                 return render(request, "mainApp/login.html", context)
     else:
@@ -41,21 +39,23 @@ def authenticateLogin(request):
     #     try:
     #         UserName = str(request.POST.get('username'))
     #         Password = str(request.POST.get('password'))
-    #         CurrentUser = User.objects.get(UserName=UserName, Password=Password)
+    #         current_user = User.objects.get(UserName=UserName,
+    #                                         Password=password)
     #         try:
-    #             ClientUser = Client.objects.get(User=CurrentUser)
+    #             client_user = Client.objects.get(User=current_user)
     #             print "counted as client"
-    #             return HttpResponseRedirect(reverse('index', args=(CurrentUser.id,)))
+    #             return HttpResponseRedirect(reverse('index',
+    #                                                 args=(current_user.id,)))
     #         except:
-    #             SubUserUser = SubUser.objects.get(User=CurrentUser)
+    #             subuser_user = SubUser.objects.get(User=current_user)
     #             print "counted as subuser"
-    #             return HttpResponseRedirect(reverse('profile', args=(CurrentUser.id,)))
+    #             return HttpResponseRedirect(reverse('profile',
+    #                                                 args=(current_user.id,)))
     #     except:
     #         return render(request, "mainApp/login_register.html", context)
     # else:
     #     return render(request, "mainApp/login_register.html", context)
     # coaches = User.objects.filter(MMR__range=(minRange,maxRange)).filter(coach__server=server, coach__champion=hero)
-
 
 
 def authenticateRegister(request):
@@ -142,18 +142,16 @@ def authenticateRegister(request):
     # pass
 
 
-
 def index(request, user_id):
-    CurrentUser = User.objects.get(pk=user_id)
-    ClientUser = Client.objects.get(User=CurrentUser)
-    ListOfSubUsers = SubUser.objects.filter(Client=ClientUser)
-    ListOfFriends = ListOfSubUsers.filter(RelationshipToClient="Friend")
-    ListOfFamilyMembers = ListOfSubUsers.exclude(RelationshipToClient="Friend")
-    # FavoritePeople = ListOfSubUsers.exclude(RelationshipToClient="Friend")
+    current_user = User.objects.get(pk=user_id)
+    client_user = Client.objects.get(User=current_user)
+    list_subusers = SubUser.objects.filter(Client=client_user)
+    list_friends = list_subusers.filter(RelationshipToClient="Friend")
+    list_family_members = list_subusers.exclude(RelationshipToClient="Friend")
+    # FavoritePeople = list_subusers.exclude(RelationshipToClient="Friend")
     # Favorite1 = FavoritePeople.filter(User=)
-    context = {'client': ClientUser, 'ListOfFriends': ListOfFriends,
-               'ListOfFamilyMembers': ListOfFamilyMembers}
-    # coaches = User.objects.filter(MMR__range=(minRange,maxRange)).filter(coach__server=server, coach__champion=hero)
+    context = {'client': client_user, 'list_friends': list_friends,
+               'list_family_members': list_family_members}
     return render(request, "mainApp/index.html", context)
 
 
@@ -191,9 +189,16 @@ def profile(request, user_id):
         spec_filter_pic = {'Memory': memory}
         pictures = Picture.objects.filter(**spec_filter_pic)
         pictures_list = []
+
         for picture in pictures:
             pictures_list.append(picture.Picture)
-        memory_list.append({'title': memory.Title, 'description': memory.Description, 'date': memory.Date, 'pictures': pictures_list})
+
+        memory_list.append({
+            'title': memory.Title,
+            'description': memory.Description,
+            'date': memory.Date,
+            'pictures': pictures_list
+        })
 
     context = {
         'subuser_firstname': current_user.FirstName,
