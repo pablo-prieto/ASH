@@ -36,6 +36,17 @@
         <br>
         <form id="form_register" type="GET" action="/sideapp/authenticateRegister/" method="get">
           <div class="input-group" style="width:50%; padding:0%;">
+            <span class="input-group-addon" style="width:100px; margin-top:2px; border:none; background-color:white; vertical-align:top;">Are you a(n): </span>
+            {% for radio in form.client_or_subuser %}
+            <div align="left" style="margin-left:20px">
+                {{ radio }}
+            </div>
+            {% endfor %}
+          </div>
+          <div id='family_friend' class="input-group" style="width:50%; padding:0%;">
+          </div>
+          <br>
+          <div class="input-group" style="width:50%; padding:0%;">
             <span class="input-group-addon" style="width:100px;">User Name</span>
             {{ form.user_name }}
           </div>
@@ -178,3 +189,19 @@
     });
   });
   </script>
+  <script>
+  $(document).ready(function() {
+    $('input[type=radio][name=client_or_subuser]').change(function() {
+        if (this.value == 'Family_Friend') {
+            $('#family_friend').show();
+            document.getElementById("family_friend").innerHTML =
+              "<span class='input-group-addon' style='background-color:white; border:none; width:100px;'>Reference ID</span>"+
+              "<input class='form-control' id='input_user_name' maxlength='50' name='user_name' style='border:1px solid #D3D3D3; border-top-left-radius: 0; border-bottom-left-radius: 0; margin-left:20px' type='text'><br>";
+        }
+
+        else if (this.value == 'Client') {
+            $('#family_friend').hide();
+        }
+    });
+});
+</script>

@@ -9,6 +9,7 @@ BIRTH_YEARS = ('1980', '1981', '1982', '1983', '1984', '1985', '1986', '1987',
                '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011',
                '2012', '2013', '2014', '2015', '2016')
 
+
 class AuthenticateForm(forms.Form):
     user_name = forms.CharField(max_length=100, widget=forms.TextInput(
         attrs={'id': 'input_user_name', 'name': 'input_user_name',
@@ -19,6 +20,11 @@ class AuthenticateForm(forms.Form):
 
 
 class RegistrationForm(forms.Form):
+    client_or_subuser = forms.ChoiceField(
+        widget=forms.RadioSelect(attrs={'style': ''}),
+        choices=[['Client', 'Alzheimer Patient'],
+                 ['Family_Friend', 'Family/Friend member']])
+
     user_name = forms.CharField(max_length=50, widget=forms.TextInput(
         attrs={'id': 'input_user_name', 'name': 'input_user_name',
                'class': "form-control",
