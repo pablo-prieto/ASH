@@ -92,16 +92,16 @@
                         <div class="modal-body">
                             <!-- <p>Icons with their faces. (clickable/link) </p> -->
                             <ul>
-                              {% if ListOfFamilyMembers %}
-                              {% for member in ListOfFamilyMembers %}
-                              <br>
-                              <li style="list-style: none"><a href="/mainApp/{{member.User.id}}/profile/">
-                                <img class="img-circle" src="/media/{{member.User.ProfilePicture}}" style="width:10%; border:1px solid #D1D0CE;">
-                                {{member.User.FirstName}} {{member.User.LastName}} ({{member.RelationshipToClient}})</a>
-                              </li>
-                              {% endfor %}
+                              {% if list_family_members %}
+                                  {% for member in list_family_members %}
+                                        <br>
+                                        <li style="list-style: none"><a href="/mainApp/{{member.User.id}}/profile/">
+                                            <img class="img-circle" src="/media/{{member.User.ProfilePicture}}" style="width:10%; border:1px solid #D1D0CE;">
+                                            {{member.User.FirstName}} {{member.User.LastName}} ({{member.RelationshipToClient}})</a>
+                                        </li>
+                                  {% endfor %}
                               {% else %}
-                              <p>No Family available.</p>
+                                  <p>No Family available.</p>
                               {% endif %}
                             </ul>
                             <!-- <p>Short description.</p> -->
@@ -130,16 +130,16 @@
                         <div class="modal-body">
                             <!-- <p>Icons with their faces. (clickable/link) </p> -->
                             <ul>
-                              {% if ListOfFriends %}
-                              {% for friend in ListOfFriends %}
-                              <br>
-                              <li style="list-style: none"><a href="/mainApp/{{friend.User.id}}/profile/">
-                                <img class="img-circle" src="/media/{{friend.User.ProfilePicture}}" style="width:10%; border:1px solid #D1D0CE;">
-                                {{friend.User.FirstName}} {{friend.User.LastName}} ({{friend.RelationshipToClient}})</a>
-                              </li>
-                              {% endfor %}
+                              {% if list_friends %}
+                                  {% for friend in list_friends %}
+                                      <br>
+                                      <li style="list-style: none"><a href="/mainApp/{{friend.User.id}}/profile/">
+                                            <img class="img-circle" src="/media/{{friend.User.ProfilePicture}}" style="width:10%; border:1px solid #D1D0CE;">
+                                            {{friend.User.FirstName}} {{friend.User.LastName}} ({{friend.RelationshipToClient}})</a>
+                                      </li>
+                                  {% endfor %}
                               {% else %}
-                              <p>No Family available.</p>
+                                  <p>No Family available.</p>
                               {% endif %}
                             </ul>
                             <!-- <p>Short description.</p> -->
@@ -205,9 +205,9 @@
         <div class="row">
             <!-- Icon & Button: Special Person One -->
             <div class="col-md-4 text-center">
-              <a href="/mainApp/{{ListOfFamilyMembers.1.User.id}}/profile/">
-                <img class="img-circle" src="/media/{{ListOfFamilyMembers.1.User.ProfilePicture}}" style="width:50%; border:1px solid #D1D0CE;">
-                <h2>{{ListOfFamilyMembers.1.User.FirstName}} {{ListOfFamilyMembers.1.User.LastName}}</h2>
+              <a href="/mainApp/{{list_family_members.1.User.id}}/profile/">
+                <img class="img-circle" src="/media/{{list_family_members.1.User.ProfilePicture}}" style="width:50%; border:1px solid #D1D0CE;">
+                <h2>{{list_family_members.1.User.FirstName}} {{list_family_members.1.User.LastName}}</h2>
                 <p>My lovely Grand Son.</p>
               </a>
                 <p><a class="btn btn-default" data-toggle="modal" data-target="#SpecialPersonOne">View details »</a></p>
@@ -234,9 +234,9 @@
 
             <!-- Icon & Button: Special Person Two -->
             <div class="col-md-4 text-center">
-              <a href="/mainApp/{{ListOfFamilyMembers.0.User.id}}/profile/">
-                <img class="img-circle" src="/media/{{ListOfFamilyMembers.0.User.ProfilePicture}}" style="width:50%; border:1px solid #D1D0CE;">
-                <h2>{{ListOfFamilyMembers.0.User.FirstName}} {{ListOfFamilyMembers.0.User.LastName}}</h2>
+              <a href="/mainApp/{{list_family_members.0.User.id}}/profile/">
+                <img class="img-circle" src="/media/{{list_family_members.0.User.ProfilePicture}}" style="width:50%; border:1px solid #D1D0CE;">
+                <h2>{{list_family_members.0.User.FirstName}} {{list_family_members.0.User.LastName}}</h2>
                 <p>My lovely Grand Daughter.</p>
               </a>
               <a class="btn btn-default" data-toggle="modal" data-target="#SpecialPersonTwo">View details »</a></p>
@@ -264,7 +264,7 @@
             <!-- Icon & Button: Special Person Three -->
             <div class="col-md-4 text-center">
               <a href="/mainApp/2/">
-                <img class="img-circle" src="{% static 'images/add_favorite.jpg' %}" style="width:50%; border:1px solid #D1D0CE;">
+                <img class="img-circle" src="{% static 'images/plus-icon.png' %}" style="width:50%; border:1px solid #D1D0CE;">
                 <!-- <h2>Kathy Jones</h2>
                 <p>Best friend ever since childhood. Can't ask for a better friend in my life.</p> -->
                 <!-- <p><a class="btn btn-default" data-toggle="modal" data-target="#SpecialPersonThree">View details »</a></p> -->

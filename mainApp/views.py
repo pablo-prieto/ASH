@@ -7,6 +7,10 @@ from .models import (User, Client, SubUser, Memory,
                      Picture)
 
 
+def login(request):
+    return render(request, 'mainApp/login.html')
+
+
 def authenticateLogin(request):
     context = {"error": "must provide a valid username and password"}
     form = AuthenticateForm(request.POST)
@@ -16,8 +20,6 @@ def authenticateLogin(request):
         try:
             user_name = form.cleaned_data.get('user_name')
             password = form.cleaned_data.get('password')
-            print user_name
-            print Password
             current_user = User.objects.get(UserName=user_name,
                                             Password=password)
             try:
@@ -56,6 +58,20 @@ def authenticateLogin(request):
     # else:
     #     return render(request, "mainApp/login_register.html", context)
     # coaches = User.objects.filter(MMR__range=(minRange,maxRange)).filter(coach__server=server, coach__champion=hero)
+
+
+def register(request):
+    form = RegistrationForm(request.POST)
+    # if form.is_valid():
+    #     user_name = form.cleaned_data.get('user_name')
+    #     # password = form.cleaned_data.get('password')
+    #     # email = form.cleaned_data.get('email')
+    #     # firstname = form.cleaned_data.get('firstname')
+    #     # lastname = form.cleaned_data.get('lastname')
+    # else:
+    #     print "Invalid form"
+    context = {"form": form}
+    return render(request, "register.html", context)
 
 
 def authenticateRegister(request):
@@ -150,27 +166,12 @@ def index(request, user_id):
     list_family_members = list_subusers.exclude(RelationshipToClient="Friend")
     # FavoritePeople = list_subusers.exclude(RelationshipToClient="Friend")
     # Favorite1 = FavoritePeople.filter(User=)
-    context = {'client': client_user, 'list_friends': list_friends,
-               'list_family_members': list_family_members}
+    context = {
+        'client': client_user,
+        'list_friends': list_friends,
+        'list_family_members': list_family_members
+    }
     return render(request, "mainApp/index.html", context)
-
-
-def login(request):
-    return render(request, 'mainApp/login.html')
-
-
-def register(request):
-    form = RegistrationForm(request.POST)
-    # if form.is_valid():
-    #     user_name = form.cleaned_data.get('user_name')
-    #     # password = form.cleaned_data.get('password')
-    #     # email = form.cleaned_data.get('email')
-    #     # firstname = form.cleaned_data.get('firstname')
-    #     # lastname = form.cleaned_data.get('lastname')
-    # else:
-    #     print "Invalid form"
-    context = {"form": form}
-    return render(request, "register.html", context)
 
 
 def profile(request, user_id):
