@@ -25,7 +25,7 @@ class User(models.Model):
 
 class Client(models.Model):
     User = models.ForeignKey(User)
-    Token = models.CharField(max_length=18, blank=False, null=False)
+    Reference_ID = models.CharField(max_length=18, blank=False, null=False)
     CreatedDate = models.DateTimeField(auto_now_add=False, auto_now="True")
 
     def __unicode__(self):

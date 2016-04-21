@@ -34,7 +34,7 @@
       <p>Please provide the following information so that you can start using our
         services.</p>
         <br>
-        <form id="form_register" type="GET" action="/sideapp/authenticateRegister/" method="get">
+        <form id="form_register" type="GET" action="/mainApp/authenticateRegister/" method="get">
           <div class="input-group" style="width:50%; padding:0%;">
             <span class="input-group-addon" style="width:100px; margin-top:2px; border:none; background-color:white; vertical-align:top;">Are you a(n): </span>
             {% for radio in form.client_or_subuser %}
@@ -91,15 +91,10 @@
             {{ form.profile_picture }}
           </div>
           <br>
-          <div class="input-group" style="width:50%; padding:0%;">
-            <span class="input-group-addon" style="width:100px">About Me</span>
-            {{ form.about_me }}
-          </div>
-          <br>
           <br>
           <br>
           <div class="input-group" style="width:65%; padding:0%;">
-            <input type='submit' value='Register!' id='login_button' class='btn btn-default' style='width:30%; background-color:#D3D3D3; color:black'>
+            <input type='submit' value='Register!' id='register_button' class='btn btn-default' style='width:30%; background-color:#D3D3D3; color:black'>
           </div>
           <br>
         </form>
@@ -130,56 +125,56 @@
         type: 'GET',
         url: $(form).attr('action'),
         data: formData,
-        dataType:'text',
+        dataType:'json',
       })
       .done(function(response){
-        if (response == 'input_error1'){
-          var message = "User already exists! Try again.";
-          $(formMessages).html("<br><div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"+message+"</div>");
-        }
-        else if (response == "input_error2") {
-          var message = "Email already exists! Try again.";
-          $(formMessages).html("<br><div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"+message+"</div>");
-        }
-        else if (response == "input_error3") {
-          var message = "Summoner Name already exists! Try again.";
-          $(formMessages).html("<br><div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"+message+"</div>");
-        }
-        else if (response == "input_error4") {
-          var message = "Skypeid already exists! Try again.";
-          $(formMessages).html("<br><div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"+message+"</div>");
-        }
-        else if (response == "input_error5") {
-          var message = "Twitchid already exists! Try again.";
-          $(formMessages).html("<br><div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"+message+"</div>");
-        }
-        else if (response == "404") {
-          var message = "Invalid Summoner name";
-          $(formMessages).html("<br><div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"+message+"</div>");
-        }
-        else if (response == "400") {
-          var message = "Invalid Summoner name";
-          $(formMessages).html("<br><div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"+message+"</div>");
-        }
-        else if (response == "401") {
-          var message = "Invalid Summoner name";
-          $(formMessages).html("<br><div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"+message+"</div>");
-        }
-        else if (response == "429") {
-          var message = "Invalid Summoner name";
-          $(formMessages).html("<br><div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"+message+"</div>");
-        }
-        else if (response == "500") {
-          var message = "Invalid Summoner name";
-          $(formMessages).html("<br><div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"+message+"</div>");
-        }
-        else if (response == "503") {
-          var message = "Invalid Summoner name";
-          $(formMessages).html("<br><div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"+message+"</div>");
-        }
+        // if (response == 'input_error1'){
+        //   var message = "User already exists! Try again.";
+        //   $(formMessages).html("<br><div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"+message+"</div>");
+        // }
+        // else if (response == "input_error2") {
+        //   var message = "Email already exists! Try again.";
+        //   $(formMessages).html("<br><div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"+message+"</div>");
+        // }
+        // else if (response == "input_error3") {
+        //   var message = "Summoner Name already exists! Try again.";
+        //   $(formMessages).html("<br><div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"+message+"</div>");
+        // }
+        // else if (response == "input_error4") {
+        //   var message = "Skypeid already exists! Try again.";
+        //   $(formMessages).html("<br><div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"+message+"</div>");
+        // }
+        // else if (response == "input_error5") {
+        //   var message = "Twitchid already exists! Try again.";
+        //   $(formMessages).html("<br><div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"+message+"</div>");
+        // }
+        // else if (response == "404") {
+        //   var message = "Invalid Summoner name";
+        //   $(formMessages).html("<br><div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"+message+"</div>");
+        // }
+        // else if (response == "400") {
+        //   var message = "Invalid Summoner name";
+        //   $(formMessages).html("<br><div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"+message+"</div>");
+        // }
+        // else if (response == "401") {
+        //   var message = "Invalid Summoner name";
+        //   $(formMessages).html("<br><div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"+message+"</div>");
+        // }
+        // else if (response == "429") {
+        //   var message = "Invalid Summoner name";
+        //   $(formMessages).html("<br><div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"+message+"</div>");
+        // }
+        // else if (response == "500") {
+        //   var message = "Invalid Summoner name";
+        //   $(formMessages).html("<br><div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"+message+"</div>");
+        // }
+        // else if (response == "503") {
+        //   var message = "Invalid Summoner name";
+        //   $(formMessages).html("<br><div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"+message+"</div>");
+        // }
         else{
           console.log(response)
-          window.location.assign('/sideapp/authenticated/'+response);
+          window.location.assign('/mainApp/'+response+'profile');
         }
       })
       .fail(function(response){
@@ -196,7 +191,7 @@
             $('#family_friend').show();
             document.getElementById("family_friend").innerHTML =
               "<span class='input-group-addon' style='background-color:white; border:none; width:100px;'>Reference ID</span>"+
-              "<input class='form-control' id='input_user_name' maxlength='50' name='user_name' style='border:1px solid #D3D3D3; border-top-left-radius: 0; border-bottom-left-radius: 0; margin-left:20px' type='text'><br>";
+              "<input class='form-control' id='reference_id' maxlength='50' name='reference_id' style='border:1px solid #D3D3D3; border-top-left-radius: 0; border-bottom-left-radius: 0; margin-left:20px' type='text'><br>";
         }
 
         else if (this.value == 'Client') {

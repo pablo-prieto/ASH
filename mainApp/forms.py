@@ -66,8 +66,3 @@ class RegistrationForm(forms.Form):
 
     profile_picture = forms.ImageField(widget=forms.FileInput(
         attrs={'style': 'margin-left: -60px; margin-top: 3px'}))
-
-    about_me = forms.CharField(widget=forms.TextInput(
-        attrs={'id': 'input_about_me', 'name': 'input_about_me',
-               'class': "form-control",
-               'style': 'border:1px solid #D3D3D3; margin-left:20px'}))

@@ -1,10 +1,9 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
-from datetime import date
+from datetime import date, datetime
 from .forms import *
-from .models import (User, Client, SubUser, Memory,
-                     Picture)
+from .models import (User, Client, SubUser, Memory, Picture)
 
 
 def login(request):
@@ -14,7 +13,6 @@ def login(request):
 def authenticateLogin(request):
     context = {"error": "must provide a valid username and password"}
     form = AuthenticateForm(request.POST)
-    print form
 
     if form.is_valid():
         try:
@@ -22,14 +20,13 @@ def authenticateLogin(request):
             password = form.cleaned_data.get('password')
             current_user = User.objects.get(UserName=user_name,
                                             Password=password)
+            print current_user
             try:
-                # client_user = Client.objects.get(User=current_user)
-                # print "counted as client"
+                client_user = Client.objects.get(User=current_user)
                 return HttpResponseRedirect(
                     reverse('index', args=(current_user.id,)))
             except:
                 # subuser_user = SubUser.objects.get(User=current_user)
-                # print "counted as subuser"
                 return HttpResponseRedirect(
                     reverse('profile', args=(current_user.id,)))
         except:
@@ -75,87 +72,72 @@ def register(request):
 
 
 def authenticateRegister(request):
-    return
-    # if request.is_ajax:
-    #     response_error = "Error getting your info from the form."
-    #
-    #     try:
-    #         userid = request.GET.get('userid')
-    #         password = request.GET.get('password')
-    #         email = request.GET.get('email')
-    #         pname = request.GET.get('pname')
-    #         skypeid = request.GET.get('skypeid')
-    #         twitchid = request.GET.get('twitchid')
-    #     except:
-    #         return HttpResponse(response_error)
-    #
-    #     try:
-    #         login_userid = User.objects.get(userid=userid)
-    #         return HttpResponse('input_error1')
-    #     except:
-    #         pass
-    #     try:
-    #         login_userid = User.objects.get(email=email)
-    #         return HttpResponse('input_error2')
-    #     except:
-    #         pass
-    #     try:
-    #         login_userid = User.objects.get(pname=pname)
-    #         return HttpResponse('input_error3')
-    #     except:
-    #         pass
-    #     try:
-    #         login_userid = User.objects.get(skypeid=skypeid)
-    #         return HttpResponse('input_error4')
-    #     except:
-    #         pass
-    #     try:
-    #         login_userid = User.objects.get(twitchid=twitchid)
-    #         return HttpResponse('input_error5')
-    #     except:
-    #         pass
-    #
-    #     summonerName = str(pname)
-    #     r = requests.get('https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/'+summonerName+'?api_key=8340953c-a577-4057-bcfb-962e98780cb1')
-    #     if r.status_code == 404:
-    #         return HttpResponse("404")
-    #     elif r.status_code == 400:
-    #         return HttpResponse("400")
-    #     elif r.status_code == 401:
-    #         return HttpResponse("401")
-    #     elif r.status_code == 429:
-    #         return HttpResponse("429")
-    #     elif r.status_code == 500:
-    #         return HttpResponse("500")
-    #     elif r.status_code == 503:
-    #         return HttpResponse("503")
-    #     else:
-    #         key = r.json()
-    #         summonerNameValue = key[summonerName]["name"]
-    #         summonerId = str(key[summonerName]["id"])
-    #         r = requests.get('https://na.api.pvp.net/api/lol/na/v2.5/league/by-summoner/'+summonerId+'/entry?api_key=8340953c-a577-4057-bcfb-962e98780cb1')
-    #         summonerInfo = r.json()
-    #         summonerRank = (summonerInfo[summonerId][0]["tier"]).lower()
-    #         summonerDivision = summonerInfo[summonerId][0]['entries'][0]['division']
-    #
-    #         rank = ""
-    #         for i in range(len(summonerRank)):
-    #             if i==0:
-    #                 rank+=(summonerRank[0]).upper()
-    #             else:
-    #                 rank+=summonerRank[i]
-    #
-    #         rank += " " + summonerDivision
-    #         user = User(userid=userid, password=password, email=email, pname=pname, rank=rank, skypeid=skypeid, twitchid=twitchid)
-    #         user.save()
-    #         # context = {"value":summonerRank,
-    #         #            "division":summonerDivision,
-    #         #            "name":summonerNameValue}
-    #         # return render(request, "authenticated.html", context)
-    #     return HttpResponse(userid)
-    # else:
-    #     raise Http404
-    # pass
+    if request.is_ajax:
+        response_error = "Error getting your info from the form."
+
+        try:
+            choice = request.GET.get('client_or_subuser')
+            user_name = request.GET.get('user_name')
+            password = request.GET.get('password')
+            firstname = request.GET.get('firstname')
+            lastname = request.GET.get('lastname')
+            email = request.GET.get('email')
+            birthdate_month = request.GET.get('birthdate_month')
+            birthdate_day = request.GET.get('birthdate_day')
+            birthdate_year = request.GET.get('birthdate_year')
+            birthdate_str = str(birthdate_month + " " + birthdate_day + " " + birthdate_year)
+            birthdate = datetime.strptime(birthdate_str, '%M %d %Y')
+            print birthdate
+            phone_number = request.GET.get('phone_number')
+            address = request.GET.get('address')
+            profile_picture = request.GET.get('profile_picture')
+        except:
+            return HttpResponse(response_error)
+
+        # user = User(UserName=user_name, Email=email, Password=password,
+        #             FirstName=firstname, LastName=lastname,
+        #             BirthDate=birthdate, ProfilePicture=profile_picture,
+        #             PhoneNumber=phone_number, HomeAddress=address,
+        #             AboutMe="Add some info about yourself :)")
+        #user.save()
+        if choice == "Client":
+            reference_id = "randomly generated id + 1234"
+            #client = Client(User=user, Reference_ID=reference_id,CreatedOn=datetime.now())
+            #client.save()
+        elif choice == "Family_Friend":
+            reference_id = request.GET.get('reference_id')
+
+        else:
+            print "nothing chosen"
+        user_name_str = str(user_name)
+        print user_name_str
+
+        # key = r.json()
+        # summonerNameValue = key[summonerName]["name"]
+        # summonerId = str(key[summonerName]["id"])
+        # r = requests.get('https://na.api.pvp.net/api/lol/na/v2.5/league/by-summoner/'+summonerId+'/entry?api_key=8340953c-a577-4057-bcfb-962e98780cb1')
+        # summonerInfo = r.json()
+        # summonerRank = (summonerInfo[summonerId][0]["tier"]).lower()
+        # summonerDivision = summonerInfo[summonerId][0]['entries'][0]['division']
+        #
+        # rank = ""
+        # for i in range(len(summonerRank)):
+        #     if i==0:
+        #         rank+=(summonerRank[0]).upper()
+        #     else:
+        #         rank+=summonerRank[i]
+        #
+        #         rank += " " + summonerDivision
+        #         user = User(userid=userid, password=password, email=email, pname=pname, rank=rank, skypeid=skypeid, twitchid=twitchid)
+        #         user.save()
+        #         # context = {"value":summonerRank,
+        #         #            "division":summonerDivision,
+        #         #            "name":summonerNameValue}
+        #         # return render(request, "authenticated.html", context)
+        return HttpResponse(user_name_str)
+    else:
+        raise Http404
+    pass
 
 
 def index(request, user_id):
