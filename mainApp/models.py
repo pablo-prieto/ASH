@@ -14,7 +14,7 @@ class User(models.Model):
     FirstName = models.CharField(max_length=500, blank=False, null=False)
     LastName = models.CharField(max_length=500, blank=False, null=False)
     BirthDate = models.DateField()
-    ProfilePicture = models.ImageField(upload_to='Profile Picures')
+    ProfilePicture = models.ImageField(upload_to='Profile_Pictures')
     PhoneNumber = models.CharField(max_length=11, blank=False, null=False)
     HomeAddress = models.TextField(blank=True)
     AboutMe = models.TextField(blank=True)

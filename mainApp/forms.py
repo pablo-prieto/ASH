@@ -31,6 +31,11 @@ class RegistrationForm(forms.Form):
         choices=[['Client', 'Alzheimer Patient'],
                  ['Family_Friend', 'Family/Friend member']])
 
+    # relationship_to_client = forms.CharField(max_length=50, widget=forms.TextInput(
+    #     attrs={'id': 'input_relationship', 'name': 'input_relationship',
+    #            'class': "form-control",
+    #            'style': 'border:1px solid #D3D3D3; margin-left:20px'}))
+
     user_name = forms.CharField(max_length=50, widget=forms.TextInput(
         attrs={'id': 'input_user_name', 'name': 'input_user_name',
                'class': "form-control",

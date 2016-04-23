@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from datetime import date, datetime
 from .forms import *
 from .models import (User, Client, SubUser, Memory, Picture)
+from django.conf import settings
 
 
 def login(request):
@@ -76,21 +77,28 @@ def authenticateRegister(request):
         response_error = "Error getting your info from the form."
 
         try:
-            choice = request.GET.get('client_or_subuser')
-            user_name = request.GET.get('user_name')
-            password = request.GET.get('password')
-            firstname = request.GET.get('firstname')
-            lastname = request.GET.get('lastname')
-            email = request.GET.get('email')
-            birthdate_month = request.GET.get('birthdate_month')
-            birthdate_day = request.GET.get('birthdate_day')
-            birthdate_year = request.GET.get('birthdate_year')
+            choice = request.POST.get('client_or_subuser')
+            # relationship_to_client = request.POST.get('relationship_to_client')
+            user_name = request.POST.get('user_name')
+            password = request.POST.get('password')
+            firstname = request.POST.get('firstname')
+            lastname = request.POST.get('lastname')
+            email = request.POST.get('email')
+            birthdate_month = request.POST.get('birthdate_month')
+            birthdate_day = request.POST.get('birthdate_day')
+            birthdate_year = request.POST.get('birthdate_year')
             birthdate_str = str(birthdate_month + " " + birthdate_day + " " + birthdate_year)
             birthdate = datetime.strptime(birthdate_str, '%M %d %Y')
-            phone_number = request.GET.get('phone_number')
-            address = request.GET.get('address')
-            profile_picture = request.GET.get('profile_picture')
-            print profile_picture
+            phone_number = request.POST.get('phone_number')
+            address = request.POST.get('address')
+
+            # profile_picture = request.POST.get('profile_picture')
+            profile_picture = request.FILES['profile_picture']
+            with open(settings.BASE_DIR + "/static_in_env/media_root/Profile_Pictures/" + profile_picture.name, 'wb+') as destination:
+                print "passed"
+                for chunk in profile_picture.chunks():
+                    destination.write(chunk)
+
         except:
             return HttpResponse(response_error)
 
@@ -100,14 +108,14 @@ def authenticateRegister(request):
                     PhoneNumber=phone_number, HomeAddress=address,
                     AboutMe="Add some info about yourself :)")
 
-        #user.save()
+        user.save()
         if choice == "Client":
             reference_id = "randomly generated id + 1234"
             #client = Client(User=user, Reference_ID=reference_id,CreatedOn=datetime.now())
             #client.save()
         elif choice == "Family_Friend":
             reference_id = request.GET.get('reference_id')
-
+            # subuser = SubUser(CreatedDate=datetime.now, RelationshipToClient=relationship_to_client, User=user, Client=client)
         else:
             print "nothing chosen"
         user_name_str = str(user_name)
