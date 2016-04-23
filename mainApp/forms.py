@@ -58,7 +58,7 @@ class RegistrationForm(forms.Form):
 
     birthdate = forms.DateTimeField(widget=forms.SelectDateWidget(
         years=BIRTH_YEARS,
-        attrs={'style': 'border:1px solid #D3D3D3; margin-top: 3px;'}))
+        attrs={'style': 'border:1px solid #D3D3D3; margin-top: 3px; margin-left:20px'}))
 
     phone_number = forms.CharField(widget=forms.TextInput(
         attrs={'id': 'input_phone_number', 'name': 'input_phone_number',
@@ -71,4 +71,4 @@ class RegistrationForm(forms.Form):
                'style': 'border:1px solid #D3D3D3; margin-left:20px'}))
 
     profile_picture = forms.ImageField(widget=forms.FileInput(
-        attrs={'style': 'margin-left: -60px; margin-top: 3px'}))
+        attrs={'style': 'margin-left: -60px; margin-top: 3px; margin-left:20px'}))
