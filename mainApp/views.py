@@ -87,18 +87,19 @@ def authenticateRegister(request):
             birthdate_year = request.GET.get('birthdate_year')
             birthdate_str = str(birthdate_month + " " + birthdate_day + " " + birthdate_year)
             birthdate = datetime.strptime(birthdate_str, '%M %d %Y')
-            print birthdate
             phone_number = request.GET.get('phone_number')
             address = request.GET.get('address')
             profile_picture = request.GET.get('profile_picture')
+            print profile_picture
         except:
             return HttpResponse(response_error)
 
-        # user = User(UserName=user_name, Email=email, Password=password,
-        #             FirstName=firstname, LastName=lastname,
-        #             BirthDate=birthdate, ProfilePicture=profile_picture,
-        #             PhoneNumber=phone_number, HomeAddress=address,
-        #             AboutMe="Add some info about yourself :)")
+        user = User(UserName=user_name, Email=email, Password=password,
+                    FirstName=firstname, LastName=lastname,
+                    BirthDate=birthdate, ProfilePicture=profile_picture,
+                    PhoneNumber=phone_number, HomeAddress=address,
+                    AboutMe="Add some info about yourself :)")
+
         #user.save()
         if choice == "Client":
             reference_id = "randomly generated id + 1234"
