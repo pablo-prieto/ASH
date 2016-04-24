@@ -49,8 +49,13 @@
           <br>
           <div id='relationship' class="input-group" style="width:50%; padding:0%; display:none">
             <span class='input-group-addon' style='background-color:white; border:none; width:100px;'>Relationship</span>
-            {{ form.relationship_to_client }}
+            {% for choice in form.relationship_to_client %}
+            <div id="relationship_choices" align="left" style="margin-left:20px">
+                {{ choice }}
+            </div>
+            {% endfor %}
           </div>
+          <br id="break" style="display:none">
           <div class="input-group" style="width:50%; padding:0%;">
             <span class="input-group-addon" style="width:100px;">User Name</span>
             {{ form.user_name }}
@@ -92,7 +97,7 @@
           </div>
           <br>
           <div class="input-group" style="width:50%; padding:0%;">
-            <span class="input-group-addon" style="width:100px">Profile Pic</span>
+            <span class="input-group-addon" style="width:100px;">Profile Pic</span>
             {{ form.profile_picture }}
           </div>
           <br>
@@ -127,14 +132,21 @@
       event.preventDefault();                     // Stop the browser from submitting the form.
       var formData = $(form).serialize();         // Serialize the form data.
       $.ajax({                                    // Submit the form using AJAX.
-        type: 'GET',
+        type: 'POST',
         url: $(form).attr('action'),
         data: formData,
         dataType:'json',
       })
       .done(function(response){
-        console.log(response)
-        window.location.assign('/mainApp/'+response+'profile');
+        // if(response == 'Wrong Reference ID'){
+        //   var message = "Wrong Reference ID! Try again.";
+        //   $(formMessages).html("<br><div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"+message+"</div>");
+        // }
+        else{
+          console.log(response)
+          window.location.assign('/mainApp/'+response+'profile');
+        }
+
       })
       .fail(function(response){
         console.log(response);
@@ -149,14 +161,17 @@
         if (this.value == 'Family_Friend') {
             $('#family_friend').show();
             $('#relationship').show();
+            $('#break').show();
+            // $('#relationship').append("<br><br><br>");
             document.getElementById("family_friend").innerHTML =
               "<span class='input-group-addon' style='background-color:white; border:none; width:100px;'>Reference ID</span>"+
-              "<input class='form-control' id='reference_id' maxlength='50' name='reference_id' style='border:1px solid #D3D3D3; border-top-left-radius: 0; border-bottom-left-radius: 0; margin-left:20px' type='text'><br>";
+              "<input class='form-control' id='reference_id' maxlength='50' name='reference_id' style='border:1px solid #D3D3D3; border-top-left-radius: 0; border-bottom-left-radius: 0; margin-left:20px;' type='text'><br>";
         }
 
         else if (this.value == 'Client') {
             $('#family_friend').hide();
             $('#relationship').hide();
+            $('#break').hide();
         }
     });
 });

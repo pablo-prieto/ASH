@@ -60,14 +60,6 @@ def authenticateLogin(request):
 
 def register(request):
     form = RegistrationForm(request.POST)
-    # if form.is_valid():
-    #     user_name = form.cleaned_data.get('user_name')
-    #     # password = form.cleaned_data.get('password')
-    #     # email = form.cleaned_data.get('email')
-    #     # firstname = form.cleaned_data.get('firstname')
-    #     # lastname = form.cleaned_data.get('lastname')
-    # else:
-    #     print "Invalid form"
     context = {"form": form}
     return render(request, "register.html", context)
 
@@ -78,7 +70,6 @@ def authenticateRegister(request):
 
         try:
             choice = request.POST.get('client_or_subuser')
-            # relationship_to_client = request.POST.get('relationship_to_client')
             user_name = request.POST.get('user_name')
             password = request.POST.get('password')
             firstname = request.POST.get('firstname')
@@ -91,13 +82,13 @@ def authenticateRegister(request):
             birthdate = datetime.strptime(birthdate_str, '%M %d %Y')
             phone_number = request.POST.get('phone_number')
             address = request.POST.get('address')
-
-            # profile_picture = request.POST.get('profile_picture')
-            profile_picture = request.FILES['profile_picture']
-            with open(settings.BASE_DIR + "/static_in_env/media_root/Profile_Pictures/" + profile_picture.name, 'wb+') as destination:
-                print "passed"
-                for chunk in profile_picture.chunks():
-                    destination.write(chunk)
+            try:
+                profile_picture = request.FILES['profile_picture']
+                with open(settings.BASE_DIR + "/static_in_env/media_root/Profile_Pictures/" + profile_picture.name, 'wb+') as destination:
+                    for chunk in profile_picture.chunks():
+                        destination.write(chunk)
+            except:
+                profile_picture = ""
 
         except:
             return HttpResponse(response_error)
@@ -107,46 +98,29 @@ def authenticateRegister(request):
                     BirthDate=birthdate, ProfilePicture=profile_picture,
                     PhoneNumber=phone_number, HomeAddress=address,
                     AboutMe="Add some info about yourself :)")
-
+        # Need to implement check for empty values.
         user.save()
         if choice == "Client":
-            reference_id = "randomly generated id + 1234"
-            #client = Client(User=user, Reference_ID=reference_id,CreatedOn=datetime.now())
-            #client.save()
+            reference_id = "abc1234"
+            client = Client(User=user, Reference_ID=reference_id)
+            client.save()
         elif choice == "Family_Friend":
-            reference_id = request.GET.get('reference_id')
-            # subuser = SubUser(CreatedDate=datetime.now, RelationshipToClient=relationship_to_client, User=user, Client=client)
+            reference_id = request.POST.get('reference_id')
+            relationship_to_client = request.POST.get('relationship_to_client')
+            try:
+                client = Client.objects.get(Reference_ID=reference_id)
+                subuser = SubUser(RelationshipToClient=relationship_to_client, User=user, Client=client)
+                subuser.save()
+            except:
+                HttpResponse("Wrong Reference ID")
         else:
             print "nothing chosen"
-        user_name_str = str(user_name)
-        print user_name_str
+        user_name_str = user.FirstName
+        # print user_name_str
 
-        # key = r.json()
-        # summonerNameValue = key[summonerName]["name"]
-        # summonerId = str(key[summonerName]["id"])
-        # r = requests.get('https://na.api.pvp.net/api/lol/na/v2.5/league/by-summoner/'+summonerId+'/entry?api_key=8340953c-a577-4057-bcfb-962e98780cb1')
-        # summonerInfo = r.json()
-        # summonerRank = (summonerInfo[summonerId][0]["tier"]).lower()
-        # summonerDivision = summonerInfo[summonerId][0]['entries'][0]['division']
-        #
-        # rank = ""
-        # for i in range(len(summonerRank)):
-        #     if i==0:
-        #         rank+=(summonerRank[0]).upper()
-        #     else:
-        #         rank+=summonerRank[i]
-        #
-        #         rank += " " + summonerDivision
-        #         user = User(userid=userid, password=password, email=email, pname=pname, rank=rank, skypeid=skypeid, twitchid=twitchid)
-        #         user.save()
-        #         # context = {"value":summonerRank,
-        #         #            "division":summonerDivision,
-        #         #            "name":summonerNameValue}
-        #         # return render(request, "authenticated.html", context)
         return HttpResponse(user_name_str)
     else:
         raise Http404
-    pass
 
 
 def index(request, user_id):

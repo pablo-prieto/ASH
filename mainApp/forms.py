@@ -15,6 +15,20 @@ BIRTH_YEARS = ('1932', '1933', '1934', '1935', '1936', '1937', '1938', '1939',
                '2004', '2005', '2006', '2007', '2008', '2009', '2010', '2011',
                '2012', '2013', '2014', '2015', '2016')
 
+MY_CHOICES = (
+    ('Son', 'Son'),
+    ('Daughter', 'Daughter'),
+    ('Brother', 'Brother'),
+    ('Sister', 'Sister'),
+    ('Cousin', 'Cousin'),
+    ('Grand Son', 'Grand Son'),
+    ('Grand Daughter', 'Grand Daughter'),
+    ('Nephew', 'Nephew'),
+    ('Niece', 'Niece'),
+    ('Friend', 'Friend'),
+)
+
+
 
 class AuthenticateForm(forms.Form):
     user_name = forms.CharField(max_length=100, widget=forms.TextInput(
@@ -27,14 +41,11 @@ class AuthenticateForm(forms.Form):
 
 class RegistrationForm(forms.Form):
     client_or_subuser = forms.ChoiceField(
-        widget=forms.RadioSelect(attrs={'style': ''}),
+        widget=forms.RadioSelect(),
         choices=[['Client', 'Alzheimer Patient'],
                  ['Family_Friend', 'Family/Friend member']])
 
-    relationship_to_client = forms.CharField(max_length=50, widget=forms.TextInput(
-        attrs={'id': 'input_relationship', 'name': 'input_relationship',
-               'class': "form-control",
-               'style': 'border:1px solid #D3D3D3; border-top-left-radius: 0; border-bottom-left-radius: 0; margin-left:20px'}))
+    relationship_to_client = forms.ChoiceField(choices=MY_CHOICES)
 
     user_name = forms.CharField(max_length=50, widget=forms.TextInput(
         attrs={'id': 'input_user_name', 'name': 'input_user_name',
@@ -76,4 +87,4 @@ class RegistrationForm(forms.Form):
                'style': 'border:1px solid #D3D3D3; margin-left:20px'}))
 
     profile_picture = forms.ImageField(widget=forms.FileInput(
-        attrs={'style': 'margin-left: -60px; margin-top: 3px; margin-left:20px'}))
+        attrs={'align':'center', 'style': 'position:absolute; margin-left:20px'}))
