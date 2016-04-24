@@ -92,16 +92,16 @@
                     <!-- Events -->
                     <div class="tab-pane" id="events">
                         <br><h4>Events We've Done Together:</h4><br>
-                        <div class="events-icons-section">
+                        <div id="events-icons-section">
                         {% if memories %}
                             {% for memory in memories %}
                                 {% if memory.pictures %}
-                                    <div class="event-icon">
+                                    <div id="event-icon">
                                         <img class="img-square" src="/media/{{ memories.0.pictures.0 }}" onclick="memoryDetail()">
                                         <div style="margin:5%;">{{ memory.title }}</div>
                                     </div>
                                 {% else %}
-                                    <div class="event-icon">
+                                    <div id="event-icon">
                                         <img class="img-square" src="{% static 'images/no_image.png' %}" onclick="memoryDetail()" style="border:1px solid #D2D5D6; border-radius:5px;">
                                         <div style="margin:5%;">{{ memory.title }}</div>
                                     </div>
@@ -135,20 +135,14 @@
                                     </div>
                                 </div>
                             {% endfor %}
-                            <div class="plus-icon">
+                            <div id="plus-icon">
                                 <img class="img-square" src="{% static 'images/plus-icon.png' %}" onclick="addMemory()">
                             </div>
                         {% else %}
-                            <div class="plus-icon">
+                            <div id="plus-icon">
                                 <img class="img-square" src="{% static 'images/plus-icon.png' %}" onclick="addMemory()">
                             </div>
-                            <!-- <div class="plus-icon-mem">
-                                <div class="plus-icon-mem-content">
-                                    <br><br><span class="plus-sign">+</span>
-                                    <p class="select-add-img-msg">Add Another Image</p>
-                                </div>
-                            </div> -->
-                            {% endif %}
+                        {% endif %}
                         </div>
 
                         <!-- Modal: Add New Memory -->
@@ -168,11 +162,11 @@
                                             <input class="form-control" id="event-title-input" type="text" aria-label="..." maxlength="30" placeholder="Enter a meaningful title..(max 30 chars)" value="" style="width:40em;">
                                         </div>
                                         <br>
-                                        <!-- Input: Memory description input field -->
+                                        <!-- Input: Description input field -->
                                         <div class="input-group">
                                             <span class="input-group-addon" style="width:9em; color:black;">Description</span>
-                                            <textarea class="form-control" id="mem-descrip-input" aria-label="..." maxlength="500" placeholder="Please, be as specific as possible..(max 500 chars)" value="" style="width:40em; height:7em;"></textarea>
-                                        </div>  
+                                            <textarea class="form-control" id="description-input" aria-label="..." maxlength="500" placeholder="Please, be as specific as possible..(max 500 chars)" value="" style="width:40em; height:7em;"></textarea>
+                                        </div>
                                         <br>
                                         <!-- DatePicker -->
                                          <div id="datepicker" class="input-daterange input-group">
@@ -184,11 +178,37 @@
                                         </div>
                                         <br>
                                         <!-- File Input: Picture input field -->
-                                        <div class="input-group">   
-                                            <span id="title-add-img"><p>- Below, include some pictures that captured valuable moments of this memory -</p></span>  
-                                            <button id="add-img-button" type="button" class="btn btn-default" style="width:15em;" onclick="addImgIcon()">Add Image</button><br><br>                                       
-                                            <div class="add-memory-icons-section" id="add-memory-icons-section"></div>
-                                        </div>  
+                                        <div class="input-group">
+                                            <!-- <span class="input-group-addon" style="width:8.5em; color:black;">Pictures</span>
+                                            <input id='upload' name="upload[]" type="file" multiple="multiple" style="margin-left:20px;"/> -->
+
+                                            <!-- <div class="row">
+                                                <div class="col-sm-6 col-md-4">
+                                                    <div class="thumbnail">
+                                                      <img src="..." alt="...">
+                                                      <div class="caption">
+                                                            <h3>Thumbnail label</h3>
+                                                            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                                                            <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+                                                      </div>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                            <div class="add-memory-icons-section">
+                                                <div id="event-icon">
+                                                    <!-- <img class="img-square" src="{% static 'images/plus-icon.png' %}" onclick="memoryDetail()">
+                                                    <div style="margin:5%;">Some message</div>
+                                                    <input id="uploadFile" placeholder="Choose File" disa bled="disabled" /> -->
+                                                    <div class="fileUpload">
+                                                        <br><span class="plus-sign">+</span>
+                                                        <p class="add-img-msg">Add Image</p>
+                                                        <input id="uploadBtn" type="file" accept='image/*' class="upload" onchange='openImage(event)'/>
+                                                    </div>
+                                                    <!-- <input id="uploadFile" placeholder="0 files selected" disabled="disabled"/> -->
+                                                    <img id="uploadedPicture" class="img-square" src="">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <!-- Modal Footer -->
                                     <div class="modal-footer">
@@ -200,6 +220,17 @@
                             </div>
                         </div>
                     </div>
+
+
+<script type="text/javascript">
+    function readImage(this)
+    // document.getElementById("uploadBtn").onchange = function () {
+    //     // document.getElementById("uploadFile").value = this.value;
+    //     var img = document.getElementById("uploadBtn").value.file;
+    //     $('uploadedPicture').attr('src', img);
+    //     console.log(img);
+    // };
+</script>
 
                     <!-- Pictures -->
                     <div class="tab-pane" id="pictures">
@@ -227,46 +258,6 @@
 
         function addMemory() {
             $('#addMemory').modal('show');
-        }
-
-        function readImage(input) {
-            // If a file has been chosen
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                // Read the input as URL. The result will be stored in 'this.result' after the 'load' event fires
-                reader.readAsDataURL(input.files[0]);
-
-                // Called when the read operation successfully completes
-                reader.onload = function (e) {
-                    document.getElementById("img-selected").innerHTML = 
-                        "<img id='uploadedPicture' class='img-square' src='"+ e.target.result +"'>";
-                    document.getElementsByClassName("fileUpload")[0].style.backgroundColor = "white";
-                };
-            }
-            else {
-                // Display back the "Add Image" message
-                document.getElementById("img-selected").innerHTML = 
-                    "<br><span class='plus-sign'>+</span><p class='add-img-msg'>Add Image</p>";
-                    document.getElementsByClassName("fileUpload")[0].style.backgroundColor = "#e6e6e5";
-            }
-        }
-
-        function addImgIcon(){
-            var context =
-                "<div class='memory-icon-border'>" +
-                    "<div class='memory-icon-content'>" +
-                        "<div class='fileUpload'>" +
-                            "<div class='img-selected'>" +
-                                "<br><br><span class='plus-sign'>+</span>" +
-                                "<p class='select-add-img-msg'>Select Image</p>" +
-                            "</div>" +
-                            "<input id='uploadBtn' type='file' accept='image/*' class='upload' onchange='readImage(this);'/>" +
-                        "</div>" +
-                        "<textarea class='form-control img-descrip-input' aria-label='...' maxlength='500' placeholder='Describe the moment captured in this picture (max 500 chars)' value=''></textarea>"+
-                    "</div>" +
-                "</div>";
-            $("#add-memory-icons-section").append(context);
         }
     </script>
 </body>
