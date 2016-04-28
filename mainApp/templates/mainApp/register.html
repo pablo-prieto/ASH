@@ -34,7 +34,7 @@
       <p>Please provide the following information so that you can start using our
         services.</p>
         <br>
-        <form enctype="multipart/form-data" id="form_register" type="POST" action="/mainApp/authenticateRegister/" method="post">
+        <form enctype="multipart/form-data" id="form_register" type="POST" action="/mainApp/register/" method="post">
           {% csrf_token %}
           <div class="input-group" style="width:50%; padding:0%;">
             <span class="input-group-addon" style="width:100px; margin-top:2px; border:none; background-color:white; vertical-align:top;">Are you a(n): </span>
@@ -44,6 +44,13 @@
             </div>
             {% endfor %}
           </div>
+          {% if form.client_or_subuser.errors %}
+          <ul>
+            {% for error in form.client_or_subuser.errors %}
+            <li style="color:red">{{ error|escape }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
           <div id='family_friend' class="input-group" style="width:50%; padding:0%;">
           </div>
           <br>
@@ -60,7 +67,16 @@
             <span class="input-group-addon" style="width:100px;">User Name</span>
             {{ form.user_name }}
           </div>
-          <br>
+          {% if form.user_name.errors %}
+          <ul>
+            {% for error in form.user_name.errors %}
+            <li style="color:red">{{ error|escape }}</li>
+            {% endfor %}
+          </ul>
+          {% else %}
+            <br>
+          {% endif %}
+          <!-- <br> -->
           <div class="input-group" style="width:50%; padding:0%;">
             <span class="input-group-addon" style="width:100px">Password</span>
             {{ form.password }}

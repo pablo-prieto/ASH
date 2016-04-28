@@ -21,13 +21,11 @@ def authenticateLogin(request):
             password = form.cleaned_data.get('password')
             current_user = User.objects.get(UserName=user_name,
                                             Password=password)
-            print current_user
             try:
                 client_user = Client.objects.get(User=current_user)
                 return HttpResponseRedirect(
                     reverse('index', args=(current_user.id,)))
             except:
-                # subuser_user = SubUser.objects.get(User=current_user)
                 return HttpResponseRedirect(
                     reverse('profile', args=(current_user.id,)))
         except:
@@ -35,31 +33,67 @@ def authenticateLogin(request):
     else:
         return render(request, "mainApp/login.html", context)
 
-    # if request.method == 'POST':
-    #     try:
-    #         UserName = str(request.POST.get('username'))
-    #         Password = str(request.POST.get('password'))
-    #         current_user = User.objects.get(UserName=UserName,
-    #                                         Password=password)
-    #         try:
-    #             client_user = Client.objects.get(User=current_user)
-    #             print "counted as client"
-    #             return HttpResponseRedirect(reverse('index',
-    #                                                 args=(current_user.id,)))
-    #         except:
-    #             subuser_user = SubUser.objects.get(User=current_user)
-    #             print "counted as subuser"
-    #             return HttpResponseRedirect(reverse('profile',
-    #                                                 args=(current_user.id,)))
-    #     except:
-    #         return render(request, "mainApp/login_register.html", context)
-    # else:
-    #     return render(request, "mainApp/login_register.html", context)
-    # coaches = User.objects.filter(MMR__range=(minRange,maxRange)).filter(coach__server=server, coach__champion=hero)
-
 
 def register(request):
-    form = RegistrationForm(request.POST)
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        response_error = "Error getting your info from the form."
+        print "method is post"
+        if form.is_valid():
+            print "form valid"
+            try:
+                choice = request.POST.get('client_or_subuser')
+                user_name = request.POST.get('user_name')
+                password = request.POST.get('password')
+                firstname = request.POST.get('firstname')
+                lastname = request.POST.get('lastname')
+                email = request.POST.get('email')
+                birthdate_month = request.POST.get('birthdate_month')
+                birthdate_day = request.POST.get('birthdate_day')
+                birthdate_year = request.POST.get('birthdate_year')
+                birthdate_str = str(birthdate_month + " " + birthdate_day + " " + birthdate_year)
+                birthdate = datetime.strptime(birthdate_str, '%M %d %Y')
+                phone_number = request.POST.get('phone_number')
+                address = request.POST.get('address')
+                try:
+                    profile_picture = request.FILES['profile_picture']
+                    with open(settings.BASE_DIR + "/static_in_env/media_root/Profile_Pictures/" + profile_picture.name, 'wb+') as destination:
+                        for chunk in profile_picture.chunks():
+                            destination.write(chunk)
+                except:
+                    profile_picture = ""
+
+            except:
+                return HttpResponse(response_error)
+
+            user = User(UserName=user_name, Email=email, Password=password,
+                        FirstName=firstname, LastName=lastname,
+                        BirthDate=birthdate, ProfilePicture=profile_picture,
+                        PhoneNumber=phone_number, HomeAddress=address,
+                        AboutMe="Add some info about yourself :)")
+            # Need to implement check for empty values.
+            user.save()
+            if choice == "Client":
+                reference_id = "abc1234"
+                client = Client(User=user, Reference_ID=reference_id)
+                client.save()
+            elif choice == "Family_Friend":
+                reference_id = request.POST.get('reference_id')
+                relationship_to_client = request.POST.get('relationship_to_client')
+                try:
+                    client = Client.objects.get(Reference_ID=reference_id)
+                    subuser = SubUser(RelationshipToClient=relationship_to_client, User=user, Client=client)
+                    subuser.save()
+                except:
+                    HttpResponse("Wrong Reference ID")
+            else:
+                print "nothing chosen"
+            user_name_str = user.FirstName
+            # print user_name_str
+
+            return HttpResponse(user_name_str)
+    else:
+        form = RegistrationForm()
     context = {"form": form}
     return render(request, "register.html", context)
 
