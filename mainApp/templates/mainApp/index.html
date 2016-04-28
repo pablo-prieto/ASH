@@ -68,10 +68,13 @@
                 </div>
                 <hr class="featurette-divider" style="margin:5px; border-color:#D1D0CE;">
             </div>
-        </div><br><br>
+        </div><br>
         <!-- End of Main User Profile Picture and Basic Info Section -->
 
-
+        <!-- <div>
+          <h4 style="text-align:center"><span style="width: 12em;font-size: 14px;border-color: #ccc;border-radius: 4px;border:1px solid transparent;padding:6px 12px;background-image:linear-gradient(to bottom,#fff 0,#e0e0e0 100%)">Reference ID:</span><span> abc1234</span></h4>
+        </div>
+        <br> -->
 
         <!-- Main User Profile Buttons Section -->
         <div class="row">
@@ -174,8 +177,14 @@
                     </div>
                 </div>
             </div>
-
-        </div><br><br><br><br><br><br>
+        </div>
+        <br><br>
+        <div style="text-align:center">
+          <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="bottom" data-content="{{client.Reference_ID}}">
+            Reference ID
+          </button>
+        </div>
+        <br><br><br><br><br><br>
         <!-- End of Main User Profile Buttons Section -->
 
 
@@ -302,5 +311,10 @@
         <!-- Footer -->
         <footer>{% include "footer.html" %}</footer>
         <!-- End Footer -->
+        <script>
+        $(function () {
+          $('[data-toggle="popover"]').popover()
+        })
+        </script>
 </body>
 </html>
