@@ -118,7 +118,7 @@
                                                 <h4>Description</h4>
                                                 <p>{{ memory.description }}</p>
                                                 <h4>Date</h4>
-                                                <p>{{ memory.date }}</p>
+                                                <p>{{ memory.StartDate }}</p>
                                                 <h4>Pictures</h4>
                                                 {% if memory.pictures %}
                                                     {% for picture in memory.pictures %}
@@ -172,7 +172,7 @@
                                         <div class="input-group">
                                             <span class="input-group-addon" style="width:9em; color:black;">Description</span>
                                             <textarea class="form-control" id="mem-descrip-input" aria-label="..." maxlength="500" placeholder="Please, be as specific as possible..(max 500 chars)" value="" style="width:40em; height:7em;"></textarea>
-                                        </div>  
+                                        </div>
                                         <br>
                                         <!-- DatePicker -->
                                          <div id="datepicker" class="input-daterange input-group">
@@ -184,11 +184,11 @@
                                         </div>
                                         <br>
                                         <!-- File Input: Picture input field -->
-                                        <div class="input-group">   
-                                            <span id="title-add-img"><p>- Below, include some pictures that captured valuable moments of this memory -</p></span>  
-                                            <button id="add-img-button" type="button" class="btn btn-default" style="width:15em;" onclick="addImgIcon()">Add Image</button><br><br>                                       
+                                        <div class="input-group">
+                                            <span id="title-add-img"><p>- Below, include some pictures that captured valuable moments of this memory -</p></span>
+                                            <button id="add-img-button" type="button" class="btn btn-default" style="width:15em;" onclick="addImgIcon()">Add Image</button><br><br>
                                             <div class="add-memory-icons-section" id="add-memory-icons-section"></div>
-                                        </div>  
+                                        </div>
                                     </div>
                                     <!-- Modal Footer -->
                                     <div class="modal-footer">
@@ -239,14 +239,14 @@
 
                 // Called when the read operation successfully completes
                 reader.onload = function (e) {
-                    document.getElementById("img-selected").innerHTML = 
+                    document.getElementById("img-selected").innerHTML =
                         "<img id='uploadedPicture' class='img-square' src='"+ e.target.result +"'>";
                     document.getElementsByClassName("fileUpload")[0].style.backgroundColor = "white";
                 };
             }
             else {
                 // Display back the "Add Image" message
-                document.getElementById("img-selected").innerHTML = 
+                document.getElementById("img-selected").innerHTML =
                     "<br><span class='plus-sign'>+</span><p class='add-img-msg'>Add Image</p>";
                     document.getElementsByClassName("fileUpload")[0].style.backgroundColor = "#e6e6e5";
             }

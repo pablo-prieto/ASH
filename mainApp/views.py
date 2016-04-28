@@ -196,7 +196,7 @@ def profile(request, user_id):
         memory_list.append({
             'title': memory.Title,
             'description': memory.Description,
-            'date': memory.Date,
+            'date': memory.StartDate,
             'pictures': pictures_list
         })
 
