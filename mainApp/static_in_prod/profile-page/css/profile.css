@@ -48,21 +48,26 @@
 }
 
 
-.add-memory-icons-section {
+.add-memory-panel-section {
     /* None */
 }
 
-.memory-icon-border {
-    border: 1px solid #D1D0CE;
-    border-radius: 5px;
+.memory-panel-outter-border {
     margin: 1em;
-    padding-bottom: 0.2em;
     display: inline-block;
     vertical-align: top;
     text-align: center;
 }
 
-.memory-icon-content {
+.memory-panel-inner-border {
+    border: 1px solid #D1D0CE;
+    border-radius: 5px;
+    margin-top: 1.2em;
+    padding-bottom: 0.2em;
+    display: inline-block;
+}
+
+.memory-panel-content {
     border: none;
     margin: 0.2em;
     min-width: 15em;

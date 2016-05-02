@@ -186,8 +186,8 @@
                                         <!-- File Input: Picture input field -->
                                         <div class="input-group">
                                             <span id="title-add-img"><p>- Below, include some pictures that captured valuable moments of this memory -</p></span>
-                                            <button id="add-img-button" type="button" class="btn btn-default" style="width:15em;" onclick="addImgIcon()">Add Image</button><br><br>
-                                            <div class="add-memory-icons-section" id="add-memory-icons-section"></div>
+                                            <button id="add-img-button" type="button" class="btn btn-default" style="width:15em;" onclick="addImgPanel()">Add Image</button><br><br>
+                                            <div class="add-memory-panel-section" id="add-memory-panel-section"></div>
                                         </div>
                                     </div>
                                     <!-- Modal Footer -->
@@ -252,21 +252,31 @@
             }
         }
 
-        function addImgIcon(){
+        /* Adds a panel to add an image to a memory and its description */
+        function addImgPanel(){
             var context =
-                "<div class='memory-icon-border'>" +
-                    "<div class='memory-icon-content'>" +
-                        "<div class='fileUpload'>" +
-                            "<div class='img-selected'>" +
-                                "<br><br><span class='plus-sign'>+</span>" +
-                                "<p class='select-add-img-msg'>Select Image</p>" +
+                "<div class='memory-panel-outter-border'>" +
+                    "<button type='button' class='close' onclick='closeImgPanel(this)'>&times;</button>" +
+                    "<div class='memory-panel-inner-border'>" +
+                        "<div class='memory-panel-content'>" +
+                            "<div class='fileUpload'>" +
+                                "<div class='img-selected'>" +
+                                    "<br><br><span class='plus-sign'>+</span>" +
+                                    "<p class='select-add-img-msg'>Select Image</p>" +
+                                "</div>" +
+                                "<input id='uploadBtn' type='file' accept='image/*' class='upload' onchange='readImage(this);'/>" +
                             "</div>" +
-                            "<input id='uploadBtn' type='file' accept='image/*' class='upload' onchange='readImage(this);'/>" +
+                            "<textarea class='form-control img-descrip-input' aria-label='...' maxlength='500' placeholder='Describe the moment captured in this picture (max 500 chars)' value=''></textarea>"+
                         "</div>" +
-                        "<textarea class='form-control img-descrip-input' aria-label='...' maxlength='500' placeholder='Describe the moment captured in this picture (max 500 chars)' value=''></textarea>"+
                     "</div>" +
                 "</div>";
-            $("#add-memory-icons-section").append(context);
+
+            $("#add-memory-panel-section").append(context);
+        }
+
+    /* Closes the respective img panel */
+        function closeImgPanel(x_button){
+            $(x_button.parentNode).remove();
         }
     </script>
 </body>
