@@ -239,16 +239,16 @@
 
                 // Called when the read operation successfully completes
                 reader.onload = function (e) {
-                    document.getElementById("img-selected").innerHTML =
-                        "<img id='uploadedPicture' class='img-square' src='"+ e.target.result +"'>";
-                    document.getElementsByClassName("fileUpload")[0].style.backgroundColor = "white";
+                    $(input.parentNode.childNodes[0]).html("<img id='uploadedPicture' class='img-square' src='"+ e.target.result +"'>");
+                    $(input.parentNode).css( "background-color", "white" );
+                    // var test = $(input.parentNode.childNodes[0]).html("hu");
+                    // console.log(test);
                 };
             }
             else {
                 // Display back the "Add Image" message
-                document.getElementById("img-selected").innerHTML =
-                    "<br><span class='plus-sign'>+</span><p class='add-img-msg'>Add Image</p>";
-                    document.getElementsByClassName("fileUpload")[0].style.backgroundColor = "#e6e6e5";
+                $(input.parentNode.childNodes[0]).html("<br><br><span class='plus-sign'>+</span><p class='add-img-msg'>Add Image</p>");
+                $(input.parentNode).css( "background-color", "#e6e6e5");
             }
         }
 
