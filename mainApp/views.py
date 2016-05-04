@@ -5,6 +5,7 @@ from datetime import date, datetime
 from .forms import *
 from .models import (User, Client, SubUser, Memory, Picture)
 from django.conf import settings
+import json
 
 
 def login(request):
@@ -213,6 +214,26 @@ def profile(request, user_id):
     }
 
     return render(request, 'mainApp/profile.html', context)
+
+
+def addMemory(request):
+    if request.method == 'POST':
+        if request.is_ajax:
+            try:
+                mem_title = request.POST.get('memory-title-input')
+                mem_descp = request.POST.get('mem-descrip-input')
+                date_start = request.POST.get('input-datestart')
+                date_end = request.POST.get('input-dateend')
+
+                print request.POST
+                form_data = json.dumps({'context': mem_title})
+                return HttpResponse(form_data)
+
+            except KeyError:
+                form_data = json.dumps({"context": "There was an error creating the memory. Try again later..."})
+                return HttpResponse(form_data)
+        else:
+            raise Http404
 
 
 def detail(request, user_id):
