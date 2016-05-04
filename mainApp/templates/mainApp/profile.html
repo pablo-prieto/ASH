@@ -276,27 +276,31 @@
 
 
         /* Adds a panel to add an image to a memory and its description */
-        var counter = 0;
+        var counter = 1;
         function addImgPanel() {
+            // Clone the hidden readroot div that contains the structure of a img panel
+            // Change the style display to show it in the website
+            // Change its id name to a unique name using a counter
+            var newFieldsDiv = document.getElementById('readroot').cloneNode(true);
+            newFieldsDiv.style.display = 'inline-block';
+            newFieldsDiv.id = 'img-panel' + counter;
+
+            // Change the img input id
+            // Add a name to use it in the form
+            var imgInputField = newFieldsDiv.querySelectorAll("input")[0];
+            imgInputField.id = imgInputField.id + counter;
+            imgInputField.name = imgInputField.id;
             counter++;
-            var newFields = document.getElementById('readroot').cloneNode(true);
-            // newFields.id = '';
-            newFields.style.display = 'inline-block';
-            var theName = $('#readroot :input')
-            console.log(theName);
-            // var newField = newFields.childNodes;
-            // for (var i=0;i<newField.length;i++) {
-            //     var theName = newField[i].name
-            //     if (theName)
-            //         newField[i].name = theName + counter;
-            // }
+            
+            // Find the location to be added and insert the new panel
             var insertHere = document.getElementById('writeroot');
-            insertHere.parentNode.insertBefore(newFields,insertHere);
+            insertHere.parentNode.insertBefore(newFieldsDiv,insertHere);
         }
 
 
         /* Closes the respective img panel */
         function closeImgPanel(x_button){
+            // Note: Do not decrease the counter when deleting because it will duplicated names for the img inputs 
             $(x_button.parentNode).remove();
         }
 
