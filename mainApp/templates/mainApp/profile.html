@@ -162,38 +162,41 @@
                                     </div>
                                     <!-- Modal Body -->
                                     <div class="modal-body" style="padding-left:7%; padding-right:7%;" align="center">
-                                        <!-- Input: Memory title input field-->
-                                        <div class="input-group">
-                                            <span class="input-group-addon" style="width:9em; color:black; padding-left:1em; padding-right:1.2em;">Title</span>
-                                            <input class="form-control" id="event-title-input" type="text" aria-label="..." maxlength="30" placeholder="Enter a meaningful title..(max 30 chars)" value="" style="width:40em;">
-                                        </div>
-                                        <br>
-                                        <!-- Input: Memory description input field -->
-                                        <div class="input-group">
-                                            <span class="input-group-addon" style="width:9em; color:black;">Description</span>
-                                            <textarea class="form-control" id="mem-descrip-input" aria-label="..." maxlength="500" placeholder="Please, be as specific as possible..(max 500 chars)" value="" style="width:40em; height:7em;"></textarea>
-                                        </div>
-                                        <br>
-                                        <!-- DatePicker -->
-                                         <div id="datepicker" class="input-daterange input-group">
-                                            <span class="input-group-addon" style="width:5em; height:2.8em;"><i class="glyphicon glyphicon-calendar"></i></span>
-                                            <input class="input-sm form-control" id="input-datestart" name="start" type="text" readonly style="width:10em; height:2.8em;"/>
-                                            <span class="input-group-addon" style="width:5em">to</span>
-                                            <input class="input-sm form-control" id="input-dateend" name="end" type="text" readonly style="width:10em; height:2.8em;"/>
-                                            <span class="input-group-addon" style="width:5em;"><i class="glyphicon glyphicon-calendar"></i></span>
-                                        </div>
-                                        <br>
-                                        <!-- File Input: Picture input field -->
-                                        <div class="input-group">
-                                            <span id="title-add-img"><p>- Below, include some pictures that captured valuable moments of this memory -</p></span>
-                                            <button id="add-img-button" type="button" class="btn btn-default" style="width:15em;" onclick="addImgPanel()">Add Image</button><br><br>
-                                            <div class="add-memory-panel-section" id="add-memory-panel-section"></div>
-                                        </div>
+                                        <form id="form-add-memory" method="post" action="/mainApp/addMemory/">
+                                            {% csrf_token %}
+                                            <!-- Input: Memory title input field-->
+                                            <div class="input-group">
+                                                <span class="input-group-addon" style="width:9em; color:black; padding-left:1em; padding-right:1.2em;">Title</span>
+                                                <input class="form-control" name="memory-title-input" type="text" aria-label="..." maxlength="30" placeholder="Enter a meaningful title..(max 30 chars)" value="" style="width:40em;">
+                                            </div>
+                                            <br>
+                                            <!-- Input: Memory description input field -->
+                                            <div class="input-group">
+                                                <span class="input-group-addon" style="width:9em; color:black;">Description</span>
+                                                <textarea class="form-control" name="mem-descrip-input" aria-label="..." maxlength="500" placeholder="Please, be as specific as possible..(max 500 chars)" value="" style="width:40em; height:7em;"></textarea>
+                                            </div>
+                                            <br>
+                                            <!-- DatePicker -->
+                                             <div id="datepicker" class="input-daterange input-group">
+                                                <span class="input-group-addon" style="width:5em; height:2.8em;"><i class="glyphicon glyphicon-calendar"></i></span>
+                                                <input class="input-sm form-control" id="input-datestart" name="input-datestart" type="text" readonly style="width:10em; height:2.8em;"/>
+                                                <span class="input-group-addon" style="width:5em">to</span>
+                                                <input class="input-sm form-control" id="input-dateend" name="input-dateend" type="text" readonly style="width:10em; height:2.8em;"/>
+                                                <span class="input-group-addon" style="width:5em;"><i class="glyphicon glyphicon-calendar"></i></span>
+                                            </div>
+                                            <br>
+                                            <!-- File Input: Picture input field -->
+                                            <div class="input-group">
+                                                <span id="title-add-img"><p>- Below, include some pictures that captured valuable moments of this memory -</p></span>
+                                                <button id="add-img-button" type="button" class="btn btn-default" style="width:15em;" onclick="addImgPanel()">Add Image</button><br><br>
+                                                <div class="add-memory-panel-section" id="add-memory-panel-section"></div>
+                                            </div>
+                                        </form>
                                     </div>
                                     <!-- Modal Footer -->
                                     <div class="modal-footer">
                                         <!-- Buttons: Create event & Cancel -->
-                                        <button id="create-event-button" type="button" class="btn btn-default">Add</button>
+                                        <button id="add-memory-button" type="submit" form="form-add-memory" class="btn btn-default">Add</button>
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                                     </div>
                                 </div>
@@ -225,10 +228,13 @@
             $('#memoryDetail').modal('show');
         }
 
+
         function addMemory() {
             $('#addMemory').modal('show');
         }
 
+
+        /* Reads the image and renders the picture in the panel/icon */
         function readImage(input) {
             // If a file has been chosen
             if (input.files && input.files[0]) {
@@ -241,8 +247,6 @@
                 reader.onload = function (e) {
                     $(input.parentNode.childNodes[0]).html("<img id='uploadedPicture' class='img-square' src='"+ e.target.result +"'>");
                     $(input.parentNode).css( "background-color", "white" );
-                    // var test = $(input.parentNode.childNodes[0]).html("hu");
-                    // console.log(test);
                 };
             }
             else {
@@ -251,6 +255,7 @@
                 $(input.parentNode).css( "background-color", "#e6e6e5");
             }
         }
+
 
         /* Adds a panel to add an image to a memory and its description */
         function addImgPanel(){
@@ -274,10 +279,36 @@
             $("#add-memory-panel-section").append(context);
         }
 
-    /* Closes the respective img panel */
+
+        /* Closes the respective img panel */
         function closeImgPanel(x_button){
             $(x_button.parentNode).remove();
         }
+
+
+        /* Saves the memory */
+        $(function() {
+            var form = $('#form-add-memory');
+            console.log(form.getValues());
+
+            $(form).submit(function(event){
+                event.preventDefault();
+                var formData = $(form).serialize();
+                $.ajax({
+                    type: 'POST',
+                    url: $(form).attr('action'),        
+                    data: formData,
+                    dataType:'json',                        
+                })
+                .done(function(response) {
+                    // console.log(response);
+                })
+                // If screen name is not found, found but there aren't any tweets or has already been searched
+                .fail(function(response) {
+                    
+                });
+            });
+        });
     </script>
 </body>
 </html>
