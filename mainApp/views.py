@@ -225,6 +225,7 @@ def addMemory(request):
                 mem_descp = request.POST.get('mem-descrip-input')
                 date_start = request.POST.get('input-datestart')
                 date_end = request.POST.get('input-dateend')
+                input_field = request.POST.get('uploadBtn1')
 
                 print request.POST
                 form_data = json.dumps({'context': mem_title})
