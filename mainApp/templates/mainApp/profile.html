@@ -276,7 +276,9 @@
                     "</div>" +
                 "</div>";
 
-            $("#add-memory-panel-section").append(context);
+            var newdiv = document.createElement('div');
+            newdiv.innerHTML = context; 
+            document.getElementById("add-memory-panel-section").append(context);
         }
 
 
@@ -289,7 +291,6 @@
         /* Saves the memory */
         $(function() {
             var form = $('#form-add-memory');
-            console.log(form.getValues());
 
             $(form).submit(function(event){
                 event.preventDefault();
