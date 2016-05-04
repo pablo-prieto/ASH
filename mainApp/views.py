@@ -225,7 +225,7 @@ def addMemory(request):
                 date_start = request.POST.get('input-datestart')
                 date_end = request.POST.get('input-dateend')
 
-                print request.POST
+                print len(request.POST)
                 form_data = json.dumps({'context': mem_title})
                 return HttpResponse(form_data)
 

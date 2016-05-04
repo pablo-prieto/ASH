@@ -162,6 +162,22 @@
                                     </div>
                                     <!-- Modal Body -->
                                     <div class="modal-body" style="padding-left:7%; padding-right:7%;" align="center">
+                                        <!-- div containing the img panels to be cloned into the form below when the Add Image button is clicked -->
+                                        <div id="readroot" class='memory-panel-outter-border' style="display: none">
+                                            <button type='button' class='close' onclick='closeImgPanel(this)'>&times;</button>
+                                            <div class='memory-panel-inner-border'>
+                                                <div class='memory-panel-content'>
+                                                    <div class='fileUpload'>
+                                                        <div class='img-selected'>
+                                                            <br><br><span class='plus-sign'</span>
+                                                            <p class='select-add-img-msg'>Select Image</p>
+                                                        </div>
+                                                        <input id='uploadBtn' type='file' accept='image/*' class='upload' onchange='readImage(this);'/>
+                                                    </div>
+                                                    <textarea class='form-control img-descrip-input' aria-label='...' maxlength='500' placeholder='Describe the moment captured in this picture (max 500 chars)' value=''></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <form id="form-add-memory" method="post" action="/mainApp/addMemory/">
                                             {% csrf_token %}
                                             <!-- Input: Memory title input field-->
@@ -189,7 +205,9 @@
                                             <div class="input-group">
                                                 <span id="title-add-img"><p>- Below, include some pictures that captured valuable moments of this memory -</p></span>
                                                 <button id="add-img-button" type="button" class="btn btn-default" style="width:15em;" onclick="addImgPanel()">Add Image</button><br><br>
-                                                <div class="add-memory-panel-section" id="add-memory-panel-section"></div>
+                                                <div class="add-memory-panel-section" id="add-memory-panel-section">
+                                                    <span id="writeroot"></span>
+                                                </div>
                                             </div>
                                         </form>
                                     </div>
@@ -258,27 +276,22 @@
 
 
         /* Adds a panel to add an image to a memory and its description */
-        function addImgPanel(){
-            var context =
-                "<div class='memory-panel-outter-border'>" +
-                    "<button type='button' class='close' onclick='closeImgPanel(this)'>&times;</button>" +
-                    "<div class='memory-panel-inner-border'>" +
-                        "<div class='memory-panel-content'>" +
-                            "<div class='fileUpload'>" +
-                                "<div class='img-selected'>" +
-                                    "<br><br><span class='plus-sign'>+</span>" +
-                                    "<p class='select-add-img-msg'>Select Image</p>" +
-                                "</div>" +
-                                "<input id='uploadBtn' type='file' accept='image/*' class='upload' onchange='readImage(this);'/>" +
-                            "</div>" +
-                            "<textarea class='form-control img-descrip-input' aria-label='...' maxlength='500' placeholder='Describe the moment captured in this picture (max 500 chars)' value=''></textarea>"+
-                        "</div>" +
-                    "</div>" +
-                "</div>";
-
-            var newdiv = document.createElement('div');
-            newdiv.innerHTML = context; 
-            document.getElementById("add-memory-panel-section").append(context);
+        var counter = 0;
+        function addImgPanel() {
+            counter++;
+            var newFields = document.getElementById('readroot').cloneNode(true);
+            // newFields.id = '';
+            newFields.style.display = 'inline-block';
+            var theName = $('#readroot :input')
+            console.log(theName);
+            // var newField = newFields.childNodes;
+            // for (var i=0;i<newField.length;i++) {
+            //     var theName = newField[i].name
+            //     if (theName)
+            //         newField[i].name = theName + counter;
+            // }
+            var insertHere = document.getElementById('writeroot');
+            insertHere.parentNode.insertBefore(newFields,insertHere);
         }
 
 
