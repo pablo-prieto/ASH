@@ -224,10 +224,10 @@ def addMemory(request):
                 mem_descp = request.POST.get('mem-descrip-input')
                 date_start = request.POST.get('input-datestart')
                 date_end = request.POST.get('input-dateend')
-                input_field = request.POST.get('uploadBtn1')
-
-                print request.POST
-                form_data = json.dumps({'context': mem_title})
+                print request.POST.keys()
+                print
+                print request.FILES.keys()
+                form_data = json.dumps({'context': "mem_title"})
                 return HttpResponse(form_data)
 
             except KeyError:
