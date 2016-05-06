@@ -168,29 +168,46 @@
                                             <button type='button' class='close' onclick='closeImgPanel(this)'>&times;</button>
                                             <div class='memory-panel-inner-border'>
                                                 <div class='memory-panel-content'>
+
+
+                                                    <!-- <textarea name='mem-pic-title' class='form-control img-descrip-input' maxlength='30' placeholder='Picture title...(max 30 chars)' value='' required></textarea> -->
+
+                                                    
                                                     <div class='fileUpload'>
                                                         <div class='img-selected'>
-                                                            <br><br><span class='plus-sign'></span>
+                                                            <br><br><span class='plus-sign'>+</span>
                                                             <p class='select-add-img-msg'>Select Image</p>
                                                         </div>
                                                         <input id='uploadBtn' type='file' accept='image/*' class='upload' onchange='readImage(this);' required/>
                                                     </div>
-                                                    <textarea class='form-control img-descrip-input' maxlength='500' placeholder='Describe the moment captured in this picture (max 500 chars)' value='' required></textarea>
+                                                    <textarea name='mem-pic-descp' class='form-control img-descrip-input' maxlength='500' placeholder='Describe the moment captured in this picture (max 500 chars)' value='' required></textarea>
                                                 </div>
                                             </div>
                                         </div>
-                                        <form id="form-add-memory" method="post" type="POST" action="/mainApp/addMemory/">
+                                        <form id="form-add-memory" method="post" type="POST" action="/mainApp/addMemory/{{subuser_username}}">
                                             {% csrf_token %}
                                             <!-- Input: Memory title input field-->
                                             <div class="input-group">
                                                 <span class="input-group-addon" style="width:9em; color:black; padding-left:1em; padding-right:1.2em;">Title</span>
-                                                <input class="form-control" name="memory_title_input" type="text" aria-label="..." maxlength="30" placeholder="Enter a meaningful title..(max 30 chars)" value="" style="width:40em;" required>
+                                                <input class="form-control" name="mem-title-input" type="text" maxlength="30" placeholder="Enter a meaningful title..(max 30 chars)" value="" style="width:40em;" required>
                                             </div>
                                             <br>
                                             <!-- Input: Memory description input field -->
                                             <div class="input-group">
                                                 <span class="input-group-addon" style="width:9em; color:black;">Description</span>
-                                                <textarea class="form-control" name="mem-descrip-input" aria-label="..." maxlength="500" placeholder="Please, be as specific as possible..(max 500 chars)" value="" style="width:40em; height:7em;" required></textarea>
+                                                <textarea class="form-control" name="mem-descrip-input" maxlength="500" placeholder="Please, be as specific as possible..(max 500 chars)" value="" style="width:40em; height:7em;" required></textarea>
+                                            </div>
+                                            <br>
+                                            <!-- Input: Memory location input field-->
+                                            <div class="input-group">
+                                                <span class="input-group-addon" style="width:9em; color:black; padding-left:1em; padding-right:1.2em;">Location</span>
+                                                <input class="form-control" name="mem-location-input" type="text" maxlength="30" placeholder="If you don't know, input a relevant description of that location..(max 30 chars)" value="" style="width:40em;" required>
+                                            </div>
+                                            <br>
+                                            <!-- Input: Memory other related people input field-->
+                                            <div class="input-group">
+                                                <span class="input-group-addon" style="width:9em; color:black; padding-left:1em; padding-right:1.2em;">People Related</span>
+                                                <input class="form-control" name="mem-related-people-input" type="text" maxlength="500" placeholder="Those who are took part in this memory and are important to {{client_firstname}}..(max 500 chars)" value="" style="width:40em;" required>
                                             </div>
                                             <br>
                                             <!-- DatePicker -->
@@ -230,7 +247,7 @@
                                         <h4 class="modal-title" align="center">Memory Addition Successful!</h4>
                                     </div>
                                     <div class="modal-body" align="center">
-                                        <p>Thanks a lot {{ subuser_firstname }} for helping {{ client_firstname }} keeping valuable moments of her life.</p>
+                                        <p>Thanks a lot {{ subuser_firstname }} for helping {{ client_firstname }} to keep valuable moments of her life.</p>
                                         <p>If you have more memories to share with {{ client_firstname }}, please upload them.</p>
                                     </div>
                                     <div class="modal-footer">
@@ -285,7 +302,7 @@
                 // Called when the read operation successfully completes
                 reader.onload = function (e) {
                     $(input.parentNode.childNodes[1]).html("<img id='uploadedPicture' class='img-square' src='"+ e.target.result +"'>");
-                    $(input.parentNode).css( "background-color", "white" );
+                    $(input.parentNode).css( "background-color", "#efefee" );
                 };
             }
             else {
@@ -306,11 +323,13 @@
             newFieldsDiv.style.display = 'inline-block';
             newFieldsDiv.id = 'img-panel' + counter;
 
-            // Change the img input id
-            // Add a name to use it in the form
+            // Change the img-input id, img-input name and text-input name
+            // Add a unique name to use it in the form
             var imgInputField = newFieldsDiv.querySelectorAll("input")[0];
+            var textareaInputField = newFieldsDiv.querySelectorAll("textarea")[0];
             imgInputField.id = imgInputField.id + counter;
             imgInputField.name = imgInputField.id;
+            textareaInputField.name = textareaInputField.name + counter;
             counter++;
             
             // Find the location to be added and insert the new panel

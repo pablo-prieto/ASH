@@ -202,6 +202,7 @@ def profile(request, user_id):
         })
 
     context = {
+        'subuser_username': current_user.UserName,
         'subuser_firstname': current_user.FirstName,
         'subuser_lastname': current_user.LastName,
         'subuser_profile_picture': current_user.ProfilePicture,
@@ -216,17 +217,64 @@ def profile(request, user_id):
     return render(request, 'mainApp/profile.html', context)
 
 
-def addMemory(request):
+def addMemory(request, subuser_username):
     if request.method == 'POST':
         if request.is_ajax:
             try:
-                mem_title = request.POST.get('memory-title-input')
+                # First we store the information of the memory in the Memory Table 
+                mem_title = request.POST.get('mem-title-input')
                 mem_descp = request.POST.get('mem-descrip-input')
+                mem_location = request.POST.get('mem-location-input')
+                others_related = request.POST.get('mem-related-people-input')
                 date_start = request.POST.get('input-datestart')
                 date_end = request.POST.get('input-dateend')
-                print request.POST.keys()
-                print
-                print request.FILES.keys()
+
+                # Replace the dashes to spaces to then convert it into a date format that can be stored in the DB
+                temp = date_start.replace('-', " ")
+                start = datetime.strptime(temp, '%M %d %Y')
+                temp = date_end.replace('-', " ")
+                end = datetime.strptime(temp, '%M %d %Y')
+
+                # Find the corresponding subuser
+                user = User.objects.get(UserName=subuser_username)
+                subuser = SubUser.objects.get(User=user)
+
+                # User the above information to create the new memory
+                new_memory = Memory(Title=mem_title,
+                                    Description=mem_descp,
+                                    Location=mem_location,
+                                    StartDate=start,
+                                    EndDate=end,
+                                    OtherRelated=others_related,
+                                    SubUser=subuser)
+
+                # # Save the new created memory
+                # new_memory.save()
+
+                # Now, we store the picture(s) of the memory with the respective information(s) in the Picture table
+                # Since we don't know the names of the pictures files, titles and description fields, we loop thru the
+                # dictionary of the request.POST and find them all. Every time we find one we see the index number that was
+                # attached to it when it was created and use the same indices for the picture file names. The title,
+                # and description of a picture should have the same index attached at the end of the basename.
+                # We do this because those indices are not consistent if the user deletes
+                # one of the panels in the form (refer to the function 'addImgPanel()' in the script of the profile.html)
+                for key in request.POST.keys():
+                    pass
+                    # picture_title = request.POST.get('mem-pic-title')
+                    # picture_descrip = request.POST.get('mem_pic_descp')
+                    # try:
+                    #     picture_file = request.FILES['']
+                    #     with open(settings.BASE_DIR + "/static_in_env/media_root/Pictures/" + picture_file.name, 'wb+') as destination:
+                    #         for chunk in picture_file.chunks():
+                    #             destination.write(chunk)
+                    # except:
+                    #     picture_file = ""
+
+                    # # mem_picture = Picture(Picture=picture_file,
+                    # #                     PictureTitle=,
+                    # #                     Description=,
+                    # #                     Memory=)
+
                 form_data = json.dumps({'context': "mem_title"})
                 return HttpResponse(form_data)
 
