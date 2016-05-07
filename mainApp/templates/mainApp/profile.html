@@ -163,16 +163,14 @@
                                     </div>
                                     <!-- Modal Body -->
                                     <div class="modal-body" style="padding-left:7%; padding-right:7%;" align="center">
-                                        <!-- div containing the img panels to be cloned into the form below when the Add Image button is clicked -->
+                                        <!-- div with img panels to be cloned into the form below when the Add Image button is clicked -->
                                         <div id="readroot" class='memory-panel-outter-border' style="display: none">
                                             <button type='button' class='close' onclick='closeImgPanel(this)'>&times;</button>
                                             <div class='memory-panel-inner-border'>
                                                 <div class='memory-panel-content'>
-
-
-                                                    <!-- <textarea name='mem-pic-title' class='form-control img-descrip-input' maxlength='30' placeholder='Picture title...(max 30 chars)' value='' required></textarea> -->
-
-                                                    
+                                                    <div style='display:table'>
+                                                        <input class='form-control img-title-input' name='mem-pic-title' type='text' maxlength='30' placeholder='Concise title..(max 30 chars)' value='' style='width:40em;' required>
+                                                    </div>
                                                     <div class='fileUpload'>
                                                         <div class='img-selected'>
                                                             <br><br><span class='plus-sign'>+</span>
@@ -323,13 +321,15 @@
             newFieldsDiv.style.display = 'inline-block';
             newFieldsDiv.id = 'img-panel' + counter;
 
-            // Change the img-input id, img-input name and text-input name
+            // Change the img-title name, img-input id, img-input name and text-input name
             // Add a unique name to use it in the form
-            var imgInputField = newFieldsDiv.querySelectorAll("input")[0];
-            var textareaInputField = newFieldsDiv.querySelectorAll("textarea")[0];
-            imgInputField.id = imgInputField.id + counter;
-            imgInputField.name = imgInputField.id;
-            textareaInputField.name = textareaInputField.name + counter;
+            var picTitleField = newFieldsDiv.querySelectorAll("input")[0];
+            var picFileField = newFieldsDiv.querySelectorAll("input")[1];
+            var picDetailField = newFieldsDiv.querySelectorAll("textarea")[0];
+            picTitleField.name = picTitleField.name + counter;
+            picFileField.id = picFileField.id + counter;
+            picFileField.name = picFileField.id;
+            picDetailField.name = picDetailField.name + counter;
             counter++;
             
             // Find the location to be added and insert the new panel

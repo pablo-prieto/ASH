@@ -77,11 +77,19 @@
     text-align: center;
 }
 
+.img-title-input {
+    min-width: 15em;
+    max-width: 15em;
+    min-height: 2.5em;
+    height: 100%;
+}
+
 .fileUpload {
     position: relative;
     overflow: hidden;
     width: auto;
     height: 13em;
+    margin-top: 0.2em;
     text-align: center;
     background-color: #e6e6e5;
 }
@@ -133,6 +141,7 @@
 .img-descrip-input {
     margin-top: 0.2em;
     margin-bottom: 0.2em;
+    min-width: 15em;
     max-width: 15em;
     min-height: 5em;
     height: 100%;
