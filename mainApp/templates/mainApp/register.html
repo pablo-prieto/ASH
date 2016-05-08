@@ -164,6 +164,15 @@
             <span class="input-group-addon" style="width:100px;">Profile Pic</span>
             {{ form.profile_picture }}
           </div>
+          {% if form.profile_picture.errors %}
+          <ul style="text-align: left; margin-left: 328px">
+            {% for error in form.profile_picture.errors %}
+            <li style="color:red">{{ error|escape }}</li>
+            {% endfor %}
+          </ul>
+          {% else %}
+            <br>
+          {% endif %}
           <br>
           <br>
           <br>
@@ -194,11 +203,15 @@
 
     $(form).submit(function(event){                // Set up an event listener for the contact form.
       event.preventDefault();                     // Stop the browser from submitting the form.
-      var formData = $(form).serialize();         // Serialize the form data.
+      var formData = new FormData(form[0]);
+      // var formData = $(form).serialize();         // Serialize the form data.
       $.ajax({                                    // Submit the form using AJAX.
         type: 'POST',
         url: $(form).attr('action'),
         data: formData,
+        cache: false,
+        processData: false,
+        contentType: false,
         dataType:'json',
       })
       .done(function(response){
