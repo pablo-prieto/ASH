@@ -69,12 +69,6 @@
                 <hr class="featurette-divider" style="margin:5px; border-color:#D1D0CE;">
             </div>
         </div><br>
-        <!-- End of Main User Profile Picture and Basic Info Section -->
-
-        <!-- <div>
-          <h4 style="text-align:center"><span style="width: 12em;font-size: 14px;border-color: #ccc;border-radius: 4px;border:1px solid transparent;padding:6px 12px;background-image:linear-gradient(to bottom,#fff 0,#e0e0e0 100%)">Reference ID:</span><span> abc1234</span></h4>
-        </div>
-        <br> -->
 
         <!-- Main User Profile Buttons Section -->
         <div class="row">
@@ -99,7 +93,7 @@
                                   {% for member in list_family_members %}
                                         <br>
                                         <li style="list-style: none"><a href="/mainApp/{{member.User.id}}/profile/">
-                                            <img class="img-circle" src="/media/{{member.User.ProfilePicture}}" style="width:10%; border:1px solid #D1D0CE;">
+                                            <img class="img-circle" src="/media/{{member.User.ProfilePicture.thumbnail}}" style="width:10%; border:1px solid #D1D0CE;">
                                             {{member.User.FirstName}} {{member.User.LastName}} ({{member.RelationshipToClient}})</a>
                                         </li>
                                   {% endfor %}
@@ -137,7 +131,7 @@
                                   {% for friend in list_friends %}
                                       <br>
                                       <li style="list-style: none"><a href="/mainApp/{{friend.User.id}}/profile/">
-                                            <img class="img-circle" src="/media/{{friend.User.ProfilePicture}}" style="width:10%; border:1px solid #D1D0CE;">
+                                            <img class="img-circle" src="/media/{{friend.User.ProfilePicture.thumbnail}}" style="width:10%; border:1px solid #D1D0CE;">
                                             {{friend.User.FirstName}} {{friend.User.LastName}} ({{friend.RelationshipToClient}})</a>
                                       </li>
                                   {% endfor %}
@@ -214,10 +208,10 @@
         <div class="row">
             <!-- Icon & Button: Special Person One -->
             <div class="col-md-4 text-center">
-              <a href="/mainApp/{{list_family_members.1.User.id}}/profile/">
-                <img class="img-circle" src="/media/{{list_family_members.1.User.ProfilePicture}}" style="width:50%; border:1px solid #D1D0CE;">
-                <h2>{{list_family_members.1.User.FirstName}} {{list_family_members.1.User.LastName}}</h2>
-                <p>My lovely Grand Son.</p>
+              <a href="/mainApp/{{list_family_members.0.User.id}}/profile/">
+                <img class="img-circle" src="/media/{{list_family_members.0.User.ProfilePicture.thumbnail}}" style="width:50%; border:1px solid #D1D0CE;">
+                <h2>{{list_family_members.0.User.FirstName}} {{list_family_members.0.User.LastName}}</h2>
+                <p>{{list_family_members.0.RelationshipToClient}}</p>
               </a>
                 <p><a class="btn btn-default" data-toggle="modal" data-target="#SpecialPersonOne">View details »</a></p>
             </div>
@@ -243,10 +237,10 @@
 
             <!-- Icon & Button: Special Person Two -->
             <div class="col-md-4 text-center">
-              <a href="/mainApp/{{list_family_members.0.User.id}}/profile/">
-                <img class="img-circle" src="/media/{{list_family_members.0.User.ProfilePicture}}" style="width:50%; border:1px solid #D1D0CE;">
-                <h2>{{list_family_members.0.User.FirstName}} {{list_family_members.0.User.LastName}}</h2>
-                <p>My lovely Grand Daughter.</p>
+              <a href="/mainApp/{{list_family_members.1.User.id}}/profile/">
+                <img class="img-circle" src="/media/{{list_family_members.1.User.ProfilePicture.thumbnail}}" style="width:50%; border:1px solid #D1D0CE;">
+                <h2>{{list_family_members.1.User.FirstName}} {{list_family_members.1.User.LastName}}</h2>
+                <p>{{list_family_members.1.RelationshipToClient}}</p>
               </a>
               <a class="btn btn-default" data-toggle="modal" data-target="#SpecialPersonTwo">View details »</a></p>
             </div>

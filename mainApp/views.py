@@ -5,10 +5,6 @@ from datetime import date, datetime
 from .forms import *
 from .models import (User, Client, SubUser, Memory, Picture)
 from django.conf import settings
-from sorl.thumbnail import ImageField, get_thumbnail
-import StringIO
-from PIL import Image
-from stdimage import StdImageField
 import json
 
 
@@ -61,13 +57,6 @@ def register(request):
                 address = request.POST.get('address')
                 try:
                     profile_picture = request.FILES['profile_picture']
-                    # picture_file = StringIO.StringIO(profile_picture.read())
-                    # image = Image.open(picture_file)
-                    # w, h = image.size
-                    # image = image.resize((w/2, h/2), Image.ANTIALIAS)
-                    # picture_file = StringIO.StriongIO()
-                    # print image
-                    # reformatted_picture = get_thumbnail(profile_picture, '100x100', crop='center', quality=99)
                     with open(settings.BASE_DIR + "/static_in_env/media_root/Profile_Pictures/" + profile_picture.name, 'wb+') as destination:
                         for chunk in profile_picture.chunks():
                             destination.write(chunk)
@@ -96,8 +85,8 @@ def register(request):
                     client = Client.objects.get(Reference_ID=reference_id)
                     subuser = SubUser(RelationshipToClient=relationship_to_client, User=user, Client=client)
                     subuser.save()
-                except:
-                    HttpResponse("Wrong Reference ID")
+                except Exception as e:
+                    print '%s (%s)' % (e.message, type(e))
             else:
                 print "nothing chosen"
             user_name_str = user.FirstName

@@ -4,6 +4,7 @@ import datetime
 
 from django.db import models
 from django.utils import timezone
+from stdimage import StdImageField
 
 
 class User(models.Model):
@@ -14,7 +15,7 @@ class User(models.Model):
     FirstName = models.CharField(max_length=500, blank=False, null=False)
     LastName = models.CharField(max_length=500, blank=False, null=False)
     BirthDate = models.DateField()
-    ProfilePicture = models.ImageField(upload_to='Profile_Pictures')
+    ProfilePicture = StdImageField(upload_to='Profile_Pictures', blank=True, variations={'thumbnail': {"width": 544, "height": 544, "crop": True}})
     PhoneNumber = models.CharField(max_length=11, blank=False, null=False)
     HomeAddress = models.TextField(blank=True)
     AboutMe = models.TextField(blank=True)
