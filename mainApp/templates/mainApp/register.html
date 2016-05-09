@@ -45,13 +45,12 @@
             {% endfor %}
           </div>
           {% if form.client_or_subuser.errors %}
-          <ul>
+          <ul style="text-align: left; margin-left: 328px">
             {% for error in form.client_or_subuser.errors %}
             <li style="color:red">{{ error|escape }}</li>
             {% endfor %}
           </ul>
           {% endif %}
-
           <div id='family_friend' class="input-group" style="width:50%; padding:0%;">
           </div>
           <br>
@@ -69,7 +68,7 @@
             {{ form.user_name }}
           </div>
           {% if form.user_name.errors %}
-          <ul>
+          <ul style="text-align: left; margin-left: 328px">
             {% for error in form.user_name.errors %}
             <li style="color:red">{{ error|escape }}</li>
             {% endfor %}
@@ -82,22 +81,54 @@
             <span class="input-group-addon" style="width:100px">Password</span>
             {{ form.password }}
           </div>
-          <br>
+          {% if form.password.errors %}
+          <ul style="text-align: left; margin-left: 328px">
+            {% for error in form.password.errors %}
+            <li style="color:red">{{ error|escape }}</li>
+            {% endfor %}
+          </ul>
+          {% else %}
+            <br>
+          {% endif %}
           <div class="input-group" style="width:50%; padding:0%;">
             <span class="input-group-addon" style="width:100px">First Name</span>
             {{ form.firstname }}
           </div>
-          <br>
+          {% if form.firstname.errors %}
+          <ul style="text-align: left; margin-left: 328px">
+            {% for error in form.firstname.errors %}
+            <li style="color:red">{{ error|escape }}</li>
+            {% endfor %}
+          </ul>
+          {% else %}
+            <br>
+          {% endif %}
           <div class="input-group" style="width:50%; padding:0%;">
             <span class="input-group-addon" style="width:100px">Last Name</span>
             {{ form.lastname }}
           </div>
-          <br>
+          {% if form.lastname.errors %}
+          <ul style="text-align: left; margin-left: 328px">
+            {% for error in form.lastname.errors %}
+            <li style="color:red">{{ error|escape }}</li>
+            {% endfor %}
+          </ul>
+          {% else %}
+            <br>
+          {% endif %}
           <div class="input-group" style="width:50%; padding:0%;">
             <span class="input-group-addon" style="width:100px">Email</span>
             {{ form.email }}
           </div>
-          <br>
+          {% if form.email.errors %}
+          <ul style="text-align: left; margin-left: 328px">
+            {% for error in form.email.errors %}
+            <li style="color:red">{{ error|escape }}</li>
+            {% endfor %}
+          </ul>
+          {% else %}
+            <br>
+          {% endif %}
           <div class="input-group" style="width:50%; padding:0%;">
             <span class="input-group-addon" style="width:100px;">Birthdate</span>
             {{ form.birthdate }}
@@ -107,16 +138,41 @@
             <span class="input-group-addon" style="width:100px">Phone #</span>
             {{ form.phone_number }}
           </div>
-          <br>
+          {% if form.phone_number.errors %}
+          <ul style="text-align: left; margin-left: 328px">
+            {% for error in form.phone_number.errors %}
+            <li style="color:red">{{ error|escape }}</li>
+            {% endfor %}
+          </ul>
+          {% else %}
+            <br>
+          {% endif %}
           <div class="input-group" style="width:50%; padding:0%;">
             <span class="input-group-addon" style="width:100px">Address</span>
             {{ form.address }}
           </div>
-          <br>
+          {% if form.address.errors %}
+          <ul style="text-align: left; margin-left: 328px">
+            {% for error in form.address.errors %}
+            <li style="color:red">{{ error|escape }}</li>
+            {% endfor %}
+          </ul>
+          {% else %}
+            <br>
+          {% endif %}
           <div class="input-group" style="width:50%; padding:0%;">
             <span class="input-group-addon" style="width:100px;">Profile Pic</span>
             {{ form.profile_picture }}
           </div>
+          {% if form.profile_picture.errors %}
+          <ul style="text-align: left; margin-left: 328px">
+            {% for error in form.profile_picture.errors %}
+            <li style="color:red">{{ error|escape }}</li>
+            {% endfor %}
+          </ul>
+          {% else %}
+            <br>
+          {% endif %}
           <br>
           <br>
           <br>
@@ -147,11 +203,15 @@
 
     $(form).submit(function(event){                // Set up an event listener for the contact form.
       event.preventDefault();                     // Stop the browser from submitting the form.
-      var formData = $(form).serialize();         // Serialize the form data.
+      var formData = new FormData(form[0]);
+      // var formData = $(form).serialize();         // Serialize the form data.
       $.ajax({                                    // Submit the form using AJAX.
         type: 'POST',
         url: $(form).attr('action'),
         data: formData,
+        cache: false,
+        processData: false,
+        contentType: false,
         dataType:'json',
       })
       .done(function(response){

@@ -37,9 +37,8 @@ def authenticateLogin(request):
 
 def register(request):
     if request.method == 'POST':
-        form = RegistrationForm(request.POST)
+        form = RegistrationForm(request.POST, request.FILES)
         response_error = "Error getting your info from the form."
-        print "method is post"
         if form.is_valid():
             print "form valid"
             try:
@@ -61,7 +60,8 @@ def register(request):
                     with open(settings.BASE_DIR + "/static_in_env/media_root/Profile_Pictures/" + profile_picture.name, 'wb+') as destination:
                         for chunk in profile_picture.chunks():
                             destination.write(chunk)
-                except:
+                except Exception as e:
+                    print '%s (%s)' % (e.message, type(e))
                     profile_picture = ""
 
             except:
@@ -85,77 +85,20 @@ def register(request):
                     client = Client.objects.get(Reference_ID=reference_id)
                     subuser = SubUser(RelationshipToClient=relationship_to_client, User=user, Client=client)
                     subuser.save()
-                except:
-                    HttpResponse("Wrong Reference ID")
+                except Exception as e:
+                    print '%s (%s)' % (e.message, type(e))
             else:
                 print "nothing chosen"
             user_name_str = user.FirstName
             # print user_name_str
 
             return HttpResponse(user_name_str)
+        else:
+            print "not valid"
     else:
         form = RegistrationForm()
     context = {"form": form}
     return render(request, "register.html", context)
-
-
-def authenticateRegister(request):
-    if request.is_ajax:
-        response_error = "Error getting your info from the form."
-
-        try:
-            choice = request.POST.get('client_or_subuser')
-            user_name = request.POST.get('user_name')
-            password = request.POST.get('password')
-            firstname = request.POST.get('firstname')
-            lastname = request.POST.get('lastname')
-            email = request.POST.get('email')
-            birthdate_month = request.POST.get('birthdate_month')
-            birthdate_day = request.POST.get('birthdate_day')
-            birthdate_year = request.POST.get('birthdate_year')
-            birthdate_str = str(birthdate_month + " " + birthdate_day + " " + birthdate_year)
-            birthdate = datetime.strptime(birthdate_str, '%M %d %Y')
-            phone_number = request.POST.get('phone_number')
-            address = request.POST.get('address')
-            try:
-                profile_picture = request.FILES['profile_picture']
-                with open(settings.BASE_DIR + "/static_in_env/media_root/Profile_Pictures/" + profile_picture.name, 'wb+') as destination:
-                    for chunk in profile_picture.chunks():
-                        destination.write(chunk)
-            except:
-                profile_picture = ""
-
-        except:
-            return HttpResponse(response_error)
-
-        user = User(UserName=user_name, Email=email, Password=password,
-                    FirstName=firstname, LastName=lastname,
-                    BirthDate=birthdate, ProfilePicture=profile_picture,
-                    PhoneNumber=phone_number, HomeAddress=address,
-                    AboutMe="Add some info about yourself :)")
-        # Need to implement check for empty values.
-        user.save()
-        if choice == "Client":
-            reference_id = "abc1234"
-            client = Client(User=user, Reference_ID=reference_id)
-            client.save()
-        elif choice == "Family_Friend":
-            reference_id = request.POST.get('reference_id')
-            relationship_to_client = request.POST.get('relationship_to_client')
-            try:
-                client = Client.objects.get(Reference_ID=reference_id)
-                subuser = SubUser(RelationshipToClient=relationship_to_client, User=user, Client=client)
-                subuser.save()
-            except:
-                HttpResponse("Wrong Reference ID")
-        else:
-            print "nothing chosen"
-        user_name_str = user.FirstName
-        # print user_name_str
-
-        return HttpResponse(user_name_str)
-    else:
-        raise Http404
 
 
 def index(request, user_id):
