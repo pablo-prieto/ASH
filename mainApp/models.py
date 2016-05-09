@@ -73,7 +73,7 @@ class Memory(models.Model):
     Description = models.CharField(max_length=500, blank=False, null=False)
     Location = models.TextField(blank=True)
     StartDate = models.DateTimeField()
-    EndDate = models.DateTimeField() #Needed to know when started and ended.
+    EndDate = models.DateTimeField()
     OtherRelated = models.CharField(max_length=500, blank=False, null=False)
     SubUser = models.ForeignKey(SubUser)
 

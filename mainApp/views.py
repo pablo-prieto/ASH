@@ -258,23 +258,23 @@ def addMemory(request, subuser_username):
                 # and description of a picture should have the same index attached at the end of the basename.
                 # We do this because those indices are not consistent if the user deletes
                 # one of the panels in the form (refer to the function 'addImgPanel()' in the script of the profile.html)
-                # for key in request.POST.keys():
-                #     if 'mem-pic-title' in key:
-                #         picture_title = request.POST.get(key)
+                for key in request.FILES.keys():
+                    index = key[len(key) - 1]
+                    picture_title = request.POST.get('mem-pic-title' + index)
+                    picture_descrip = request.POST.get('mem-pic-descripdescrip' + index)
 
-                #     picture_title = request.POST.get('mem-pic-title')
-                #     picture_descrip = request.POST.get('mem_pic_descp')
-                #     try:
-                #         picture_file = request.FILES['']
-                #         with open(settings.BASE_DIR + "/static_in_env/media_root/Pictures/" + picture_file.name, 'wb+') as destination:
-                #             for chunk in picture_file.chunks():
-                #                 destination.write(chunk)
-                #     except:
-                #         picture_file = ""
+                    # Try to retreive the picture file and save it
+                    try:
+                        picture_file = request.FILES[key]
+                        with open(settings.BASE_DIR + "/static_in_env/media_root/Pictures/" + picture_file.name, 'wb+') as destination:
+                            for chunk in picture_file.chunks():
+                                destination.write(chunk)
+                    except:
+                        picture_file = ""
 
                     # mem_picture = Picture(Picture=picture_file,
-                    #                     PictureTitle=,
-                    #                     Description=,
+                    #                     PictureTitle=picture_title,
+                    #                     Description=picture_descrip,
                     #                     Memory=)
 
                 form_data = json.dumps({'context': "mem_title"})
