@@ -135,12 +135,19 @@ def profile(request, user_id):
         pictures_list = []
 
         for picture in pictures:
-            pictures_list.append(picture.Picture)
+            pictures_list.append({
+                'title': picture.PictureTitle,
+                'descrip': picture.Description,
+                'file': picture.Picture
+            })
 
         memory_list.append({
             'title': memory.Title,
             'description': memory.Description,
-            'date': memory.StartDate,
+            'location': memory.Location,
+            'start_date': memory.StartDate.date(),
+            'end_date': memory.EndDate.date(),
+            'others_related': memory.OtherRelated,
             'pictures': pictures_list
         })
 
@@ -164,7 +171,7 @@ def addMemory(request, subuser_username):
     if request.method == 'POST':
         if request.is_ajax:
             try:
-                # First we store the information of the memory in the Memory Table 
+                # First we store the information of the memory in the Memory Table
                 mem_title = request.POST.get('mem-title-input')
                 mem_descp = request.POST.get('mem-descrip-input')
                 mem_location = request.POST.get('mem-location-input')
@@ -191,8 +198,8 @@ def addMemory(request, subuser_username):
                                     OtherRelated=others_related,
                                     SubUser=subuser)
 
-                # # Save the new created memory
-                # new_memory.save()
+                # Save the new created memory
+                new_memory.save()
 
                 # Now, we store the picture(s) of the memory with the respective information(s) in the Picture table
                 # Since we don't know the names of the pictures files, titles and description fields, we loop thru the
@@ -204,7 +211,7 @@ def addMemory(request, subuser_username):
                 for key in request.FILES.keys():
                     index = key[len(key) - 1]
                     picture_title = request.POST.get('mem-pic-title' + index)
-                    picture_descrip = request.POST.get('mem-pic-descripdescrip' + index)
+                    picture_descrip = request.POST.get('mem-pic-descrip' + index)
 
                     # Try to retreive the picture file and save it
                     try:
@@ -215,10 +222,11 @@ def addMemory(request, subuser_username):
                     except:
                         picture_file = ""
 
-                    # mem_picture = Picture(Picture=picture_file,
-                    #                     PictureTitle=picture_title,
-                    #                     Description=picture_descrip,
-                    #                     Memory=)
+                    mem_picture = Picture(Picture=picture_file,
+                                          PictureTitle=picture_title,
+                                          Description=picture_descrip,
+                                          Memory=new_memory)
+                    mem_picture.save()
 
                 form_data = json.dumps({'context': "mem_title"})
                 return HttpResponse(form_data)

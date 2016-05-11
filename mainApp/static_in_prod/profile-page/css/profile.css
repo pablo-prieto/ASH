@@ -48,6 +48,10 @@
 }
 
 
+.memory-descrip-div {
+    padding: 2em;
+}
+
 .add-memory-panel-section {
     /* None */
 }
@@ -172,4 +176,41 @@
     font-weight: bold;
     font-size: 15px; 
     color: #8c8c8c;
+}
+
+.carousel {
+    min-width: 50em;
+    max-width: 50em;
+    min-height: 50em;
+    max-height: 50em;
+    background: white;
+}
+
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+    height: 34em;
+    margin: auto;
+}
+
+.carousel-inner > .item > .container {
+    max-width: 50em;
+}
+
+.carousel-caption {
+    position: relative;
+    left: auto;
+    right: auto;
+    text-shadow: none;
+    color: black;
+}
+
+.carousel-indicators > li {
+    cursor: pointer;
+    border: none;
+    border-radius: 50%;
+    box-shadow: inset 1px 1px 1px 1px rgba(0,0,0,0.5);
+}
+
+.carousel-indicators .active {
+    background-color: #999999;
 }

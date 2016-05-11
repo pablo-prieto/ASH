@@ -11,9 +11,6 @@ urlpatterns = [
     url(r'^login/', views.login, name='login'),
     url(r'^register/', views.register, name='register'),
     url(r'^authenticateLogin/', views.authenticateLogin, name='authenticateLogin'),
-
-    url(r'^addMemory/', views.addMemory, name='addMemory'),
-
     url(r'^addMemory/(?P<subuser_username>[-\w]+)', views.addMemory, name='addMemory'),
     # url(r'^(?P<user_id>[0-9]+)/vote/$', views.vote, name='vote'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
