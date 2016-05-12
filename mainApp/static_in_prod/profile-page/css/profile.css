@@ -51,7 +51,7 @@
 .memory-descrip-div {
     padding-left: 2em;
     padding-right: 2em;
-    padding-bottom: 2em;
+    padding-bottom: .5em;
 }
 
 .add-memory-panel-section {
@@ -116,8 +116,6 @@
 }
 
 .img-selected img{
-    /*height: 12em;
-    width: 12em;*/
     max-height: 100%;
     max-width: 100%;
     width: auto;
@@ -215,4 +213,41 @@
 
 .carousel-indicators .active {
     background-color: #999999;
+}
+
+.img-panel-border {
+    margin: 1em;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    border: 1px solid #D1D0CE;
+    border-radius: 5px;
+    margin-top: 1.2em;
+    padding-bottom: 0.2em;
+}
+
+.img-panel-content {
+    border: none;
+    margin: 0.2em;
+    min-width: 11em;
+    max-width: 11em;
+    min-height: 11em;
+    max-height: auto;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    background-color: #e6e6e5;
+}    
+
+.all-image-icons {
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
 }

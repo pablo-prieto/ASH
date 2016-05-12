@@ -137,8 +137,8 @@
                                                     <p>{{ memory.others_related }}</p>
                                                 </div>
                                                 <div class="memory-descrip-div">
-                                                    <h4>Pictures</h4>
-                                                    <div class="container">
+                                                    <h4>Pictures</h4><br>
+                                                    <div align="center">
                                                         <div id="myCarousel{{forloop.counter}}" class="carousel slide" data-ride="carousel">
                                                             <!-- Indicators -->
                                                             <ol class="carousel-indicators">
@@ -156,23 +156,18 @@
                                                                         {% if forloop.counter == 1 %}
                                                                             <div class="item active">
                                                                                 <img src="/media/{{ picture.file }}" >
-                                                                                
-                                                                                    <div class="carousel-caption">
-                                                                                        <h3>{{ picture.title}}</h3>
-                                                                                        <p>{{ picture.descrip }}</p>
-                                                                                    </div>
-                                                                                
+                                                                                <div class="carousel-caption">
+                                                                                    <h3>{{ picture.title}}</h3>
+                                                                                    <p>{{ picture.descrip }}</p>
+                                                                                </div>
                                                                             </div> 
                                                                         {% else %}
                                                                             <div class="item">
-                                                                        
                                                                                 <img src="/media/{{ picture.file }}" >
-                                                                                
-                                                                                    <div class="carousel-caption">
-                                                                                        <h3>{{ picture.title}}</h3>
-                                                                                        <p>{{ picture.descrip }}</p>
-                                                                                    </div>
-                                                                                
+                                                                                <div class="carousel-caption">
+                                                                                    <h3>{{ picture.title}}</h3>
+                                                                                    <p>{{ picture.descrip }}</p>
+                                                                                </div>
                                                                             </div>   
                                                                         {% endif %} 
                                                                     {% endfor %}
@@ -194,10 +189,19 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="memory-descrip-div">
+                                                <div class="memory-descrip-div" align="center">
+                                                    <br>
                                                     {% if memory.pictures %}
                                                         {% for picture in memory.pictures %}
-                                                            <img class="img-square" src="/media/{{ picture.file }}" onclick="addPictureToMemory()" style="cursor: pointer; width:30%; border:1px solid #D1D0CE; border-radius:5px;">
+                                                            <!-- <div class='img'> -->
+                                                                <div class='img-panel-border'>
+                                                                    <div class='img-panel-content'>
+                                                                        <!-- <div class='fileUpload'> -->
+                                                                            <img class='all-image-icons' src='/media/{{ picture.file }}'>
+                                                                        <!-- </div> -->
+                                                                    </div>
+                                                                </div>
+                                                            <!-- </div> -->
                                                         {% endfor %}
                                                     {% else %}
                                                         <img class="img-square" src="{% static 'images/no_image.png' %}" onclick="addPictureToMemory()" style="cursor: pointer; width:30%; border:1px solid #D1D0CE; border-radius:5px;">
