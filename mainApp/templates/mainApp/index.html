@@ -203,95 +203,82 @@
 
         <!-- Three Special People Section -->
         <hr class="featurette-divider" style="width:60%; border-color:#D1D0CE;">
-        <p style="font-family:serif; font-size:3em;" align="center">Your Special People...</p><br>
+        <p style="font-family:serif; font-size:3em;" align="center">Your Special People</p><br>
 
-        <div class="row">
-            <!-- Icon & Button: Special Person One -->
-            <div class="col-md-4 text-center">
-              <a href="/mainApp/{{list_family_members.0.User.id}}/profile/">
-                <img class="img-circle" src="/media/{{list_family_members.0.User.ProfilePicture.thumbnail}}" style="width:50%; border:1px solid #D1D0CE;">
-                <h2>{{list_family_members.0.User.FirstName}} {{list_family_members.0.User.LastName}}</h2>
-                <p>{{list_family_members.0.RelationshipToClient}}</p>
-              </a>
-                <p><a class="btn btn-default" data-toggle="modal" data-target="#SpecialPersonOne">View details »</a></p>
-            </div>
+        <div class="row" id="RowOfSpecialPeople">
+            <!-- Icon & Button: Special Person -->
+            {% if list_special_people %}
+              {% for person in list_special_people %}
+                <div class="col-md-4 text-center">
+                  <a href="/mainApp/{{person.SubUser.User.id}}/profile/">
+                    <img class="img-circle" src="/media/{{person.SubUser.User.ProfilePicture.thumbnail}}" style="width:50%; border:1px solid #D1D0CE;">
+                    <h2>{{person.SubUser.User.FirstName}} {{person.SubUser.User.LastName}}</h2>
+                    <p>{{person.SubUser.RelationshipToClient}}</p>
+                  </a>
+                    <button type="button" class="btn btn-default" id="removeSpecialPerson{{person.SubUser.id}}" onclick="removeSpecialPerson(this.id);"><span style="color:red">X</span> - Remove</button>
+                    <!-- <p><a class="btn btn-default" data-toggle="modal" data-target='#SpecialPerson{{person.id}}'><span style="color:red">X</span> - Remove</a></p> -->
+                </div>
 
-            <!-- Modal: Special Person One -->
-            <div class="modal fade" id="SpecialPersonOne" role="dialog">
-                <div class="modal-dialog">
+                <!-- <div class="modal fade" id='SpecialPerson{{person.id}}' role="dialog">
+                    <div class="modal-dialog"> -->
+                        <!-- Modal content-->
+                        <!-- <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">{{person.SubUser.User.FirstName}} {{person.SubUser.User.LastName}}</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p>Short description like in the ABOUT ME modal of the main user.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+              {% endfor %}
+            {% endif %}
+            {% for i in string_remaining_spots %}
+              <!-- Icon & Button: Special Person Three -->
+              <div class="col-md-4 text-center">
+                <a data-toggle="modal" data-target="#SpecialPersonThree">
+                  <img class="img-circle" src="{% static 'images/plus-icon.png' %}" style="width:50%; border:1px solid #D1D0CE;">
+                </a>
+              </div>
+
+              <!-- Modal: Special Person Three -->
+              <div class="modal fade" id="SpecialPersonThree" role="dialog">
+                  <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">About Gregory Smith</h4>
+                            <h4 class="modal-title">My Friends & Family</h4>
                         </div>
                         <div class="modal-body">
-                            <p>Short description like in the ABOUT ME modal of the main user.</p>
+                            <ul>
+                              {% if list_subusers %}
+                                  {% for member in list_subusers %}
+                                      <br>
+                                      <li style="list-style: none" id="addSpecialPerson{{member.id}}" data-memid="{{member.id}}" onclick="addSpecialPerson(this.id);">
+                                            <img class="img-circle" src="/media/{{member.User.ProfilePicture.thumbnail}}" style="width:10%; border:1px solid #D1D0CE;">
+                                            {{member.User.FirstName}} {{member.User.LastName}} ({{member.RelationshipToClient}})
+                                      </li>
+                                  {% endfor %}
+                              {% else %}
+                                  <p>No members available.</p>
+                              {% endif %}
+                            </ul>
+                            <!-- <p>Short description.</p> -->
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
                     </div>
-                </div>
-            </div>
+                  </div>
+              </div>
+            {% endfor %}
 
-            <!-- Icon & Button: Special Person Two -->
-            <div class="col-md-4 text-center">
-              <a href="/mainApp/{{list_family_members.1.User.id}}/profile/">
-                <img class="img-circle" src="/media/{{list_family_members.1.User.ProfilePicture.thumbnail}}" style="width:50%; border:1px solid #D1D0CE;">
-                <h2>{{list_family_members.1.User.FirstName}} {{list_family_members.1.User.LastName}}</h2>
-                <p>{{list_family_members.1.RelationshipToClient}}</p>
-              </a>
-              <a class="btn btn-default" data-toggle="modal" data-target="#SpecialPersonTwo">View details »</a></p>
-            </div>
-
-            <!-- Modal: Special Person Two -->
-            <div class="modal fade" id="SpecialPersonTwo" role="dialog">
-                <div class="modal-dialog">
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">About Sally Smith</h4>
-                        </div>
-                        <div class="modal-body">
-                            <p>Short description like in the ABOUT ME modal of the main user.</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Icon & Button: Special Person Three -->
-            <div class="col-md-4 text-center">
-              <a href="/mainApp/2/">
-                <img class="img-circle" src="{% static 'images/plus-icon.png' %}" style="width:50%; border:1px solid #D1D0CE;">
-                <!-- <h2>Kathy Jones</h2>
-                <p>Best friend ever since childhood. Can't ask for a better friend in my life.</p> -->
-                <!-- <p><a class="btn btn-default" data-toggle="modal" data-target="#SpecialPersonThree">View details »</a></p> -->
-              </a>
-            </div>
-
-            <!-- Modal: Special Person Three -->
-            <div class="modal fade" id="SpecialPersonThree" role="dialog">
-                <div class="modal-dialog">
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">About Kathy Jones</h4>
-                        </div>
-                        <div class="modal-body">
-                            <p>Short description like in the ABOUT ME modal of the main user.</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div><br><br><br><br><br><br>
         <!-- /End of Three Favorite People Section -->
 
@@ -308,7 +295,13 @@
         <script>
         $(function () {
           $('[data-toggle="popover"]').popover()
-        })
+        });
+        function addSpecialPerson(li)
+        {
+          $.get('/mainApp/addSpecialPerson/', {member_id: li}, function(data){
+                        window.location.reload(true);
+             });
+        }
         </script>
 </body>
 </html>
