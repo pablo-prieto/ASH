@@ -272,7 +272,7 @@ def addMemory(request, subuser_username):
                                           Memory=new_memory)
                     mem_picture.save()
 
-                form_data = json.dumps({'context': "mem_title"})
+                form_data = json.dumps({'context': "successful"})
                 return HttpResponse(form_data)
 
             except KeyError:

@@ -31,13 +31,20 @@
     border: 1px solid #D1D0CE;
     border-radius: 100%;
     margin: 0.2em;
-    min-width: 10em;
-    max-width: 10em;
-    min-height: 10em;
-    max-height: 10em;
-    display: inline-block;
-    vertical-align: top;
+    width: 10em;
+    height: 10em;
+    vertical-align: middle;
     text-align: center;
+    display: table-cell;
+    cursor: pointer;
+}
+
+.plus-icon:hover {
+   border-color: #337ab7;
+}
+
+.plus-icon:hover span {
+   color: #337ab7;
 }
 
 .plus-icon img {
@@ -51,7 +58,7 @@
 .memory-descrip-div {
     padding-left: 2em;
     padding-right: 2em;
-    padding-bottom: 2em;
+    padding-bottom: .5em;
 }
 
 .add-memory-panel-section {
@@ -116,8 +123,6 @@
 }
 
 .img-selected img{
-    /*height: 12em;
-    width: 12em;*/
     max-height: 100%;
     max-width: 100%;
     width: auto;
@@ -173,7 +178,7 @@
     text-align: center;
 }
 
-#title-add-img {
+.title-add-img {
     font-family: arial;
     font-weight: bold;
     font-size: 15px; 
@@ -186,6 +191,10 @@
     min-height: 50em;
     max-height: 50em;
     background: white;
+}
+
+.carousel-control {
+    border-radius: 5px;
 }
 
 .carousel-inner > .item > img,
@@ -215,4 +224,43 @@
 
 .carousel-indicators .active {
     background-color: #999999;
+}
+
+.img-panel-border {
+    margin: 1em;
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+    border: 1px solid #D1D0CE;
+    border-radius: 5px;
+    margin-top: 1.2em;
+    padding-bottom: 0.2em;
+}
+
+.img-panel-content {
+    border: none;
+    margin: 0.2em;
+    min-width: 11em;
+    max-width: 11em;
+    min-height: 11em;
+    max-height: 11em;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    background-color: #e6e6e5;
+}    
+
+.all-image-icons {
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    cursor: pointer;
+
 }
