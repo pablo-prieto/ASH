@@ -97,7 +97,6 @@
                         {% if memories %}
                             {% for memory in memories %}
                                 {% if memory.pictures %}
-                                    
                                     <div class="memory-panel-outter-border">
                                         <div class='memory-panel-inner-border'>
                                             <div class='img-panel-content'>
@@ -219,10 +218,86 @@
                                                             </div>
                                                         </div>
                                                     {% endif %}
+                                                    <!-- Option to add a picture to the memory -->
+                                                    <div class="memory-panel-outter-border">
+                                                        <br>
+                                                        <div class="plus-icon" onclick="addPictureToMemory('{{ forloop.counter }}')">
+                                                            <span class="plus-sign">+</span>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.reload(true);">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Modal: Add Picture to Current Memory -->
+                                <div class="modal fade" id="addPictureToMemory" role="dialog">
+                                    <div class="modal-dialog" style="min-width:68em;">
+                                        <!-- Modal Content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title" align="center"><strong>Add Picture to Current Memory</strong></h4>
+                                            </div>
+                                            <!-- Modal Body -->
+                                            <div class="modal-body" align="center">
+                                                <form id="form-add-pic-to-mem" method="post" type="POST" action="/mainApp/addMemory/{{subuser_username}}">
+                                                    {% csrf_token %}
+                                                    <!-- File Input: Picture input field -->
+                                                    <div class="memory-descrip-div">
+                                                        <h4>Title</h4>
+                                                        <p>{{ memory.title }}</p>
+                                                    </div>
+                                                    <div class="memory-descrip-div">
+                                                    <h4>Date</h4>
+                                                        {% if memory.start_date == memory.end_date %}
+                                                            <p>{{ memory.start_date }}</p>
+                                                        {% else %}
+                                                            <p>{{ memory.start_date }} - {{ memory.start_date }}</p>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="memory-descrip-div">
+                                                        <h4>Location</h4>
+                                                        <p>{{ memory.location }}</p>
+                                                    </div>
+                                                    <br>
+                                                    <div class="memory-descrip-div" align="center">
+                                                        <h4>Include pictures that captured valuable moments of this memory</h4>
+                                                        <p class='title-add-img'>- Please, they must be relevant to {{ client_firstname }} -</p>
+                                                        <button type="button" class="btn btn-default" style="width:15em;" onclick="addImgPanel()">Add Image</button><br><br>
+                                                        <div class="add-memory-panel-section">
+                                                            <!-- div with img panels to be cloned into the form below when the Add Image button is clicked -->
+                                                            <div id="readroot-add-pic-to-mem" class='memory-panel-outter-border' style="display: none">
+                                                                <button type='button' class='close' onclick='closeImgPanel(this)'>&times;</button>
+                                                                <div class='memory-panel-inner-border'>
+                                                                    <div class='memory-panel-content'>
+                                                                        <div style='display:table'>
+                                                                            <input class='form-control img-title-input' name='mem-pic-title' type='text' maxlength='30' placeholder='Concise title..(max 30 chars)' value='' style='width:40em;' required>
+                                                                        </div>
+                                                                        <div class='fileUpload'>
+                                                                            <div class='img-selected'>
+                                                                                <br><br><span class='plus-sign'>+</span>
+                                                                                <p class='select-add-img-msg'>Select Image</p>
+                                                                            </div>
+                                                                            <input id='uploadBtn' type='file' accept='image/*' class='upload' onchange='readImage(this);' required/>
+                                                                        </div>
+                                                                        <textarea name='mem-pic-descrip' class='form-control img-descrip-input' maxlength='500' placeholder='Describe the moment captured in this picture (max 500 chars)' value='' required></textarea>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <span id="writeroot-add-pic-to-mem"></span>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <!-- Modal Footer -->
+                                            <div class="modal-footer">
+                                                <!-- Buttons: Create event & Cancel -->
+                                                <button id="add-memory-button" type="submit" form="form-add-memory" class="btn btn-default">Add</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                                             </div>
                                         </div>
                                     </div>
@@ -232,7 +307,6 @@
                                 <br>
                                 <div class="plus-icon" onclick="addMemory()">
                                     <span class="plus-sign">+</span>
-                                    <!-- <img class="img-square" src="{% static 'images/plus-icon.png' %}" onclick="addMemory()"> -->
                                 </div>
                             </div>
                         {% else %}
@@ -309,7 +383,7 @@
                                             <br>
                                             <!-- File Input: Picture input field -->
                                             <div class="input-group">
-                                                <span id="title-add-img"><p>- Below, include some pictures that captured valuable moments of this memory -</p></span>
+                                                <p class='title-add-img'>- Below, include some pictures that captured valuable moments of this memory -</p>
                                                 <button id="add-img-button" type="button" class="btn btn-default" style="width:15em;" onclick="addImgPanel()">Add Image</button><br><br>
                                                 <div class="add-memory-panel-section" id="add-memory-panel-section">
                                                     <span id="writeroot"></span>
@@ -367,8 +441,9 @@
     <!-- SCRIPTS -->
     <script type="text/javascript">
         /* Displays the modal with the details of the selected memory */
-        function memoryDetail(counter) {
-            $('#memoryDetail'+counter).modal('show');
+        function memoryDetail(index) {
+            // $('#addPictureToMemory').modal('show');
+            $('#memoryDetail'+index).modal('show');
         }
 
 
@@ -466,6 +541,13 @@
                 });
             });
         });
+
+
+        /* Adds a picture with its title and description */
+        function addPictureToMemory(index) {
+            $('#memoryDetail'+index).modal('hide');
+            $('#addPictureToMemory').modal('show');
+        }
     </script>
 </body>
 </html>
