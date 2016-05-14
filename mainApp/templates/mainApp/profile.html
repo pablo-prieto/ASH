@@ -97,13 +97,22 @@
                         {% if memories %}
                             {% for memory in memories %}
                                 {% if memory.pictures %}
-                                    <div class="event-icon">
-                                        <img class="img-square" src="/media/{{ memory.pictures.0.file }}" onclick="memoryDetail('{{forloop.counter}}')">
+                                    
+                                    <div class="memory-panel-outter-border">
+                                        <div class='memory-panel-inner-border'>
+                                            <div class='img-panel-content'>
+                                                <img class='all-image-icons' src='/media/{{ memory.pictures.0.file }}' onclick="memoryDetail('{{forloop.counter}}')">
+                                            </div>
+                                        </div>
                                         <div style="margin:5%;">{{ memory.title }}</div>
                                     </div>
                                 {% else %}
-                                    <div class="event-icon">
-                                        <img class="img-square" src="{% static 'images/no_image.png' %}" onclick="memoryDetail('{{forloop.counter}}')" style="border:1px solid #D2D5D6; border-radius:5px;">
+                                    <div class="memory-panel-outter-border">
+                                        <div class='memory-panel-inner-border'>
+                                            <div class='img-panel-content'>
+                                                <img class="img-square" src="{% static 'images/no_image.png' %}" onclick="memoryDetail('{{forloop.counter}}')" style="border:1px solid #D2D5D6; border-radius:5px;">
+                                            </div>
+                                        </div>
                                         <div style="margin:5%;">{{ memory.title }}</div>
                                     </div>
                                 {% endif %}
@@ -193,18 +202,22 @@
                                                     <br>
                                                     {% if memory.pictures %}
                                                         {% for picture in memory.pictures %}
-                                                            <!-- <div class='img'> -->
-                                                                <div class='img-panel-border'>
-                                                                    <div class='img-panel-content'>
-                                                                        <!-- <div class='fileUpload'> -->
-                                                                            <img class='all-image-icons' src='/media/{{ picture.file }}'>
-                                                                        <!-- </div> -->
-                                                                    </div>
+                                                            <div class='img-panel-border'>
+                                                                <div class='img-panel-content'>
+                                                                    <a href="#myCarousel{{forloop.parentloop.counter}}" data-slide-to="{{forloop.counter0}}">
+                                                                        <img class='all-image-icons' src='/media/{{ picture.file }}' onclick="scrollToCarousel('#myCarousel{{forloop.parentloop.counter}}')">
+                                                                    </a>
                                                                 </div>
-                                                            <!-- </div> -->
+                                                            </div>
                                                         {% endfor %}
                                                     {% else %}
-                                                        <img class="img-square" src="{% static 'images/no_image.png' %}" onclick="addPictureToMemory()" style="cursor: pointer; width:30%; border:1px solid #D1D0CE; border-radius:5px;">
+                                                        <div class='img-panel-border'>
+                                                            <div class='img-panel-content'>
+                                                                <a href="#myCarousel{{forloop.parentloop.counter}}" data-slide-to="{{forloop.counter0}}">
+                                                                    <img class="all-image-icons" src="{% static 'images/no_image.png' %}" onclick="addPictureToMemory()" style="cursor: pointer; width:30%; border:1px solid #D1D0CE; border-radius:5px;">
+                                                                </a>
+                                                            </div>
+                                                        </div>
                                                     {% endif %}
                                                 </div>
                                             </div>
@@ -215,19 +228,17 @@
                                     </div>
                                 </div>
                             {% endfor %}
-                            <div class="plus-icon">
-                                <img class="img-square" src="{% static 'images/plus-icon.png' %}" onclick="addMemory()">
+                            <div class="memory-panel-outter-border">
+                                <br>
+                                <div class="plus-icon" onclick="addMemory()">
+                                    <span class="plus-sign">+</span>
+                                    <!-- <img class="img-square" src="{% static 'images/plus-icon.png' %}" onclick="addMemory()"> -->
+                                </div>
                             </div>
                         {% else %}
                             <div class="plus-icon">
                                 <img class="img-square" src="{% static 'images/plus-icon.png' %}" onclick="addMemory()">
                             </div>
-                            <!-- <div class="plus-icon-mem">
-                                <div class="plus-icon-mem-content">
-                                    <br><br><span class="plus-sign">+</span>
-                                    <p class="select-add-img-msg">Add Another Image</p>
-                                </div>
-                            </div> -->
                         {% endif %}
                         </div>
 
@@ -364,6 +375,14 @@
         /* Displays the modal with a form to add a memory */
         function addMemory() {
             $('#addMemory').modal('show');
+        }
+
+
+        /* Scrolls the screen to the carousel */
+        function scrollToCarousel(carouselId) {
+            // var target = $(carouselId).parent().siblings('h4');
+            $("#memoryDetail2").animate({ scrollTop: $(carouselId).position().top + 40}, 'medium');
+            return false;
         }
 
 
