@@ -33,17 +33,6 @@ class Client(models.Model):
         return 'Client %s %s' % (self.User.FirstName, self.User.LastName)
 
 
-class SpecialPerson(models.Model):
-    FirstName = models.CharField(max_length=500, blank=False, null=False)
-    LastName = models.CharField(max_length=500, blank=False, null=False)
-    RelationshipDescription = models.CharField(max_length=500,
-                                               blank=False, null=False)
-    Client = models.ForeignKey(Client)
-
-    def __unicode__(self):
-        return '%s %s' % (self.FirstName, self.LastName)
-
-
 class Calendar(models.Model):
     Title = models.CharField(max_length=500, blank=False, null=False)
     StartDate = models.CharField(max_length=500, blank=False, null=False)
@@ -103,3 +92,11 @@ class Video(models.Model):
     def __unicode__(self):
         return '%s: %s %s' % (self.VideoTitle, self.SubUser.User.FirstName,
                               self.SubUser.User.LastName)
+
+
+class SpecialPerson(models.Model):
+    SubUser = models.ForeignKey(SubUser)
+    Client = models.ForeignKey(Client)
+
+    def __unicode__(self):
+        return '%s %s' % (self.SubUser.User.FirstName, self.SubUser.User.LastName)

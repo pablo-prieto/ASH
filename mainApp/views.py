@@ -97,6 +97,7 @@ def register(request):
             print "not valid"
     else:
         form = RegistrationForm()
+        print "called plain form"
     context = {"form": form}
     return render(request, "register.html", context)
 
@@ -107,15 +108,58 @@ def index(request, user_id):
     list_subusers = SubUser.objects.filter(Client=client_user)
     list_friends = list_subusers.filter(RelationshipToClient="Friend")
     list_family_members = list_subusers.exclude(RelationshipToClient="Friend")
-    # FavoritePeople = list_subusers.exclude(RelationshipToClient="Friend")
-    # Favorite1 = FavoritePeople.filter(User=)
+    list_special_people = SpecialPerson.objects.filter(Client=client_user)
+    number_special_people = len(list_special_people)
+    number_remaining_spots = 3 - number_special_people
+    string_remaining_spots = ""
+    for i in range(number_remaining_spots):
+        string_remaining_spots += "1"
+
     context = {
         'client': client_user,
         'list_friends': list_friends,
-        'list_family_members': list_family_members
+        'list_family_members': list_family_members,
+        'list_subusers': list_subusers,
+        'list_special_people': list_special_people,
+        'string_remaining_spots': string_remaining_spots
     }
     return render(request, "mainApp/index.html", context)
 
+
+def addSpecialPerson(request):
+    # context = RequestContext(request)
+    mem_id = None
+    if request.method == 'GET':
+        str_member_id = request.GET['member_id']
+        print str_member_id
+        member_id = ""
+        for index in range(len(str_member_id)):
+            if index > 15:
+                member_id += str_member_id[index]
+
+        print member_id
+        sub_user = SubUser.objects.get(id=member_id)
+        client_user = Client.objects.get(subuser=sub_user)
+
+        special_person = SpecialPerson(SubUser=sub_user, Client=client_user)
+        special_person.save()
+
+        list_subusers = SubUser.objects.filter(Client=client_user)
+        list_special_people = SpecialPerson.objects.filter(Client=client_user)
+        number_special_people = len(list_special_people)
+        number_remaining_spots = 3 - number_special_people
+        string_remaining_spots = ""
+
+        for i in range(number_remaining_spots):
+            string_remaining_spots += "1"
+
+        context = {
+            'list_subusers': list_subusers,
+            'list_special_people': list_special_people,
+            'string_remaining_spots': string_remaining_spots
+        }
+
+    return HttpResponse(context)
 
 def profile(request, user_id):
     current_user = User.objects.get(pk=user_id)
