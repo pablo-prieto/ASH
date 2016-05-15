@@ -15,6 +15,7 @@ body.modal-open {
 
 .events-icons-section {
     /* None*/
+    margin =: 0;
 }
 
 .event-icon {
@@ -187,7 +188,7 @@ body.modal-open {
     text-align: center;
 }
 
-.title-add-img {
+.instruction-phrase {
     font-family: arial;
     font-weight: bold;
     font-size: 15px; 
