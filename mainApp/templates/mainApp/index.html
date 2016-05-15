@@ -296,9 +296,17 @@
         $(function () {
           $('[data-toggle="popover"]').popover()
         });
-        function addSpecialPerson(li)
+
+        function addSpecialPerson(mem_id)
         {
-          $.get('/mainApp/addSpecialPerson/', {member_id: li}, function(data){
+          $.get('/mainApp/addSpecialPerson/', {member_id: mem_id}, function(data){
+                        window.location.reload(true);
+             });
+        }
+
+        function removeSpecialPerson(removeID)
+        {
+          $.get('/mainApp/addSpecialPerson/', {member_id: mem_id}, function(data){
                         window.location.reload(true);
              });
         }
