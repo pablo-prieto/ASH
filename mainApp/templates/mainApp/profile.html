@@ -228,13 +228,13 @@
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.reload(true);">Close</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <!-- Modal: Add Picture to Current Memory -->
-                                <div class="modal fade" id="addPictureToMemory" role="dialog">
+                                <div class="modal fade" id="addPictureToMemory{{forloop.counter}}" role="dialog">
                                     <div class="modal-dialog" style="min-width:68em;">
                                         <!-- Modal Content-->
                                         <div class="modal-content">
@@ -261,28 +261,30 @@
                                                     <p>{{ memory.location }}</p>
                                                 </div>
                                                 <br>
-                                                <form id="form-add-pic-to-mem" method="post" type="POST" action="/mainApp/addPicture/{{subuser_username}}">
+                                                <form id="form-add-pic-to-mem{{forloop.counter}}" method="post" type="POST" action="/mainApp/addPicture/{{memory.id}}">
                                                     {% csrf_token %}
                                                     <!-- File Input: Picture input field -->
-                                                    <div class="memory-descrip-div" align="center">
+                                                    <div class="memory-descrip-div">
                                                         <h4>Include pictures that captured valuable moments of this memory</h4>
                                                         <p class='title-add-img'>- Please, they must be relevant to {{ client_firstname }} -</p>
-                                                        <button type="button" class="btn btn-default" style="width:15em;" onclick="addImgPanel('panelForExistingMem')">Add Image</button><br><br>
-                                                            <span id="writeroot-panel-for-existing-mem"></span>
+                                                        <button type="button" class="btn btn-default" style="width:15em;" onclick="addImgPanel('panelForExistingMem','{{forloop.counter}}')">Add Image</button><br><br>
+                                                        <div class="add-memory-panel-section">
+                                                            <span id="writeroot-panel-for-existing-mem{{forloop.counter}}"></span>
+                                                        </div>
                                                     </div>
                                                 </form>
                                             </div>
                                             <!-- Modal Footer -->
                                             <div class="modal-footer">
                                                 <!-- Buttons: Create event & Cancel -->
-                                                <button id="add-memory-button" type="submit" form="form-add-pic-to-mem" class="btn btn-default">Add</button>
+                                                <button type="submit" form="form-add-pic-to-mem{{forloop.counter}}" onclick="submitAddPicToMem('{{forloop.counter}}')" class="btn btn-default">Add</button>
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <!-- Modal: Picture Addition to Existing Memory Confirmation -->
-                                <div class="modal fade" id="pictureAdditionConfirmation" role="dialog">
+                                <div class="modal fade" id="pictureAdditionConfirmation{{forloop.counter}}" role="dialog">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -290,12 +292,12 @@
                                                 <h4 class="modal-title" align="center">Picture Addition Successful!</h4>
                                             </div>
                                             <div class="modal-body" align="center">
-                                                <p>New picture successfully added to {{ memory.title }}</p><br>
+                                                <p>- New picture successfully added to the memory "{{ memory.title }}" -</p><br>
                                                 <p>Thanks a lot {{ subuser_firstname }} for helping {{ client_firstname }} to keep valuable moments of her life.</p>
                                                 <p>If you have more memories to share with {{ client_firstname }}, please upload them.</p>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.reload(true);">Close</button>
                                             </div>
                                         </div>
                                     </div>
@@ -392,7 +394,7 @@
                                     <!-- Modal Footer -->
                                     <div class="modal-footer">
                                         <!-- Buttons: Create event & Cancel -->
-                                        <button id="add-memory-button" type="submit" form="form-add-memory" class="btn btn-default">Add</button>
+                                        <button type="submit" form="form-add-memory" class="btn btn-default">Add</button>
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                                     </div>
                                 </div>
@@ -407,12 +409,12 @@
                                         <h4 class="modal-title" align="center">Memory Addition Successful!</h4>
                                     </div>
                                     <div class="modal-body" align="center">
-                                        <p>New picture successfully added to {{ memory.title }}</p><br>
+                                        <p>- New memory "{{ memory.title }}" successfully added -</p><br>
                                         <p>Thanks a lot {{ subuser_firstname }} for helping {{ client_firstname }} to keep valuable moments of her life.</p>
                                         <p>If you have more memories to share with {{ client_firstname }}, please upload them.</p>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.reload(true);">Close</button>
                                     </div>
                                 </div>
                             </div>
@@ -439,10 +441,25 @@
 
     <!-- SCRIPTS -->
     <script type="text/javascript">
+        // Makes the current tab active after a page reload/refresh
+        $(function() { 
+            // for bootstrap 3 use 'shown.bs.tab', for bootstrap 2 use 'shown' in the next line
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                // save the latest tab; use cookies if you like 'em better:
+                localStorage.setItem('lastTab', $(this).attr('href'));
+            });
+
+            // go to the latest tab, if it exists:
+            var lastTab = localStorage.getItem('lastTab');
+            if (lastTab) {
+                $('[href="' + lastTab + '"]').tab('show');
+            }
+        });
+
+
         /* Displays the modal with the details of the selected memory */
         function memoryDetail(index) {
-            $('#addPictureToMemory').modal('show');
-            // $('#memoryDetail'+index).modal('show');
+            $('#memoryDetail'+index).modal('show');
         }
 
 
@@ -485,7 +502,7 @@
 
         /* Adds a panel to add an image to a memory and its description */
         var panel_index = 1;
-        function addImgPanel(option) {
+        function addImgPanel(option, index) {
             // Clone the hidden readroot div that contains the structure of a img panel
             // Change the style display to show it in the website
             // Change its id name to a unique name using a panel_index
@@ -513,7 +530,7 @@
                 insertHere = document.getElementById('writeroot');
             }
             else {
-                insertHere = document.getElementById('writeroot-panel-for-existing-mem'); 
+                insertHere = document.getElementById('writeroot-panel-for-existing-mem'+index);
             }
             insertHere.parentNode.insertBefore(newFieldsDiv,insertHere);   
         }
@@ -555,13 +572,13 @@
         /* Adds a picture with its title and description */
         function addPictureToMemory(index) {
             $('#memoryDetail'+index).modal('hide');
-            $('#addPictureToMemory').modal('show');
+            $('#addPictureToMemory'+index).modal('show');
         }
 
 
         /* Saves the picture(s) to the selected memory */
-        $(function() {
-            var form = $('#form-add-pic-to-mem');    
+        function submitAddPicToMem(index) {
+            var form = $('#form-add-pic-to-mem'+index);    
             $(form).submit(function(event){
                 event.preventDefault();
                 var formData = new FormData(form[0]);
@@ -574,15 +591,15 @@
                     contentType: false,
                 })
                 .done(function(response) {
-                    panel_index = 0;
-                    $('#addPictureToMemory').modal('hide');
-                    $('#pictureAdditionConfirmation').modal('show');
+                    panel_index = 1;
+                    $('#addPictureToMemory'+index).modal('hide');
+                    $('#pictureAdditionConfirmation'+index).modal('show');
                 })
                 .fail(function(response) {
                     // Pass
                 });
             });
-        });
+        };
     </script>
 </body>
 </html>
