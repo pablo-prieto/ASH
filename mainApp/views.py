@@ -238,6 +238,64 @@ def addMemory(request, subuser_username):
             raise Http404
 
 
+def addPicture(request, subuser_username):
+    if request.method == 'POST':
+        if request.is_ajax:
+            try:
+                # Find the corresponding subuser
+                user = User.objects.get(UserName=subuser_username)
+                subuser = SubUser.objects.get(User=user)
+
+                # Find the corresponding selected memory
+
+                # # User the above information to create the new memory
+                # new_memory = Memory(Title=mem_title,
+                #                     Description=mem_descp,
+                #                     Location=mem_location,
+                #                     StartDate=start,
+                #                     EndDate=end,
+                #                     OtherRelated=others_related,
+                #                     SubUser=subuser)
+
+                # # Save the new created memory
+                # new_memory.save()
+
+                # # Now, we store the picture(s) of the memory with the respective information(s) in the Picture table
+                # # Since we don't know the names of the pictures files, titles and description fields, we loop thru the
+                # # dictionary of the request.POST and find them all. Every time we find one we see the index number that was
+                # # attached to it when it was created and use the same indices for the picture file names. The title,
+                # # and description of a picture should have the same index attached at the end of the basename.
+                # # We do this because those indices are not consistent if the user deletes
+                # # one of the panels in the form (refer to the function 'addImgPanel()' in the script of the profile.html)
+                # for key in request.FILES.keys():
+                #     index = key[len(key) - 1]
+                #     picture_title = request.POST.get('mem-pic-title' + index)
+                #     picture_descrip = request.POST.get('mem-pic-descrip' + index)
+
+                #     # Try to retreive the picture file and save it
+                #     try:
+                #         picture_file = request.FILES[key]
+                #         with open(settings.BASE_DIR + "/static_in_env/media_root/Pictures/" + picture_file.name, 'wb+') as destination:
+                #             for chunk in picture_file.chunks():
+                #                 destination.write(chunk)
+                #     except:
+                #         picture_file = ""
+
+                #     mem_picture = Picture(Picture=picture_file,
+                #                           PictureTitle=picture_title,
+                #                           Description=picture_descrip,
+                #                           Memory=new_memory)
+                #     mem_picture.save()
+                form_data = json.dumps({'context': "successful"})
+                return HttpResponse(form_data)
+
+            except KeyError:
+                form_data = json.dumps({"context": "There was an error adding the picture. Try again later..."})
+                return HttpResponse(form_data)
+        else:
+            raise Http404
+
+
 def detail(request, user_id):
     return HttpResponse("You're looking at user %s." % user_id)
 

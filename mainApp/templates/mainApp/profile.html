@@ -244,60 +244,58 @@
                                             </div>
                                             <!-- Modal Body -->
                                             <div class="modal-body" align="center">
-                                                <form id="form-add-pic-to-mem" method="post" type="POST" action="/mainApp/addMemory/{{subuser_username}}">
+                                                <div class="memory-descrip-div">
+                                                    <h4>Title</h4>
+                                                    <p>{{ memory.title }}</p>
+                                                </div>
+                                                <div class="memory-descrip-div">
+                                                <h4>Date</h4>
+                                                    {% if memory.start_date == memory.end_date %}
+                                                        <p>{{ memory.start_date }}</p>
+                                                    {% else %}
+                                                        <p>{{ memory.start_date }} - {{ memory.start_date }}</p>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="memory-descrip-div">
+                                                    <h4>Location</h4>
+                                                    <p>{{ memory.location }}</p>
+                                                </div>
+                                                <br>
+                                                <form id="form-add-pic-to-mem" method="post" type="POST" action="/mainApp/addPicture/{{subuser_username}}">
                                                     {% csrf_token %}
                                                     <!-- File Input: Picture input field -->
-                                                    <div class="memory-descrip-div">
-                                                        <h4>Title</h4>
-                                                        <p>{{ memory.title }}</p>
-                                                    </div>
-                                                    <div class="memory-descrip-div">
-                                                    <h4>Date</h4>
-                                                        {% if memory.start_date == memory.end_date %}
-                                                            <p>{{ memory.start_date }}</p>
-                                                        {% else %}
-                                                            <p>{{ memory.start_date }} - {{ memory.start_date }}</p>
-                                                        {% endif %}
-                                                    </div>
-                                                    <div class="memory-descrip-div">
-                                                        <h4>Location</h4>
-                                                        <p>{{ memory.location }}</p>
-                                                    </div>
-                                                    <br>
                                                     <div class="memory-descrip-div" align="center">
                                                         <h4>Include pictures that captured valuable moments of this memory</h4>
                                                         <p class='title-add-img'>- Please, they must be relevant to {{ client_firstname }} -</p>
-                                                        <button type="button" class="btn btn-default" style="width:15em;" onclick="addImgPanel()">Add Image</button><br><br>
-                                                        <div class="add-memory-panel-section">
-                                                            <!-- div with img panels to be cloned into the form below when the Add Image button is clicked -->
-                                                            <div id="readroot-add-pic-to-mem" class='memory-panel-outter-border' style="display: none">
-                                                                <button type='button' class='close' onclick='closeImgPanel(this)'>&times;</button>
-                                                                <div class='memory-panel-inner-border'>
-                                                                    <div class='memory-panel-content'>
-                                                                        <div style='display:table'>
-                                                                            <input class='form-control img-title-input' name='mem-pic-title' type='text' maxlength='30' placeholder='Concise title..(max 30 chars)' value='' style='width:40em;' required>
-                                                                        </div>
-                                                                        <div class='fileUpload'>
-                                                                            <div class='img-selected'>
-                                                                                <br><br><span class='plus-sign'>+</span>
-                                                                                <p class='select-add-img-msg'>Select Image</p>
-                                                                            </div>
-                                                                            <input id='uploadBtn' type='file' accept='image/*' class='upload' onchange='readImage(this);' required/>
-                                                                        </div>
-                                                                        <textarea name='mem-pic-descrip' class='form-control img-descrip-input' maxlength='500' placeholder='Describe the moment captured in this picture (max 500 chars)' value='' required></textarea>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <span id="writeroot-add-pic-to-mem"></span>
-                                                        </div>
+                                                        <button type="button" class="btn btn-default" style="width:15em;" onclick="addImgPanel('panelForExistingMem')">Add Image</button><br><br>
+                                                            <span id="writeroot-panel-for-existing-mem"></span>
                                                     </div>
                                                 </form>
                                             </div>
                                             <!-- Modal Footer -->
                                             <div class="modal-footer">
                                                 <!-- Buttons: Create event & Cancel -->
-                                                <button id="add-memory-button" type="submit" form="form-add-memory" class="btn btn-default">Add</button>
+                                                <button id="add-memory-button" type="submit" form="form-add-pic-to-mem" class="btn btn-default">Add</button>
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Modal: Picture Addition to Existing Memory Confirmation -->
+                                <div class="modal fade" id="pictureAdditionConfirmation" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title" align="center">Picture Addition Successful!</h4>
+                                            </div>
+                                            <div class="modal-body" align="center">
+                                                <p>New picture successfully added to {{ memory.title }}</p><br>
+                                                <p>Thanks a lot {{ subuser_firstname }} for helping {{ client_firstname }} to keep valuable moments of her life.</p>
+                                                <p>If you have more memories to share with {{ client_firstname }}, please upload them.</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                             </div>
                                         </div>
                                     </div>
@@ -384,7 +382,7 @@
                                             <!-- File Input: Picture input field -->
                                             <div class="input-group">
                                                 <p class='title-add-img'>- Below, include some pictures that captured valuable moments of this memory -</p>
-                                                <button id="add-img-button" type="button" class="btn btn-default" style="width:15em;" onclick="addImgPanel()">Add Image</button><br><br>
+                                                <button id="add-img-button" type="button" class="btn btn-default" style="width:15em;" onclick="addImgPanel('panelForNewMem')">Add Image</button><br><br>
                                                 <div class="add-memory-panel-section" id="add-memory-panel-section">
                                                     <span id="writeroot"></span>
                                                 </div>
@@ -409,6 +407,7 @@
                                         <h4 class="modal-title" align="center">Memory Addition Successful!</h4>
                                     </div>
                                     <div class="modal-body" align="center">
+                                        <p>New picture successfully added to {{ memory.title }}</p><br>
                                         <p>Thanks a lot {{ subuser_firstname }} for helping {{ client_firstname }} to keep valuable moments of her life.</p>
                                         <p>If you have more memories to share with {{ client_firstname }}, please upload them.</p>
                                     </div>
@@ -442,8 +441,8 @@
     <script type="text/javascript">
         /* Displays the modal with the details of the selected memory */
         function memoryDetail(index) {
-            // $('#addPictureToMemory').modal('show');
-            $('#memoryDetail'+index).modal('show');
+            $('#addPictureToMemory').modal('show');
+            // $('#memoryDetail'+index).modal('show');
         }
 
 
@@ -485,35 +484,44 @@
 
 
         /* Adds a panel to add an image to a memory and its description */
-        var counter = 1;
-        function addImgPanel() {
+        var panel_index = 1;
+        function addImgPanel(option) {
             // Clone the hidden readroot div that contains the structure of a img panel
             // Change the style display to show it in the website
-            // Change its id name to a unique name using a counter
+            // Change its id name to a unique name using a panel_index
             var newFieldsDiv = document.getElementById('readroot').cloneNode(true);
             newFieldsDiv.style.display = 'inline-block';
-            newFieldsDiv.id = 'img-panel' + counter;
+            newFieldsDiv.id = 'img-panel' + panel_index;
 
             // Change the img-title name, img-input id, img-input name and text-input name
             // Add a unique name to use it in the form
             var picTitleField = newFieldsDiv.querySelectorAll("input")[0];
             var picFileField = newFieldsDiv.querySelectorAll("input")[1];
             var picDetailField = newFieldsDiv.querySelectorAll("textarea")[0];
-            picTitleField.name = picTitleField.name + counter;
-            picFileField.id = picFileField.id + counter;
+            picTitleField.name = picTitleField.name + panel_index;
+            picFileField.id = picFileField.id + panel_index;
             picFileField.name = picFileField.id;
-            picDetailField.name = picDetailField.name + counter;
-            counter++;
+            picDetailField.name = picDetailField.name + panel_index;
+            panel_index++;
             
             // Find the location to be added and insert the new panel
-            var insertHere = document.getElementById('writeroot');
-            insertHere.parentNode.insertBefore(newFieldsDiv,insertHere);
+            // Based on the option, it will insert it at a different location (id name):
+            // One option is adding img panels when creating a new memory
+            // Another option is adding img panels when adding pictures to an existing memory
+            var insertHere;
+            if(option == "panelForNewMem") {
+                insertHere = document.getElementById('writeroot');
+            }
+            else {
+                insertHere = document.getElementById('writeroot-panel-for-existing-mem'); 
+            }
+            insertHere.parentNode.insertBefore(newFieldsDiv,insertHere);   
         }
 
 
         /* Closes the respective img panel */
         function closeImgPanel(x_button){
-            // Note: Do not decrease the counter when deleting because it will duplicated names for the img inputs 
+            // Note: Do not decrease the panel_index when deleting because it will duplicated names for the img inputs 
             $(x_button.parentNode).remove();
         }
 
@@ -533,6 +541,7 @@
                     contentType: false,
                 })
                 .done(function(response) {
+                    panel_index = 0;
                     $('#addMemory').modal('hide');
                     $('#memoryAdditionConfirmation').modal('show');
                 })
@@ -548,6 +557,32 @@
             $('#memoryDetail'+index).modal('hide');
             $('#addPictureToMemory').modal('show');
         }
+
+
+        /* Saves the picture(s) to the selected memory */
+        $(function() {
+            var form = $('#form-add-pic-to-mem');    
+            $(form).submit(function(event){
+                event.preventDefault();
+                var formData = new FormData(form[0]);
+                $.ajax({
+                    type: $(this).attr('type'),
+                    url: $(this).attr('action'),        
+                    data: formData,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                })
+                .done(function(response) {
+                    panel_index = 0;
+                    $('#addPictureToMemory').modal('hide');
+                    $('#pictureAdditionConfirmation').modal('show');
+                })
+                .fail(function(response) {
+                    // Pass
+                });
+            });
+        });
     </script>
 </body>
 </html>
