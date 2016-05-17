@@ -31,10 +31,12 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap-theme.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/footer.css' %}">
-    <link rel="stylesheet" href="{% static 'profile-page/css/profile.css' %}">
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
 
+    <!-- Tabs (About me, Events, Pictures) -->
+    <link rel="stylesheet" href="{% static 'profile-page/css/profile-page.css' %}">
+    <script type="text/javascript" src="{% static 'profile-page/js/profile-page.js' %}"></script>
   </head>
 
   <body>
@@ -55,7 +57,7 @@
             </div>
 
             <div class="col-md-4 text-center" style="width:16%; padding:1">
-                <img class="img-circle" src="/media/{{subuser_profile_picture}}" style="width:100%; border:1px solid #D1D0CE;">
+                <img class="img-circle" src="/media/{{subuser_profile_picture.thumbnail}}" style="width:100%; border:1px solid #D1D0CE;">
             </div>
 
             <div class="col-md-4 text-center" style="width:42%; padding:0">
@@ -73,7 +75,7 @@
 
 
         <!-- Tabs Section for the even-icons, Pictures, and Description of the  Sub-user (about me)-->
-        <div class="panel panel-default" style="margin-right:15%; margin-left:15%;" align="center">
+        <div class="panel panel-default" style="margin-right:12%; margin-left:12%;" align="center">
             <div id="content" class="panel-body" style="margin-right:2%; margin-left:2%; text-align:left">
                 <!-- Tab Headers -->
                 <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
@@ -86,13 +88,13 @@
                 <div id="my-tab-content" class="tab-content">
                     <!-- About Me content -->
                     <div class="tab-pane active" id="aboutme">
-                        <br><h4>Who Am I?</h4>
+                        <br><h4>Who Am I?</h4><br>
                         {{ subuser_aboutme }}
                     </div>
 
                     <!-- Events -->
                     <div class="tab-pane" id="events">
-                        <br><h4>Events We've Done Together:</h4><br>
+                        <br><h4>Events we've done together:</h4>
                         <div class="events-icons-section">
                         {% if memories %}
                             {% for memory in memories %}
@@ -109,7 +111,7 @@
                                     <div class="memory-panel-outter-border">
                                         <div class='memory-panel-inner-border'>
                                             <div class='img-panel-content'>
-                                                <img class="img-square" src="{% static 'images/no_image.png' %}" onclick="memoryDetail('{{forloop.counter}}')" style="border:1px solid #D2D5D6; border-radius:5px;">
+                                                <img class="img-square" src="{% static 'images/no_image.png' %}" onclick="includePicture()">
                                             </div>
                                         </div>
                                         <div style="margin:5%;">{{ memory.title }}</div>
@@ -204,7 +206,7 @@
                                                             <div class='img-panel-border'>
                                                                 <div class='img-panel-content'>
                                                                     <a href="#myCarousel{{forloop.parentloop.counter}}" data-slide-to="{{forloop.counter0}}">
-                                                                        <img class='all-image-icons' src='/media/{{ picture.file }}' onclick="scrollToCarousel('#myCarousel{{forloop.parentloop.counter}}')">
+                                                                        <img class='all-image-icons' src='/media/{{ picture.file }}' onclick="scrollToCarousel('{{forloop.parentloop.counter}}')">
                                                                     </a>
                                                                 </div>
                                                             </div>
@@ -213,7 +215,7 @@
                                                         <div class='img-panel-border'>
                                                             <div class='img-panel-content'>
                                                                 <a href="#myCarousel{{forloop.parentloop.counter}}" data-slide-to="{{forloop.counter0}}">
-                                                                    <img class="all-image-icons" src="{% static 'images/no_image.png' %}" onclick="addPictureToMemory()" style="cursor: pointer; width:30%; border:1px solid #D1D0CE; border-radius:5px;">
+                                                                    <img class="all-image-icons" src="{% static 'images/no_image.png' %}" onclick="includePicture()">
                                                                 </a>
                                                             </div>
                                                         </div>
@@ -228,13 +230,13 @@
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.reload(true);">Close</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <!-- Modal: Add Picture to Current Memory -->
-                                <div class="modal fade" id="addPictureToMemory" role="dialog">
+                                <div class="modal fade" id="addPictureToMemory{{forloop.counter}}" role="dialog">
                                     <div class="modal-dialog" style="min-width:68em;">
                                         <!-- Modal Content-->
                                         <div class="modal-content">
@@ -244,51 +246,32 @@
                                             </div>
                                             <!-- Modal Body -->
                                             <div class="modal-body" align="center">
-                                                <form id="form-add-pic-to-mem" method="post" type="POST" action="/mainApp/addMemory/{{subuser_username}}">
+                                                <div class="memory-descrip-div">
+                                                    <h4>Title</h4>
+                                                    <p>{{ memory.title }}</p>
+                                                </div>
+                                                <div class="memory-descrip-div">
+                                                <h4>Date</h4>
+                                                    {% if memory.start_date == memory.end_date %}
+                                                        <p>{{ memory.start_date }}</p>
+                                                    {% else %}
+                                                        <p>{{ memory.start_date }} - {{ memory.start_date }}</p>
+                                                    {% endif %}
+                                                </div>
+                                                <div class="memory-descrip-div">
+                                                    <h4>Location</h4>
+                                                    <p>{{ memory.location }}</p>
+                                                </div>
+                                                <br>
+                                                <form id="form-add-pic-to-mem{{forloop.counter}}" method="post" type="POST" action="/mainApp/addPicture/{{memory.id}}">
                                                     {% csrf_token %}
                                                     <!-- File Input: Picture input field -->
                                                     <div class="memory-descrip-div">
-                                                        <h4>Title</h4>
-                                                        <p>{{ memory.title }}</p>
-                                                    </div>
-                                                    <div class="memory-descrip-div">
-                                                    <h4>Date</h4>
-                                                        {% if memory.start_date == memory.end_date %}
-                                                            <p>{{ memory.start_date }}</p>
-                                                        {% else %}
-                                                            <p>{{ memory.start_date }} - {{ memory.start_date }}</p>
-                                                        {% endif %}
-                                                    </div>
-                                                    <div class="memory-descrip-div">
-                                                        <h4>Location</h4>
-                                                        <p>{{ memory.location }}</p>
-                                                    </div>
-                                                    <br>
-                                                    <div class="memory-descrip-div" align="center">
                                                         <h4>Include pictures that captured valuable moments of this memory</h4>
-                                                        <p class='title-add-img'>- Please, they must be relevant to {{ client_firstname }} -</p>
-                                                        <button type="button" class="btn btn-default" style="width:15em;" onclick="addImgPanel()">Add Image</button><br><br>
+                                                        <p class='instruction-phrase'>- Please, they must be relevant to {{ client_firstname }} -</p>
+                                                        <button type="button" class="btn btn-default" style="width:15em;" onclick="addImgPanel('panelForExistingMem','{{forloop.counter}}')">Add Image</button><br><br>
                                                         <div class="add-memory-panel-section">
-                                                            <!-- div with img panels to be cloned into the form below when the Add Image button is clicked -->
-                                                            <div id="readroot-add-pic-to-mem" class='memory-panel-outter-border' style="display: none">
-                                                                <button type='button' class='close' onclick='closeImgPanel(this)'>&times;</button>
-                                                                <div class='memory-panel-inner-border'>
-                                                                    <div class='memory-panel-content'>
-                                                                        <div style='display:table'>
-                                                                            <input class='form-control img-title-input' name='mem-pic-title' type='text' maxlength='30' placeholder='Concise title..(max 30 chars)' value='' style='width:40em;' required>
-                                                                        </div>
-                                                                        <div class='fileUpload'>
-                                                                            <div class='img-selected'>
-                                                                                <br><br><span class='plus-sign'>+</span>
-                                                                                <p class='select-add-img-msg'>Select Image</p>
-                                                                            </div>
-                                                                            <input id='uploadBtn' type='file' accept='image/*' class='upload' onchange='readImage(this);' required/>
-                                                                        </div>
-                                                                        <textarea name='mem-pic-descrip' class='form-control img-descrip-input' maxlength='500' placeholder='Describe the moment captured in this picture (max 500 chars)' value='' required></textarea>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <span id="writeroot-add-pic-to-mem"></span>
+                                                            <span id="writeroot-panel-for-existing-mem{{forloop.counter}}"></span>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -296,12 +279,31 @@
                                             <!-- Modal Footer -->
                                             <div class="modal-footer">
                                                 <!-- Buttons: Create event & Cancel -->
-                                                <button id="add-memory-button" type="submit" form="form-add-memory" class="btn btn-default">Add</button>
+                                                <button type="submit" form="form-add-pic-to-mem{{forloop.counter}}" onclick="submitAddPicToMem('{{forloop.counter}}')" class="btn btn-default">Add</button>
                                                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <!-- Modal: Picture Addition to Existing Memory Confirmation -->
+                                <div class="modal fade" id="pictureAdditionConfirmation{{forloop.counter}}" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h4 class="modal-title" align="center">Picture Addition Successful!</h4>
+                                            </div>
+                                            <div class="modal-body" align="center">
+                                                <p>- New picture successfully added to the memory "{{ memory.title }}" -</p><br>
+                                                <p>Thanks a lot {{ subuser_firstname }} for helping {{ client_firstname }} to keep valuable moments of her life.</p>
+                                                <p>If you have more memories to share with {{ client_firstname }}, please upload them.</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.reload(true);">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>   
                             {% endfor %}
                             <div class="memory-panel-outter-border">
                                 <br>
@@ -383,8 +385,8 @@
                                             <br>
                                             <!-- File Input: Picture input field -->
                                             <div class="input-group">
-                                                <p class='title-add-img'>- Below, include some pictures that captured valuable moments of this memory -</p>
-                                                <button id="add-img-button" type="button" class="btn btn-default" style="width:15em;" onclick="addImgPanel()">Add Image</button><br><br>
+                                                <p class='instruction-phrase'>- Below, include some pictures that captured valuable moments of this memory -</p>
+                                                <button id="add-img-button" type="button" class="btn btn-default" style="width:15em;" onclick="addImgPanel('panelForNewMem')">Add Image</button><br><br>
                                                 <div class="add-memory-panel-section" id="add-memory-panel-section">
                                                     <span id="writeroot"></span>
                                                 </div>
@@ -394,7 +396,7 @@
                                     <!-- Modal Footer -->
                                     <div class="modal-footer">
                                         <!-- Buttons: Create event & Cancel -->
-                                        <button id="add-memory-button" type="submit" form="form-add-memory" class="btn btn-default">Add</button>
+                                        <button type="submit" form="form-add-memory" class="btn btn-default">Add</button>
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                                     </div>
                                 </div>
@@ -409,11 +411,12 @@
                                         <h4 class="modal-title" align="center">Memory Addition Successful!</h4>
                                     </div>
                                     <div class="modal-body" align="center">
+                                        <p>- New memory "{{ memory.title }}" successfully added -</p><br>
                                         <p>Thanks a lot {{ subuser_firstname }} for helping {{ client_firstname }} to keep valuable moments of her life.</p>
                                         <p>If you have more memories to share with {{ client_firstname }}, please upload them.</p>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.reload(true);">Close</button>
                                     </div>
                                 </div>
                             </div>
@@ -422,9 +425,201 @@
 
                     <!-- Pictures -->
                     <div class="tab-pane" id="pictures">
-                        <br><h4>Pictures Together:</h4>
-                        <!-- Button for pagination -->
-                        <!-- <a id="button_list" class="btn btn-info navbar-btn navbar-left">List</a> -->
+                        <br><h4>All the pictures of the moments we've been together:</h4>
+                        <p class="instruction-phrase">Click on any picture to see the details of that event...</p>
+                        <div class="events-icons-section">
+                            {% if memories %}
+                                {% for memory in memories %}
+                                    {% if memory.pictures %}
+                                        {% for picture in memory.pictures %}
+                                            <div class='img-panel-border'>
+                                                <div class='img-panel-content'>
+                                                    <a href="#myCarousel{{forloop.parentloop.counter}}" data-slide-to="{{forloop.counter0}}">
+                                                        <img class='all-image-icons' src='/media/{{ picture.file }}' onclick="memoryDetail('{{forloop.parentloop.counter}}{{forloop.counter}}')">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <!-- Modal: Memory Details -->
+                                            <div class="modal fade" id="memoryDetail{{forloop.parentloop.counter}}{{forloop.counter}}" role="dialog">
+                                                <div class="modal-dialog" style="min-width:68em;">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            <h3 class="modal-title" align="center">{{ memory.title }}</h3>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="memory-descrip-div">
+                                                                <h4>Description</h4>
+                                                                <p>{{ memory.description }}</p>
+                                                            </div>
+                                                            <div class="memory-descrip-div">
+                                                            <h4>Date</h4>
+                                                                {% if memory.start_date == memory.end_date %}
+                                                                    <p>{{ memory.start_date }}</p>
+                                                                {% else %}
+                                                                    <p>{{ memory.start_date }} - {{ memory.start_date }}</p>
+                                                                {% endif %}
+                                                            </div>
+                                                            <div class="memory-descrip-div">
+                                                                <h4>Location</h4>
+                                                                <p>{{ memory.location }}</p>
+                                                            </div>
+                                                            <div class="memory-descrip-div">
+                                                                <h4>Related People</h4>
+                                                                <p>{{ memory.others_related }}</p>
+                                                            </div>
+                                                            <div class="memory-descrip-div">
+                                                                <h4>Pictures</h4><br>
+                                                                <div align="center">
+                                                                    <div id="myCarousel{{forloop.parentloop.counter}}{{forloop.counter}}" class="carousel slide" data-ride="carousel">
+                                                                        <!-- Indicators -->
+                                                                        <ol class="carousel-indicators">
+                                                                            <li data-target="#myCarousel{{forloop.parentloop.counter}}{{forloop.counter}}" data-slide-to="0" class="active"></li>
+                                                                            {% for x in memory.pictures %}
+                                                                                {% if not forloop.last %}
+                                                                                    <li data-target="#myCarousel{{forloop.parentloop.parentloop.counter}}{{forloop.parentloop.counter}}" data-slide-to="{{forloop.counter}}"></li>
+                                                                                {% endif %}
+                                                                            {% endfor %}
+                                                                        </ol>
+                                                                        <!-- Wrapper for slides -->
+                                                                        <div class="carousel-inner">
+                                                                            {% if memory.pictures %}
+                                                                                {% for picture in memory.pictures %}
+                                                                                    {% if forloop.counter == 1 %}
+                                                                                        <div class="item active">
+                                                                                            <img src="/media/{{ picture.file }}" >
+                                                                                            <div class="carousel-caption">
+                                                                                                <h3>{{ picture.title}}</h3>
+                                                                                                <p>{{ picture.descrip }}</p>
+                                                                                            </div>
+                                                                                        </div> 
+                                                                                    {% else %}
+                                                                                        <div class="item">
+                                                                                            <img src="/media/{{ picture.file }}" >
+                                                                                            <div class="carousel-caption">
+                                                                                                <h3>{{ picture.title}}</h3>
+                                                                                                <p>{{ picture.descrip }}</p>
+                                                                                            </div>
+                                                                                        </div>   
+                                                                                    {% endif %} 
+                                                                                {% endfor %}
+                                                                            {% else %}
+                                                                                <div class="item active">
+                                                                                    <img src="{% static 'images/no_image.png' %}" width="460" height="345">
+                                                                                </div>
+                                                                            {% endif %}
+                                                                        </div>
+                                                                        <!-- Left and right controls -->
+                                                                        <a class="left carousel-control" href="#myCarousel{{forloop.parentloop.counter}}{{forloop.counter}}" role="button" data-slide="prev">
+                                                                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                                                            <span class="sr-only">Previous</span>
+                                                                        </a>
+                                                                        <a class="right carousel-control" href="#myCarousel{{forloop.parentloop.counter}}{{forloop.counter}}" role="button" data-slide="next">
+                                                                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                                                            <span class="sr-only">Next</span>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="memory-descrip-div" align="center">
+                                                                <br>
+                                                                {% if memory.pictures %}
+                                                                    {% for picture in memory.pictures %}
+                                                                        <div class='img-panel-border'>
+                                                                            <div class='img-panel-content'>
+                                                                                <a href="#myCarousel{{forloop.parentloop.parentloop.counter}}{{forloop.parentloop.counter}}" data-slide-to="{{forloop.counter0}}">
+                                                                                    <img class='all-image-icons' src='/media/{{ picture.file }}' onclick="scrollToCarousel('{{forloop.parentloop.parentloop.counter}}{{forloop.parentloop.counter}}')">
+                                                                                </a>
+                                                                            </div>
+                                                                        </div>
+                                                                    {% endfor %}
+                                                                {% else %}
+                                                                    <div class='img-panel-border'>
+                                                                        <div class='img-panel-content'>
+                                                                            <a href="#myCarousel{{forloop.parentloop.parentloop.counter}}{{forloop.parentloop.counter}}" data-slide-to="{{forloop.counter0}}">
+                                                                                <img class="all-image-icons" src="{% static 'images/no_image.png' %}" onclick="includePicture()">
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                {% endif %}
+                                                                <!-- Option to add a picture to the memory -->
+                                                                <div class="memory-panel-outter-border">
+                                                                    <br>
+                                                                    <div class="plus-icon" onclick="addPictureToMemory('{{forloop.parentloop.counter}}{{ forloop.counter }}')">
+                                                                        <span class="plus-sign">+</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Modal: Add Picture to Current Memory -->
+                                            <div class="modal fade" id="addPictureToMemory{{forloop.parentloop.counter}}{{forloop.counter}}" role="dialog">
+                                                <div class="modal-dialog" style="min-width:68em;">
+                                                    <!-- Modal Content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            <h4 class="modal-title" align="center"><strong>Add Picture to Current Memory</strong></h4>
+                                                        </div>
+                                                        <!-- Modal Body -->
+                                                        <div class="modal-body" align="center">
+                                                            <div class="memory-descrip-div">
+                                                                <h4>Title</h4>
+                                                                <p>{{ memory.title }}</p>
+                                                            </div>
+                                                            <div class="memory-descrip-div">
+                                                            <h4>Date</h4>
+                                                                {% if memory.start_date == memory.end_date %}
+                                                                    <p>{{ memory.start_date }}</p>
+                                                                {% else %}
+                                                                    <p>{{ memory.start_date }} - {{ memory.start_date }}</p>
+                                                                {% endif %}
+                                                            </div>
+                                                            <div class="memory-descrip-div">
+                                                                <h4>Location</h4>
+                                                                <p>{{ memory.location }}</p>
+                                                            </div>
+                                                            <br>
+                                                            <form id="form-add-pic-to-mem{{forloop.parentloop.counter}}{{forloop.counter}}" method="post" type="POST" action="/mainApp/addPicture/{{memory.id}}">
+                                                                {% csrf_token %}
+                                                                <!-- File Input: Picture input field -->
+                                                                <div class="memory-descrip-div">
+                                                                    <h4>Include pictures that captured valuable moments of this memory</h4>
+                                                                    <p class='instruction-phrase'>- Please, they must be relevant to {{ client_firstname }} -</p>
+                                                                    <button type="button" class="btn btn-default" style="width:15em;" onclick="addImgPanel('panelForExistingMem','{{forloop.parentloop.counter}}{{forloop.counter}}')">Add Image</button><br><br>
+                                                                    <div class="add-memory-panel-section">
+                                                                        <span id="writeroot-panel-for-existing-mem{{forloop.parentloop.counter}}{{forloop.counter}}"></span>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <!-- Modal Footer -->
+                                                        <div class="modal-footer">
+                                                            <!-- Buttons: Create event & Cancel -->
+                                                            <button type="submit" form="form-add-pic-to-mem{{forloop.parentloop.counter}}{{forloop.counter}}" onclick="submitAddPicToMem('{{forloop.parentloop.counter}}{{forloop.counter}}')" class="btn btn-default">Add</button>
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class='img-panel-border'>
+                                            <div class='img-panel-content'>
+                                                <a href="#myCarousel{{forloop.parentloop.counter}}{{forloop.counter}}" data-slide-to="{{forloop.counter0}}">
+                                                    <img class="all-image-icons" src="{% static 'images/no_image.png' %}" onclick="includePicture()">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -436,118 +631,5 @@
 
     <!-- Calendar -->
     {% include "calendar.html" %}
-
-
-    <!-- SCRIPTS -->
-    <script type="text/javascript">
-        /* Displays the modal with the details of the selected memory */
-        function memoryDetail(index) {
-            // $('#addPictureToMemory').modal('show');
-            $('#memoryDetail'+index).modal('show');
-        }
-
-
-        /* Displays the modal with a form to add a memory */
-        function addMemory() {
-            $('#addMemory').modal('show');
-        }
-
-
-        /* Scrolls the screen to the carousel */
-        function scrollToCarousel(carouselId) {
-            // var target = $(carouselId).parent().siblings('h4');
-            $("#memoryDetail2").animate({ scrollTop: $(carouselId).position().top + 40}, 'medium');
-            return false;
-        }
-
-
-        /* Reads the image and renders the picture in the panel/icon */
-        function readImage(input) {
-            // If a file has been chosen
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                // Read the input as URL. The result will be stored in 'this.result' after the 'load' event fires
-                reader.readAsDataURL(input.files[0]);
-
-                // Called when the read operation successfully completes
-                reader.onload = function (e) {
-                    $(input.parentNode.childNodes[1]).html("<img id='uploadedPicture' class='img-square' src='"+ e.target.result +"'>");
-                    $(input.parentNode).css( "background-color", "#efefee" );
-                };
-            }
-            else {
-                // Display back the "Add Image" message
-                $(input.parentNode.childNodes[1]).html("<br><br><span class='plus-sign'>+</span><p class='add-img-msg'>Add Image</p>");
-                $(input.parentNode).css( "background-color", "#e6e6e5");
-            }
-        }
-
-
-        /* Adds a panel to add an image to a memory and its description */
-        var counter = 1;
-        function addImgPanel() {
-            // Clone the hidden readroot div that contains the structure of a img panel
-            // Change the style display to show it in the website
-            // Change its id name to a unique name using a counter
-            var newFieldsDiv = document.getElementById('readroot').cloneNode(true);
-            newFieldsDiv.style.display = 'inline-block';
-            newFieldsDiv.id = 'img-panel' + counter;
-
-            // Change the img-title name, img-input id, img-input name and text-input name
-            // Add a unique name to use it in the form
-            var picTitleField = newFieldsDiv.querySelectorAll("input")[0];
-            var picFileField = newFieldsDiv.querySelectorAll("input")[1];
-            var picDetailField = newFieldsDiv.querySelectorAll("textarea")[0];
-            picTitleField.name = picTitleField.name + counter;
-            picFileField.id = picFileField.id + counter;
-            picFileField.name = picFileField.id;
-            picDetailField.name = picDetailField.name + counter;
-            counter++;
-            
-            // Find the location to be added and insert the new panel
-            var insertHere = document.getElementById('writeroot');
-            insertHere.parentNode.insertBefore(newFieldsDiv,insertHere);
-        }
-
-
-        /* Closes the respective img panel */
-        function closeImgPanel(x_button){
-            // Note: Do not decrease the counter when deleting because it will duplicated names for the img inputs 
-            $(x_button.parentNode).remove();
-        }
-
-
-        /* Saves the memory */
-        $(function() {
-            var form = $('#form-add-memory');    
-            $(form).submit(function(event){
-                event.preventDefault();
-                var formData = new FormData(form[0]);
-                $.ajax({
-                    type: $(this).attr('type'),
-                    url: $(this).attr('action'),        
-                    data: formData,
-                    cache: false,
-                    processData: false,
-                    contentType: false,
-                })
-                .done(function(response) {
-                    $('#addMemory').modal('hide');
-                    $('#memoryAdditionConfirmation').modal('show');
-                })
-                .fail(function(response) {
-                    // Pass
-                });
-            });
-        });
-
-
-        /* Adds a picture with its title and description */
-        function addPictureToMemory(index) {
-            $('#memoryDetail'+index).modal('hide');
-            $('#addPictureToMemory').modal('show');
-        }
-    </script>
 </body>
 </html>

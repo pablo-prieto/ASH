@@ -1,3 +1,12 @@
+body.modal-open {
+    position: fixed;
+    width: 100%;
+}
+
+.modal { 
+    overflow: auto;
+}
+
 #wrap {
     display: block;
     max-width: 90%;
@@ -6,6 +15,7 @@
 
 .events-icons-section {
     /* None*/
+    margin =: 0;
 }
 
 .event-icon {
@@ -178,7 +188,7 @@
     text-align: center;
 }
 
-.title-add-img {
+.instruction-phrase {
     font-family: arial;
     font-weight: bold;
     font-size: 15px; 
@@ -262,5 +272,4 @@
     right: 0;
     margin: auto;
     cursor: pointer;
-
 }
