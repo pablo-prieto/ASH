@@ -15,5 +15,6 @@ urlpatterns = [
     url(r'^addPicture/(?P<mem_id>[-\w]+)', views.addPicture, name='addPicture'),
     url(r'^addSpecialPerson', views.addSpecialPerson, name='addSpecialPerson'),
     url(r'^removeSpecialPerson', views.removeSpecialPerson, name='removeSpecialPerson'),
+    url(r'^search', views.search, name='search'),
     # url(r'^(?P<user_id>[0-9]+)/vote/$', views.vote, name='vote'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

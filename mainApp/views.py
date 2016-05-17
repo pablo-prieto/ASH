@@ -108,13 +108,23 @@ def index(request, user_id):
     for i in range(number_remaining_spots):
         string_remaining_spots += "1"
 
+    phone_number = current_user.PhoneNumber
+    formatted_number = ""
+    for i in range(len(phone_number)):
+        formatted_number += phone_number[i]
+        if i == 2:
+            formatted_number += '-'
+        elif i == 5:
+            formatted_number += '-'
+
     context = {
         'client': client_user,
         'list_friends': list_friends,
         'list_family_members': list_family_members,
         'list_subusers': list_subusers,
         'list_special_people': list_special_people,
-        'string_remaining_spots': string_remaining_spots
+        'string_remaining_spots': string_remaining_spots,
+        'formatted_number': formatted_number
     }
     return render(request, "mainApp/index.html", context)
 
@@ -154,7 +164,6 @@ def addSpecialPerson(request):
 
 def removeSpecialPerson(request):
     if request.method == 'GET':
-        print "called"
         str_member_id = request.GET['member_id']
         print str_member_id
         member_id = ""
@@ -162,7 +171,6 @@ def removeSpecialPerson(request):
             if index > 18:
                 member_id += str_member_id[index]
 
-        print member_id
         sub_user = SubUser.objects.get(id=member_id)
         client_user = Client.objects.get(subuser=sub_user)
 
@@ -353,14 +361,10 @@ def addPicture(request, mem_id):
             raise Http404
 
 
-def detail(request, user_id):
-    return HttpResponse("You're looking at user %s." % user_id)
+def search(request):
 
+    searchstr = str(request.GET.get('searchstr'))
+    splitstr = searchstr.split(" ")
+    user = User.objects.filter(FirstName=splitstr[0], LastName=splitstr[1])
 
-def results(request, user_id):
-    response = "You're looking at the results of user %s."
-    return HttpResponse(response % user_id)
-
-
-def vote(request, user_id):
-    return HttpResponse("You're voting on user %s." % user_id)
+    return profile(request, user[0].id)

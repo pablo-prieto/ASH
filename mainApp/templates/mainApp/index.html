@@ -31,6 +31,7 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap-theme.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 
@@ -48,7 +49,7 @@
                 <br><br>
                 <div class="row">
                     <span class="text-muted" style="font-family:serif; font-size:1.2em;">
-                        <div class="col-md-4 text-center" style="width:100%;">Phone#: (917) 341-2523</div>
+                        <div class="col-md-4 text-center" style="width:100%;">Phone#: {{formatted_number}}</div>
                     </span>
                 </div>
                 <hr class="featurette-divider" style="margin:5px; border-color:#D1D0CE;">
@@ -63,7 +64,7 @@
                 <div class="row">
                     <span class="text-muted" style="font-family:serif; font-size:1.2em;">
                         <!-- <div class="col-md-4 text-center" style="width:30%;">Phone#: (917)341-2523</div> -->
-                        <div class="col-md-4 text-center" style="width:100%;">Address: 4304 Broadway, New York, NY 10031</div>
+                        <div class="col-md-4 text-center" style="width:100%;">Address: {{client.User.HomeAddress}}</div>
                     </span>
                 </div>
                 <hr class="featurette-divider" style="margin:5px; border-color:#D1D0CE;">
@@ -98,7 +99,7 @@
                                         </li>
                                   {% endfor %}
                               {% else %}
-                                  <p>No Family available.</p>
+                                  <p>No Family registered under you.</p>
                               {% endif %}
                             </ul>
                             <!-- <p>Short description.</p> -->
@@ -136,7 +137,7 @@
                                       </li>
                                   {% endfor %}
                               {% else %}
-                                  <p>No Family available.</p>
+                                  <p>No Friends registered under you.</p>
                               {% endif %}
                             </ul>
                             <!-- <p>Short description.</p> -->
@@ -182,15 +183,14 @@
         <!-- End of Main User Profile Buttons Section -->
 
 
-
         <!-- Search Bar -->
         <hr class="featurette-divider" style="width:60%; border-color:#D1D0CE;">
-        <p style="font-family:serif; font-size:3em;" align="center">Looking For Someone?...</p><br>
+        <p style="font-family:serif; font-size:3em;" align="center">Looking For Someone?</p><br>
 
-        <form id="form_review" method="get" action="/mainApp/profile/">
+        <form id="form_review" method="get" action="/mainApp/search/">
             <div align="center">
                 <div class="input-group" style="width:70%;">
-                    <input type="text" class="form-control" style="height:4em;" placeholder="Who are you looking for...">
+                    <input id="searchstr" name="searchstr" type="text" class="form-control" style="height:4em;" placeholder="Who are you looking for...">
                     <span class="input-group-btn">
                         <button class="btn btn-default" style="height:4em; width:5em" type="submit">Go!</button>
                     </span>
@@ -198,7 +198,6 @@
             </div>
         </form><br><br><br><br><br><br>
         <!-- /End of Search Bar -->
-
 
 
         <!-- Three Special People Section -->
@@ -216,37 +215,23 @@
                     <p>{{person.SubUser.RelationshipToClient}}</p>
                   </a>
                     <button type="button" class="btn btn-default" id="removeSpecialPerson{{person.SubUser.id}}" onclick="removeSpecialPerson(this.id);"><span style="color:red">X</span> - Remove</button>
-                    <!-- <p><a class="btn btn-default" data-toggle="modal" data-target='#SpecialPerson{{person.id}}'><span style="color:red">X</span> - Remove</a></p> -->
                 </div>
 
-                <!-- <div class="modal fade" id='SpecialPerson{{person.id}}' role="dialog">
-                    <div class="modal-dialog"> -->
-                        <!-- Modal content-->
-                        <!-- <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">{{person.SubUser.User.FirstName}} {{person.SubUser.User.LastName}}</h4>
-                            </div>
-                            <div class="modal-body">
-                                <p>Short description like in the ABOUT ME modal of the main user.</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
               {% endfor %}
             {% endif %}
             {% for i in string_remaining_spots %}
-              <!-- Icon & Button: Special Person Three -->
+              <!-- Icon & Button: Add special person -->
               <div class="col-md-4 text-center">
-                <a data-toggle="modal" data-target="#SpecialPersonThree">
-                  <img class="img-circle" src="{% static 'images/plus-icon.png' %}" style="width:50%; border:1px solid #D1D0CE;">
+                <a data-toggle="modal" data-target="#SpecialPersonThree" style="text-decoration:none">
+                  <div class="plus-icon">
+                  <span class="plus-sign">+</span>
+                  <!-- <img class="img-circle" src="{% static 'images/plus-icon.png' %}" style="width:50%; border:1px solid #D1D0CE;"> -->
+
+                  </div>
                 </a>
               </div>
 
-              <!-- Modal: Special Person Three -->
+              <!-- Modal: Add another special person -->
               <div class="modal fade" id="SpecialPersonThree" role="dialog">
                   <div class="modal-dialog">
                     <!-- Modal content-->
@@ -266,7 +251,7 @@
                                       </li>
                                   {% endfor %}
                               {% else %}
-                                  <p>No members available.</p>
+                                  <p>No members registered under you.</p>
                               {% endif %}
                             </ul>
                             <!-- <p>Short description.</p> -->
