@@ -19,12 +19,18 @@ $(document).ready(function() {
             // Display modal with options to create a new event
             $('#myModal').modal('show');
 
-            // Sets the input dates to the selected date of the full calendar
+            /* Define the default values and then when the modal is activated. The default values are:
+               Date: selected date in the full-calendar by the user
+               Begin-Time: none
+               End-Time: none
+               All-Day-Checkbox: True
+               If the user doesn't change any value (date, time or all-day-checkbox), the default values will be used when
+               the event is created
+               If the user changes any value (date, time or all-day-checkbox), the respective function below will be called
+               to get the new values for the event */
             var selected_date = start._d.getUTCMonth()+1 + '-' + start._d.getUTCDate() + '-' + start._d.getUTCFullYear();
-            $('#input-datestart').datepicker('update', selected_date);  // $('#input-datestart').val(selected_date); will skip the leading zero if the dates.
+            $('input[name$="start"]').datepicker('update', selected_date);  // $('#input-datestart').val(selected_date); will skip the leading zero if the dates.
             $('input[name$="end"]').datepicker('update', selected_date);
-
-            // Base values when the modal is activated
             var temp = $("#input-datestart").val().split('-');
             var begin_date = [temp[2], temp[0], temp[1]].join('-');
             var end_date = begin_date;
@@ -35,7 +41,9 @@ $(document).ready(function() {
             var begin_time_toggle = "";
             var end_time_toggle = "";
 
-            // Date-Picker function
+            /* Date-Picker Function (activated only when there's a change)
+               It reads the user input and stores them in variables which are used when the event is created
+               If the the All-Day-Event checkbox state  is true(true by default), a time variable is appended to the date */
             $('input[name$="start"]').change(function(){
                 temp = $("#input-datestart").val().split('-');
                 begin_date = [temp[2], temp[0], temp[1]].join('-');
@@ -56,7 +64,10 @@ $(document).ready(function() {
                     end_event = end_date + end_time;
             });
 
-            // Clock-Picker function
+            /* Clock-Picker Function (activated only when there's a change)
+               The default time is the current time
+               It reads the user input and appends it to the time specified in the date input fields (see Date-Picker Function above)
+               The values (date+time) are then stored in variables which are used when the event is created */
             $('.clockpicker').clockpicker({'default':'now'})
             .find('input').change(function(){
                 document.getElementById('checkbox-alldayevent').checked = false;
@@ -70,7 +81,8 @@ $(document).ready(function() {
                 }
             });
 
-            // Checkbox function. It disables the time.
+            /* Checkbox Function (activated only when there's a change)
+               If checked, the event is set to be all day (no begining and end time) */
             $('#checkbox-alldayevent').change(function(){
                 if (document.getElementById('checkbox-alldayevent').checked === true) {
                     begin_time_toggle = $("#input-eventbegintime").val();
@@ -90,7 +102,8 @@ $(document).ready(function() {
                   
             });
 
-            // Create event if the "Create" button is clicked (if all the conditions are met)
+            /* Button to create the event. 
+               Creates an event if clicked (if all the conditions are met) */
             $('#create-event-button').click(function(event){    // or instead of event.stopImmediatePropagation() $('#create-event-button').unbind('click').click(function(){ 
                 event.stopImmediatePropagation();               
                 var title = $("#event-title-input").val();
@@ -127,59 +140,41 @@ $(document).ready(function() {
         events: [
             {
                 title: 'All Day Event',
-                start: '2016-03-01',
+                start: '2016-05-01',
                 description: 'This is a cool event',
             },
             {
                 title: 'Long Event',
-                start: '2016-03-07',
-                end: '2016-03-10'
+                start: '2016-05-07',
+                end: '2016-05-10'
             },
             {
                 id: 999,
                 title: 'Repeating Event',
-                start: '2016-03-18T16:00:00'
-            },
-            {
-                id: 999,
-                title: 'Another Event',
-                start: '2016-03-16T16:00:00'
+                start: '2016-05-07T16:00:00'
             },
             {
                 title: 'GHP Conference',
-                start: '2016-03-11',
-                end: '2016-03-13'
+                start: '2016-05-11',
+                end: '2016-05-13'
             },
             {
-                title: 'Meeting',
-                start: '2016-03-12T10:30:00',
-                end: '2016-03-12T12:30:00'
-            },
-            {
-                title: 'Lunch with Katie',
-                start: '2016-03-12T12:00:00'
+                title: 'Brunch with Katie',
+                start: '2016-05-15T10:30:00',
+                end: '2016-05-15T12:30:00'
             },
             {
                 title: 'Meeting with Josh',
-                start: '2016-03-12T14:30:00'
-            },
-            {
-                title: 'Happy Hour',
-                start: '2016-03-12T17:30:00'
+                start: '2016-05-18T14:30:00'
             },
             {
                 title: 'Family Dinner',
-                start: '2016-03-12T20:00:00'
+                start: '2016-05-27T20:00:00'
             },
             {
                 title: 'Jenny Birthday Party',
-                start: '2016-03-13T07:00:00'
+                start: '2016-05-31T07:00:00'
             },
-            {
-                title: 'Some event',
-                url: 'http://google.com/',
-                start: '2016-04-15'
-            }
         ]
     });
 });
