@@ -306,7 +306,7 @@
 
         function removeSpecialPerson(removeID)
         {
-          $.get('/mainApp/addSpecialPerson/', {member_id: mem_id}, function(data){
+          $.get('/mainApp/removeSpecialPerson/', {member_id: removeID}, function(data){
                         window.location.reload(true);
              });
         }

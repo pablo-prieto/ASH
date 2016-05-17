@@ -215,13 +215,15 @@
         dataType:'json',
       })
       .done(function(response){
-        // if(response == 'Wrong Reference ID'){
-        //   var message = "Wrong Reference ID! Try again.";
-        //   $(formMessages).html("<br><div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"+message+"</div>");
-        // }
+        if(response["context"] == 'successful'){
+          var message = "You have registered successfully";
+          $(formMessages).html("<br><div class='alert alert-danger alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>"+message+"</div>");
+          window.location.assign('/mainApp/login');
+        }
         else{
-          console.log(response)
-          window.location.assign('/mainApp/'+response+'profile');
+          console.log(response);
+          alert("done");
+          alert(response["context"]);
         }
 
       })

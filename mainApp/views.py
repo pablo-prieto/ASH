@@ -38,7 +38,7 @@ def authenticateLogin(request):
 def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST, request.FILES)
-        response_error = "Error getting your info from the form."
+        response_error = "User already exists."
         if form.is_valid():
             print "form valid"
             try:
@@ -87,17 +87,10 @@ def register(request):
                     subuser.save()
                 except Exception as e:
                     print '%s (%s)' % (e.message, type(e))
-            else:
-                print "nothing chosen"
-            user_name_str = user.FirstName
-            # print user_name_str
-
-            return HttpResponse(user_name_str)
-        else:
-            print "not valid"
+            form_data = json.dumps({'context': "successful", 'id': user.id})
+            return HttpResponse(form_data)
     else:
         form = RegistrationForm()
-        print "called plain form"
     context = {"form": form}
     return render(request, "register.html", context)
 
@@ -128,7 +121,6 @@ def index(request, user_id):
 
 def addSpecialPerson(request):
     # context = RequestContext(request)
-    mem_id = None
     if request.method == 'GET':
         str_member_id = request.GET['member_id']
         member_id = ""
@@ -161,21 +153,21 @@ def addSpecialPerson(request):
 
 
 def removeSpecialPerson(request):
-    mem_id = None
     if request.method == 'GET':
+        print "called"
         str_member_id = request.GET['member_id']
         print str_member_id
         member_id = ""
         for index in range(len(str_member_id)):
-            if index > 15:
+            if index > 18:
                 member_id += str_member_id[index]
 
         print member_id
         sub_user = SubUser.objects.get(id=member_id)
         client_user = Client.objects.get(subuser=sub_user)
 
-        special_person = SpecialPerson(SubUser=sub_user, Client=client_user)
-        # special_person.save()
+        special_person = SpecialPerson.objects.get(SubUser=sub_user, Client=client_user)
+        special_person.delete()
 
         list_subusers = SubUser.objects.filter(Client=client_user)
         list_special_people = SpecialPerson.objects.filter(Client=client_user)
