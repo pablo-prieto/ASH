@@ -1,0 +1,12 @@
+- Login authentication.
+- Finish registration confirmation.
+- Check to see if adding existing username is handled.
+- Finish Search feature.
+- Finish picture tab in profile page.
+- Send email reminders of events.
+- Adding events from calendar to database.
+- Calendar in profile page should only render that person’s events.
+- Enable editing for events.
+- Making sure sub-users can’t add events on already taken time slots.
+- Enable Editing the About Me.
+- Separate About Me content into subsections depending on Friend or family member.
